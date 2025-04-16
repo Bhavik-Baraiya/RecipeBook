@@ -15,9 +15,17 @@ struct BannerView: View {
         HStack {
             TabView {
                 ForEach(images, id: \.self) { image in
-                    Image(image)
-                    .resizable()
-                    .scaledToFill()
+                    if let storedImage = ImageStorageManager.loadImageFromDocuments(name: image)
+                    {
+                        Image(uiImage: storedImage)
+                        .resizable()
+                        .scaledToFill()
+                    } else {
+                        Image(systemName: "questionmark.app.fill")
+                            .resizable()
+                            .scaledToFill()
+                            .tint(.accent)
+                    }
                 } // LOOP
             } //TABVIEW
             .tabViewStyle(.page)

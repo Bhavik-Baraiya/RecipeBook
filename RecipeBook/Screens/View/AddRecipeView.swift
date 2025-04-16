@@ -17,7 +17,7 @@ struct AddRecipeView: View {
     @State private var selectedHour: Int = 0
     @State private var selectedMinute: Int = 0
     @State private var selectedItems: [PhotosPickerItem] = []
-    @State private var selectedImages: [Image] = []
+    @State private var selectedImages: [UIImage] = []
     @State private var showTimePicker = false
     @Environment(\.dismiss) var dismiss
     
@@ -105,7 +105,7 @@ struct AddRecipeView: View {
                             ForEach(selectedImages.indices, id: \.self) { index in
                                 
                                 ZStack(alignment: .topTrailing) {
-                                    selectedImages[index]
+                                    Image(uiImage: selectedImages[index])
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(width: 90, height: 90)
@@ -131,7 +131,8 @@ struct AddRecipeView: View {
                 HStack(alignment:.center, spacing: 120, content: {
                     
                     Button(action: {
-                        debugPrint("Added")
+                        debugPrint("Add button tapped")
+                        saveImagesLocally()
                     }) {
                         Text("Add")
                             .foregroundStyle(Color.primary)
@@ -141,7 +142,7 @@ struct AddRecipeView: View {
                     Button(action: {
                         dismiss()
                     }) {
-                        Text("Discard")
+                        Text("Discard button tapped")
                             .foregroundStyle(.accent)
                             .padding(10)
                     }.buttonStyle(.bordered)
@@ -155,7 +156,7 @@ struct AddRecipeView: View {
                             do {
                                 if let data = try await item.loadTransferable(type: Data.self),
                                    let uiImage = UIImage(data: data) {
-                                    selectedImages.append(Image(uiImage: uiImage))
+                                    selectedImages.append(uiImage)
                                 }
                             } catch {
                                 print("Failed to load item: \(error.localizedDescription)")
@@ -175,6 +176,15 @@ struct AddRecipeView: View {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         return formatter
+    }
+    
+    private func saveImagesLocally() {
+        for index in 0..<selectedImages.count {
+            ImageStorageManager.saveImageToDocuments(
+                image: selectedImages[index],
+                name: "\(recipeTitle.lowercased())\(index)"
+            )
+        }
     }
 }
 

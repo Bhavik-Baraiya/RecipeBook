@@ -19,7 +19,7 @@ struct RecipeView: View {
                     
                     VStack(spacing: 40) {
                         
-                        BannerView(images: ["spaghetti_carbonara","chicken_biryani","pancakes"])
+                        BannerView(images: ["ABC1","rasgulla1"])
                             .frame(height: 300)
                             .padding(20)
                         
