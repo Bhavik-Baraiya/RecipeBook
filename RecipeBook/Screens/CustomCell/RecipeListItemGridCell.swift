@@ -19,7 +19,7 @@ struct RecipeListItemGridCell: View {
             
             VStack(alignment:.center) {
                 
-                Image(recipeData.image)
+                Image(recipeData.images[0])
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 120,height: 120)

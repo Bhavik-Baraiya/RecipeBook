@@ -29,7 +29,7 @@ let recipeData: [Recipe] = [
         category: "Italian",
         preparationTimeInHours: 02,
         preparationTimeInMinutes: 30,
-        image: "spaghetti_carbonara",
+        images: ["spaghetti_carbonara"],
         isFavourite: false
     ),
     Recipe(
@@ -54,7 +54,7 @@ let recipeData: [Recipe] = [
         category: "Indian",
         preparationTimeInHours: 01,
         preparationTimeInMinutes: 13,
-        image: "chicken_biryani",
+        images: ["ABC1","rasgulla1"],
         isFavourite: false
     ),
     Recipe(
@@ -78,7 +78,7 @@ let recipeData: [Recipe] = [
         category: "Breakfast",
         preparationTimeInHours: 01,
         preparationTimeInMinutes: 05,
-        image: "pancakes",
+        images: ["applej uice0","applej uice1","applej uice2"],
         isFavourite: false
     ),
     Recipe(
@@ -100,7 +100,7 @@ let recipeData: [Recipe] = [
         category: "Salad",
         preparationTimeInHours: 03,
         preparationTimeInMinutes: 10,
-        image: "caesar_salad",
+        images: ["caesar_salad"],
         isFavourite: false
     ),
     Recipe(
@@ -123,7 +123,7 @@ let recipeData: [Recipe] = [
         category: "Dessert",
         preparationTimeInHours: 02,
         preparationTimeInMinutes: 22,
-        image: "chocolate_brownie",
+        images: ["chocolate_brownie"],
         isFavourite: false
     ),
     Recipe(
@@ -146,7 +146,7 @@ let recipeData: [Recipe] = [
         category: "Dessert",
         preparationTimeInHours: 00,
         preparationTimeInMinutes: 30,
-        image: "chocolate_brownie",
+        images: ["chocolate_brownie"],
         isFavourite: false
     ),
     Recipe(
@@ -169,7 +169,7 @@ let recipeData: [Recipe] = [
         category: "Dessert",
         preparationTimeInHours: 02,
         preparationTimeInMinutes: 45,
-        image: "chocolate_brownie",
+        images: ["chocolate_brownie"],
         isFavourite: false
     )
 ]

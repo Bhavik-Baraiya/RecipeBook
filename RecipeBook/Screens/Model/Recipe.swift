@@ -15,6 +15,6 @@ struct Recipe: Identifiable {
     var category: String
     var preparationTimeInHours: Int
     var preparationTimeInMinutes: Int
-    var image: String
+    var images: [String]
     var isFavourite: Bool
 }

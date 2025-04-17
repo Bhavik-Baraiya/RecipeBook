@@ -13,13 +13,16 @@ struct RecipeListItemCell: View {
     
     var body: some View {
         HStack() {
-            Image(recipeData.image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 120,height: 120)
-                .clipShape(
-                    RoundedRectangle(cornerRadius: 12)
-                )
+            
+            let uiImage = ImageStorageManager.loadImageFromDocuments(name: recipeData.images[0])
+            let image = uiImage != nil ? Image(uiImage: uiImage!) : Image(systemName: "questionmark.circle")
+    
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 120, height: 120)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .foregroundStyle(.accent)
             
             VStack(alignment: .leading) {
                 Text(recipeData.title)
