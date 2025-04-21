@@ -21,10 +21,10 @@ struct BannerView: View {
                         .resizable()
                         .scaledToFill()
                     } else {
-                        Image(systemName: "questionmark.app.fill")
+                        Image(systemName: "")
                             .resizable()
                             .scaledToFill()
-                            .tint(.accent)
+                            .background(Color(Utilities.getRandomPlaceHolderColor()))
                     }
                 } // LOOP
             } //TABVIEW
