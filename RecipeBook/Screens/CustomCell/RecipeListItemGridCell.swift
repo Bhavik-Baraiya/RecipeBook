@@ -19,13 +19,16 @@ struct RecipeListItemGridCell: View {
             
             VStack(alignment:.center) {
                 
-                Image(recipeData.images[0])
+                let uiImage = ImageStorageManager.loadImageFromDocuments(name: recipeData.images[0])
+                let image = uiImage != nil ? Image(uiImage: uiImage!) : Image(systemName: "")
+        
+                image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 120,height: 120)
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: 12)
-                    )
+                    .frame(width: 120, height: 120)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .background(Color(Utilities.getRandomPlaceHolderColor())
+                        .cornerRadius(20))
                 
                 VStack(alignment: .center) {
                     Text(recipeData.title)
