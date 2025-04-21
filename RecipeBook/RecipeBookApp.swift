@@ -9,11 +9,11 @@ import SwiftUI
 
 @main
 struct RecipeBookApp: App {
-    @AppStorage("dark-mode") var isDarkModeDisabled:Bool = false
+    @AppStorage("dark-mode") var isDarkModeEnabled:Bool = false
     var body: some Scene {
         WindowGroup {
             MainView()
-                .preferredColorScheme(isDarkModeDisabled ? .dark : .light)
+                .preferredColorScheme(isDarkModeEnabled ? .dark : .light)
         }
     }
 }
