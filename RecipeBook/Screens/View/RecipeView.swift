@@ -59,7 +59,8 @@ struct RecipeView: View {
                         
                         NavigationLink {
                             
-                            UpdateRecipeView(recipeTitle: recipe.title, recipeIngredients: recipe.ingredients, recipeInstructions: recipe.instructions, selectedCategory: recipe.category, preparationTimeInHour: recipe.preparationTimeInHours, preparationTimeInMinutes: recipe.preparationTimeInMinutes)
+                            UpdateRecipeView(recipeTitle: recipe.title, recipeIngredients: recipe.ingredients, recipeInstructions: recipe.instructions, selectedCategory: recipe.category, preparationTimeInHour: recipe.preparationTimeInHours, preparationTimeInMinutes: recipe.preparationTimeInMinutes,
+                                recipeImages: recipe.images)
                             
                         } label: {
                             

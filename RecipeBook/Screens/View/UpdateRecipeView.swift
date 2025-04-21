@@ -16,6 +16,7 @@ struct UpdateRecipeView: View {
     @State var selectedCategory: String
     @State var preparationTimeInHour: Int
     @State var preparationTimeInMinutes: Int
+    @State var recipeImages: [String]
     @State var selectedItems:[PhotosPickerItem] = []
     @State var selectedImages: [Image] = []
     @Environment(\.dismiss) var dismiss
@@ -165,14 +166,19 @@ struct UpdateRecipeView: View {
 
             }
         }
-        
         .navigationTitle("Update Recipe")
         .navigationBarTitleDisplayMode(.inline)
-        
+        .onAppear(perform: {
+            for index in 0..<recipeImages.count {
+                if let uiImage = ImageStorageManager.loadImageFromDocuments(name: recipeImages[index]) {
+                    self.selectedImages.append(Image(uiImage: uiImage))
+                }
+            }
+        })
     }
 }
 
 #Preview {
     
-    UpdateRecipeView(recipeTitle: recipeData[0].title, recipeIngredients: recipeData[0].ingredients, recipeInstructions: recipeData[0].instructions, selectedCategory: recipeData[0].category, preparationTimeInHour: recipeData[0].preparationTimeInHours, preparationTimeInMinutes: recipeData[0].preparationTimeInMinutes)
+    UpdateRecipeView(recipeTitle: recipeData[0].title, recipeIngredients: recipeData[0].ingredients, recipeInstructions: recipeData[0].instructions, selectedCategory: recipeData[0].category, preparationTimeInHour: recipeData[0].preparationTimeInHours, preparationTimeInMinutes: recipeData[0].preparationTimeInMinutes, recipeImages: recipeData[0].images)
 }
