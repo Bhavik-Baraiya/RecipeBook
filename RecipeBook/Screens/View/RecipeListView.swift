@@ -74,7 +74,9 @@ struct RecipeListView: View {
                     })
                 }
             }
-        }
+        }.onAppear(perform: {
+            FileHandler.createAppDocumentDirectory()
+        })
     }
 }
 

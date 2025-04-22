@@ -9,9 +9,6 @@ import Foundation
 import UIKit
 
 class Utilities {
-    static func getDocumentDirectory() -> URL {
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    }
     
     static func getRandomPlaceHolderColor() -> String {
         let placeHolderColors = ["Creamy Apricot",

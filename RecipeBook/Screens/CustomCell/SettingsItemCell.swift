@@ -21,9 +21,9 @@ struct SettingsItemCell: View {
     
     //AppStorages
     
-    @AppStorage("dark-mode") var darkModeEnabled: Bool = false
-    @AppStorage("cloud-sync") var cloudSyncEnabled: Bool = false
-    @AppStorage("grid-mode") var gridMode: Bool = false
+    @AppStorage(darkModeSupport) var darkModeEnabled: Bool = false
+    @AppStorage(cloudSyncSupport) var cloudSyncEnabled: Bool = false
+    @AppStorage(gridModeSupport) var gridMode: Bool = false
     
     var body: some View {
         HStack {
@@ -53,11 +53,11 @@ struct SettingsItemCell: View {
     }
     private func getBinding(for item: SettingsItem) -> Binding<Bool> {
         switch item.name {
-            case "Enable Dark Mode":
+            case darkModeSettingsOption:
                 return $darkModeEnabled
-            case "Sync on cloud":
+            case cloudSyncSettingsOption:
                 return $cloudSyncEnabled
-            case "List/Grid":
+            case viewModeSettingsOption:
                 return $gridMode
             default:
                 return .constant(false) // Fallback if no matching ID is found

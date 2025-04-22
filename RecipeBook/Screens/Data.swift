@@ -54,7 +54,7 @@ let recipeData: [Recipe] = [
         category: "Indian",
         preparationTimeInHours: 01,
         preparationTimeInMinutes: 13,
-        images: ["ABC1","rasgulla1"],
+        images: ["sdsd0","sdsd1"],
         isFavourite: false
     ),
     Recipe(
@@ -100,7 +100,7 @@ let recipeData: [Recipe] = [
         category: "Salad",
         preparationTimeInHours: 03,
         preparationTimeInMinutes: 10,
-        images: ["caesar_salad"],
+        images: ["sdsd1"],
         isFavourite: false
     ),
     Recipe(
