@@ -11,9 +11,9 @@ class FileHandler {
     
     static func appDocumentDirectory() -> URL {
         let DocumentDirectory = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
-        let appPath = DocumentDirectory.appendingPathComponent("RecipeBook")
-        let recipeData = appPath?.appendingPathComponent("Recipes")
-        guard let recipeImagesPath = recipeData?.appendingPathComponent("RecipeImages") else { return URL(fileURLWithPath: "")}
+        let appPath = DocumentDirectory.appendingPathComponent(appFolderName)
+        let recipeData = appPath?.appendingPathComponent(recipeDataFolderName)
+        guard let recipeImagesPath = recipeData?.appendingPathComponent(recipeImagesFolderName) else { return URL(fileURLWithPath: "")}
         return recipeImagesPath
     }
     
