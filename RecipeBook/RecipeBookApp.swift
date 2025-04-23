@@ -5,6 +5,7 @@
 //  Created by Bhavik Baraiya on 22/03/25.
 //
 
+import SwiftData
 import SwiftUI
 
 @main
@@ -15,5 +16,6 @@ struct RecipeBookApp: App {
             MainView()
                 .preferredColorScheme(isDarkModeEnabled ? .dark : .light)
         }
+        .modelContainer(for: RecipeData.self)
     }
 }
