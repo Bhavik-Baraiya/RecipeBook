@@ -9,9 +9,7 @@ import SwiftUI
 
 struct RecipeListItemGridCell: View {
     
-    var recipeData: Recipe
-    
-    @State var isFavourite: Bool = false
+    @Bindable var recipeData: RecipeData
     
     var body: some View {
         
@@ -19,7 +17,8 @@ struct RecipeListItemGridCell: View {
             
             VStack(alignment:.center) {
                 
-                let uiImage = ImageStorageManager.loadImageFromDocuments(name: recipeData.images[0])
+                let imageName = $recipeData.imageNames.wrappedValue.count > 0 ? $recipeData.imageNames.wrappedValue[0] : ""
+                let uiImage = ImageStorageManager.loadImageFromDocuments(name: imageName)
                 let image = uiImage != nil ? Image(uiImage: uiImage!) : Image(systemName: "")
         
                 image
@@ -31,7 +30,7 @@ struct RecipeListItemGridCell: View {
                         .cornerRadius(20))
                 
                 VStack(alignment: .center) {
-                    Text(recipeData.title)
+                    Text($recipeData.title.wrappedValue)
                         .font(.subheadline)
                         .fontWeight(.heavy)
                         .foregroundColor(.accent)
@@ -40,7 +39,7 @@ struct RecipeListItemGridCell: View {
                     Spacer()
                     
                     HStack(alignment:.center) {
-                        Text(recipeData.category)
+                        Text($recipeData.category.wrappedValue)
                             .font(.title)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.leading)
@@ -49,9 +48,9 @@ struct RecipeListItemGridCell: View {
                         Spacer()
                         
                         Button(action: {
-                            isFavourite.toggle()
+                            $recipeData.isFavourite.wrappedValue.toggle()
                         }) {
-                            Image(systemName: isFavourite ? "heart.fill": "heart")
+                            Image(systemName: $recipeData.isFavourite.wrappedValue ? "heart.fill": "heart")
                                 .resizable()
                                 .scaledToFill()
                         }.frame(width: 25,height: 25)
@@ -65,5 +64,5 @@ struct RecipeListItemGridCell: View {
 }
 
 #Preview {
-    RecipeListItemGridCell(recipeData: recipeData.first!)
+    RecipeListItemGridCell(recipeData: RecipeData(title: "", ingredients: "", instructions: "", category: "", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true))
 }

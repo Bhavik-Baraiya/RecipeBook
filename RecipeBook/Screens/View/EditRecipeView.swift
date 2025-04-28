@@ -1,24 +1,22 @@
 //
-//  AddRecipeView.swift
+//  UpdateRecipeView.swift
 //  RecipeBook
 //
-//  Created by Bhavik Baraiya on 28/03/25.
+//  Created by Bhavik Baraiya on 31/03/25.
 //
 
-import PhotosUI
 import SwiftData
 import SwiftUI
+import PhotosUI
 
-
-struct AddRecipeView: View {
+struct EditRecipeView: View {
     
-    @State var recipeData = RecipeData(title: "", ingredients: "", instructions: "", imageNames: [""])
+    @Bindable var recipeData: RecipeData
     @State var selectedCategory = "Indian"
     @State var selectedItems:[PhotosPickerItem] = []
     @State var selectedImages: [UIImage] = []
     @State var showWarningMessage: Bool = false
     @Environment(\.dismiss) var dismiss
-    @Environment(\.modelContext) var recipeModelContext
     
     //Defined categories
     private let categories = [
@@ -139,7 +137,7 @@ struct AddRecipeView: View {
                     } else {
                         let imagesCount = $recipeData.imageNames.wrappedValue.count
                         let maxImageSelectionLimit = 5 - imagesCount
-                        PhotosPicker("Add pictures", selection: $selectedItems, maxSelectionCount: maxImageSelectionLimit, matching: .images)
+                        PhotosPicker("Update pictures", selection: $selectedItems, maxSelectionCount: maxImageSelectionLimit, matching: .images)
                             .buttonStyle(.bordered)
                         ScrollView(.horizontal) {
                             HStack(spacing: 10) {
@@ -174,11 +172,10 @@ struct AddRecipeView: View {
                 HStack(spacing: 120, content: {
                     
                     Button(action: {
-                       recipeModelContext.insert(recipeData)
                        updateImagesLocally()
                        dismiss()
                     }) {
-                        Text("Add")
+                        Text("Update")
                             .foregroundStyle(Color.primary)
                             .padding(10)
                     }.buttonStyle(.bordered)

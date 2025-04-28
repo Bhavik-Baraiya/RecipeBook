@@ -14,19 +14,27 @@ struct BannerView: View {
     var body: some View {
         HStack {
             TabView {
-                ForEach(images, id: \.self) { image in
-                    if let storedImage = ImageStorageManager.loadImageFromDocuments(name: image)
-                    {
-                        Image(uiImage: storedImage)
-                        .resizable()
-                        .scaledToFill()
-                    } else {
-                        Image(systemName: "")
+                
+                if(images.count > 0) {
+                    ForEach(images, id: \.self) { image in
+                        if let storedImage = ImageStorageManager.loadImageFromDocuments(name: image)
+                        {
+                            Image(uiImage: storedImage)
                             .resizable()
                             .scaledToFill()
-                            .background(Color(Utilities.getRandomPlaceHolderColor()))
-                    }
-                } // LOOP
+                        } else {
+                            Image(systemName: "")
+                                .resizable()
+                                .scaledToFill()
+                                .background(Color(Utilities.getRandomPlaceHolderColor()))
+                        }
+                    } // LOOP
+                } else {
+                    Image(systemName: "")
+                        .resizable()
+                        .scaledToFill()
+                        .background(Color(Utilities.getRandomPlaceHolderColor()))
+                }
             } //TABVIEW
             .tabViewStyle(.page)
         }

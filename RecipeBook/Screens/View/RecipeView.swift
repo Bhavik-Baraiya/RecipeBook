@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RecipeView: View {
     
-    let recipe: Recipe
+    @Bindable var recipe: RecipeData
     @State var displayPopup: Bool = false
     
     var body: some View {
@@ -19,10 +19,27 @@ struct RecipeView: View {
                     
                     VStack(spacing: 40) {
                         
-                        BannerView(images: recipe.images)
+                        BannerView(images: $recipe.imageNames.wrappedValue)
                             .frame(height: 300)
                             .padding(20)
                         
+                        Button(action: {
+                            $recipe.isFavourite.wrappedValue.toggle()
+                        })
+                        {
+                            Image(systemName: $recipe.isFavourite.wrappedValue ? "heart.fill": "heart")
+                                .resizable()
+                                .scaledToFill()
+                        }
+                            .frame(width: 25,height: 25)
+                            .background(
+                                Circle()
+                                    .fill(Color.gray)
+                                    .opacity(0.3)
+                                    .frame(width: 50, height: 50, alignment: .center)
+                            )
+                            .offset(x:155, y: -40)
+                            
                         
                         Text(recipe.category)
                             .font(.title)
@@ -34,14 +51,14 @@ struct RecipeView: View {
                             )
                             .padding(.horizontal)
                         
-                        DetailsView(recipe: recipe)
+                        DetailsView(recipeData: recipe)
                         
                         Spacer()
                     }
                 }
                 
                 if(displayPopup) {
-                    DeletePopupView(isPopupDisplayed: $displayPopup)
+                    DeletePopupView(isPopupDisplayed: $displayPopup, recipeData: recipe)
                 }
             }
             .toolbar {
@@ -59,8 +76,7 @@ struct RecipeView: View {
                         
                         NavigationLink {
                             
-                            UpdateRecipeView(recipeTitle: recipe.title, recipeIngredients: recipe.ingredients, recipeInstructions: recipe.instructions, selectedCategory: recipe.category, preparationTimeInHour: recipe.preparationTimeInHours, preparationTimeInMinutes: recipe.preparationTimeInMinutes,
-                                recipeImages: recipe.images)
+                            EditRecipeView(recipeData: recipe)
                             
                         } label: {
                             
@@ -82,5 +98,5 @@ struct RecipeView: View {
 }
 
 #Preview {
-    RecipeView(recipe: recipeData.first!)
+    RecipeView(recipe: RecipeData(title: "", ingredients: "", instructions: "", category: "", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true))
 }

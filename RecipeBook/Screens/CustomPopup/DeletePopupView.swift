@@ -11,7 +11,8 @@ struct DeletePopupView: View {
     
     @State private var offset:CGFloat = 1000
     @Binding var isPopupDisplayed:Bool
-    
+    @Bindable var recipeData: RecipeData
+    @Environment(\.modelContext) var recipeModelContext
     var body: some View {
         
         ZStack {
@@ -42,7 +43,7 @@ struct DeletePopupView: View {
                     }.buttonStyle(.bordered)
                     
                     Button(action: {
-                        debugPrint("cancel button tapped")
+                        recipeModelContext.delete(recipeData)
                     }) {
                         Text("Delete")
                             .foregroundStyle(.accent)
@@ -73,5 +74,5 @@ struct DeletePopupView: View {
 }
 
 #Preview {
-    DeletePopupView(isPopupDisplayed: .constant(true))
+    DeletePopupView(isPopupDisplayed: .constant(true), recipeData:  RecipeData(title: "", ingredients: "", instructions: "", category: "", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true))
 }

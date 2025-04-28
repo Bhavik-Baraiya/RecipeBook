@@ -9,12 +9,13 @@ import SwiftUI
 
 struct RecipeListItemCell: View {
     
-    var recipeData: Recipe
+    @Bindable var recipeData: RecipeData
     
     var body: some View {
         HStack() {
             
-            let uiImage = ImageStorageManager.loadImageFromDocuments(name: recipeData.images[0])
+            let imageName = $recipeData.imageNames.wrappedValue.count > 0 ? $recipeData.imageNames.wrappedValue[0] : ""
+            let uiImage = ImageStorageManager.loadImageFromDocuments(name: imageName)
             let image = uiImage != nil ? Image(uiImage: uiImage!) : Image(systemName: "")
     
                 image
@@ -28,12 +29,12 @@ struct RecipeListItemCell: View {
                 
             
             VStack(alignment: .leading) {
-                Text(recipeData.title)
+                Text($recipeData.title.wrappedValue)
                     .font(.title2)
                     .fontWeight(.heavy)
                     .foregroundColor(.secondaryPrimaryApp)
                 
-                Text(recipeData.ingredients)
+                Text($recipeData.ingredients.wrappedValue)
                     .font(.subheadline)
                     .multilineTextAlignment(.leading)
                     .lineLimit(5)
@@ -43,5 +44,5 @@ struct RecipeListItemCell: View {
 }
 
 #Preview {
-    RecipeListItemCell(recipeData: recipeData.first!)
+    RecipeListItemCell(recipeData:RecipeData(title: "", ingredients: "", instructions: "", category: "", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true))
 }

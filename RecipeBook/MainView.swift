@@ -19,19 +19,22 @@ struct MainView: View {
                 .tabItem {
                     Image(selectedTab == 0 ? "recipes-highlighted" : "recipes-plain")
                     Text("My Recipe")
+                        .foregroundStyle(.primaryApp)
                     
                 }.tag(0)
 
-            FavouriteRecipeListView(favouriteRecipes: recipeData)
+            FavouriteRecipeListView()
                 .tabItem {
                     Image(selectedTab == 1 ? "favourite-highlighted" : "favourite-plain")
                     Text("Favourites")
+                        .foregroundStyle(.primaryApp)
                 }.tag(1)
 
             SettingsView()
                 .tabItem {
                     Image(selectedTab == 2 ? "settings-highlighted" : "settings-plain")
                     Text("Settings")
+                        .foregroundStyle(.primaryApp)
                 }.tag(2)
             
         } //: TABVIEW
