@@ -10,43 +10,38 @@ import SwiftUI
 
 struct FavouriteRecipeListView: View {
     
-    @Query var recipeData: [RecipeData]
+    @Query var recipes: [RecipeData]
+    
+    //Computed properties for favourites
+    var favoriteRecipes: [RecipeData] {
+        recipes.filter { $0.isFavourite }
+    }
     
     var body: some View {
         NavigationView(content: {
             
-            let favouriteRecipes = recipeData.filter({ $0.isFavourite == true })
-            
-            if(favouriteRecipes.count > 0) {
+            if(favoriteRecipes.isEmpty) {
+                
+                ContentUnavailableView(
+                            "No favourite recipe available",
+                            systemImage: "heart.slash",
+                            description: Text("Tap on heart button on recipe item to add entry here")
+                ).foregroundStyle(.accent)
+                
+            } else {
+                
                 List {
-                    ForEach(favouriteRecipes) { item in
+                    ForEach(favoriteRecipes) { recipeItem in
                         
-                        NavigationLink(destination: RecipeView(recipe: item)){
+                        NavigationLink(destination: RecipeView(recipe: recipeItem)){
                             
-                            RecipeListItemCell(recipeData: item)
+                            RecipeListItemCell(recipeData: recipeItem)
                             
                         }.buttonStyle(PlainButtonStyle())
                     }
                     .navigationTitle("Favourites")
                     .navigationBarTitleDisplayMode(.large)
                 }
-            } else {
-                
-                VStack(alignment: .center, spacing: 50, content: {
-                    
-                    Text("No favourite recipe available!")
-                        .font(.title)
-                        .multilineTextAlignment(.center)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.accentColor)
-                    
-                    Text("Tap on heart icon at recipe list screen or recipe screen to see your favourite recipes seprate here")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(Color.accentColor)
-                        .multilineTextAlignment(.center)
-                    
-                }).frame(width: 300)
             }
         })
     }
