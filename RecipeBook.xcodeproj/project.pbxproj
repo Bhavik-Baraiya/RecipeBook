@@ -29,9 +29,22 @@
 		FF9D4C4B2D8E820600F4BB89 /* RecipeBookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeBookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FF15257B2DC3E836009D5A00 /* Exceptions for "RecipeBook" folder in "RecipeBook" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = FF9D4C302D8E820400F4BB89 /* RecipeBook */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FF9D4C332D8E820400F4BB89 /* RecipeBook */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FF15257B2DC3E836009D5A00 /* Exceptions for "RecipeBook" folder in "RecipeBook" target */,
+			);
 			path = RecipeBook;
 			sourceTree = "<group>";
 		};
