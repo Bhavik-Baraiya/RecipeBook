@@ -171,6 +171,29 @@ let recipeData: [Recipe] = [
         preparationTimeInMinutes: 45,
         images: ["chocolate_brownie"],
         isFavourite: false
+    ),
+    Recipe(
+        id: 4,
+        title: "Apple Juice",
+        ingredients: """
+        - 4 apples (sweet or tart, as per preference)
+        - 1/2 lemon (optional, for added freshness)
+        - 1 cup cold water (adjust based on consistency)
+        - Ice cubes (optional)
+        """,
+        instructions: """
+        1. Wash, core, and chop the apples into small pieces.
+        2. Add apple pieces and water to a blender.
+        3. Blend until smooth.
+        4. Strain using a fine mesh or cheesecloth for clear juice.
+        5. Squeeze in lemon juice if using.
+        6. Serve chilled with or without ice.
+        """,
+        category: "Beverage",
+        preparationTimeInHours: 00,
+        preparationTimeInMinutes: 10,
+        images: ["applejuice0", "applejuice1", "applejuice2"],
+        isFavourite: false
     )
 ]
 
