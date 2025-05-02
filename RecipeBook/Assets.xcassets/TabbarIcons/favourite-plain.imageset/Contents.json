@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "favourite-plain.png",
+      "filename" : "star 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "favourite-plain 2.png",
+      "filename" : "star 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "favourite-plain 1.png",
+      "filename" : "star.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

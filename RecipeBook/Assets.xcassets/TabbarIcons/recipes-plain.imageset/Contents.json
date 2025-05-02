@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "recipes-plain.png",
+      "filename" : "view-list 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "recipes-plain 2.png",
+      "filename" : "view-list 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "recipes-plain 1.png",
+      "filename" : "view-list.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
