@@ -68,7 +68,7 @@ struct RecipeView: View {
                     HStack {
                         
                         Button(action: {
-                            displayPopup = true
+                            displayPopup.toggle()
                         }) {
                             Image(systemName: "trash")
                                 .imageScale(.medium)

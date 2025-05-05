@@ -38,7 +38,7 @@ struct RecipeListView: View {
                                         
                                     }.buttonStyle(PlainButtonStyle())
                                 }
-                            }).padding()
+                            }).padding(.leading, 20)
                         }
                         
                     } else {

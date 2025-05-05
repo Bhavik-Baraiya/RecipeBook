@@ -32,7 +32,7 @@ struct RecipeListItemCell: View {
                 Text($recipeData.title.wrappedValue)
                     .font(.title2)
                     .fontWeight(.heavy)
-                    .foregroundColor(.secondaryPrimaryApp)
+                    .foregroundColor(Color.secondaryApp)
                 
                 Text($recipeData.ingredients.wrappedValue)
                     .font(.subheadline)

@@ -29,7 +29,7 @@ struct DeletePopupView: View {
                     .foregroundStyle(.accent)
                 
                 Text("Are you sure?")
-                    .foregroundStyle(.secondaryPrimaryApp)
+                    .foregroundStyle(Color.secondaryApp)
                     .font(.title)
                     .fontWeight(.bold)
                 
@@ -52,7 +52,7 @@ struct DeletePopupView: View {
                 })
             })
             .padding(50)
-            .background(.white)
+            .background(.appBackground)
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .shadow(radius: 5)
             .offset(x:0, y: offset)
@@ -68,7 +68,7 @@ struct DeletePopupView: View {
     private func closePopup() {
         withAnimation(.spring, {
             offset = 1000
-            isPopupDisplayed = false
+            isPopupDisplayed.toggle()
         })
     }
 }

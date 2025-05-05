@@ -137,8 +137,7 @@ struct AddRecipeView: View {
                             }
                         }
                     } else {
-                        let imagesCount = $recipeData.imageNames.wrappedValue.count
-                        let maxImageSelectionLimit = 5 - imagesCount
+                        let maxImageSelectionLimit = 5
                         PhotosPicker("Add pictures", selection: $selectedItems, maxSelectionCount: maxImageSelectionLimit, matching: .images)
                             .buttonStyle(.bordered)
                         ScrollView(.horizontal) {
@@ -210,7 +209,7 @@ struct AddRecipeView: View {
 
             }
         }
-        .navigationTitle("Update Recipe")
+        .navigationTitle("Add Recipe")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: {
             for index in 0..<$recipeData.imageNames.wrappedValue.count {
