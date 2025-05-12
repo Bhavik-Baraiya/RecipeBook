@@ -99,104 +99,99 @@ struct EditRecipeView: View {
                         .font(.footnote)
                         .foregroundStyle(.accent)
                     
-                    if $recipeData.imageNames.wrappedValue.count > 4 {
                     
-                        if showWarningMessage {
-                            Text("You have to remove the addded photos in order to update")
-                                .font(.footnote)
-                                .foregroundStyle(.accent)
-                        }
+                    Group {
+                        if selectedImages.count > 4 {
                         
-                        ScrollView(.horizontal) {
-                            HStack(spacing: 10) {
-                                ForEach(selectedImages.indices, id: \.self) { index in
-                                    
-                                    ZStack(alignment: .topTrailing) {
-                                        Image(uiImage: selectedImages[index])
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 90, height: 90)
-                                            .clipShape(
-                                                RoundedRectangle(cornerRadius: 10)
-                                            )
+                            if showWarningMessage {
+                                Text("You have to remove the addded photos in order to update")
+                                    .font(.footnote)
+                                    .foregroundStyle(.accent)
+                            }
+                            
+                            ScrollView(.horizontal) {
+                                HStack(spacing: 10) {
+                                    ForEach(selectedImages.indices, id: \.self) { index in
                                         
-                                        Button {
-                                            selectedImages.remove(at: index)
-                                        } label: {
-                                            Image(systemName: "xmark.circle.fill")
+                                        ZStack(alignment: .topTrailing) {
+                                            Image(uiImage: selectedImages[index])
                                                 .resizable()
-                                                .frame(width: 24, height: 24)
-                                                .foregroundColor(.white)
-                                                .background(Circle().fill(Color.black.opacity(0.6)))
-                                                .padding(6)
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 90, height: 90)
+                                                .clipShape(
+                                                    RoundedRectangle(cornerRadius: 10)
+                                                )
+                                            
+                                            Button {
+                                                removeRecipeImages(itemIndex: index)
+                                                checkWarningMessageStatus()
+                                            } label: {
+                                                Image(systemName: "xmark.circle.fill")
+                                                    .resizable()
+                                                    .frame(width: 24, height: 24)
+                                                    .foregroundColor(.white)
+                                                    .background(Circle().fill(Color.black.opacity(0.6)))
+                                                    .padding(6)
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    } else {
-                        let imagesCount = $recipeData.imageNames.wrappedValue.count
-                        let maxImageSelectionLimit = 5 - imagesCount
-                        PhotosPicker("Update pictures", selection: $selectedItems, maxSelectionCount: maxImageSelectionLimit, matching: .images)
-                            .buttonStyle(.bordered)
-                        ScrollView(.horizontal) {
-                            HStack(spacing: 10) {
-                                ForEach(selectedImages.indices, id: \.self) { index in
-                                    
-                                    ZStack(alignment: .topTrailing) {
-                                        Image(uiImage: selectedImages[index])
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 90, height: 90)
-                                            .clipShape(
-                                                RoundedRectangle(cornerRadius: 10)
-                                            )
+                        } else {
+                            let imagesCount = $recipeData.imageNames.wrappedValue.count
+                            let maxImageSelectionLimit = 5 - imagesCount
+                            PhotosPicker("Update pictures", selection: $selectedItems, maxSelectionCount: maxImageSelectionLimit, matching: .images)
+                                .buttonStyle(.bordered)
+                            
+                            if showWarningMessage {
+                                Text("You have to remove the addded photos in order to update")
+                                    .font(.footnote)
+                                    .foregroundStyle(.accent)
+                            }
+                            
+                            ScrollView(.horizontal) {
+                                HStack(spacing: 10) {
+                                    ForEach(selectedImages.indices, id: \.self) { index in
                                         
-                                        Button {
-                                            selectedImages.remove(at: index)
-                                        } label: {
-                                            Image(systemName: "xmark.circle.fill")
+                                        ZStack(alignment: .topTrailing) {
+                                            Image(uiImage: selectedImages[index])
                                                 .resizable()
-                                                .frame(width: 24, height: 24)
-                                                .foregroundColor(.white)
-                                                .background(Circle().fill(Color.black.opacity(0.6)))
-                                                .padding(6)
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 90, height: 90)
+                                                .clipShape(
+                                                    RoundedRectangle(cornerRadius: 10)
+                                                )
+                                            
+                                            Button {
+                                                removeRecipeImages(itemIndex: index)
+                                                checkWarningMessageStatus()
+                                            } label: {
+                                                Image(systemName: "xmark.circle.fill")
+                                                    .resizable()
+                                                    .frame(width: 24, height: 24)
+                                                    .foregroundColor(.white)
+                                                    .background(Circle().fill(Color.black.opacity(0.6)))
+                                                    .padding(6)
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                })
-                
-                HStack(spacing: 120, content: {
                     
-                    Button(action: {
-                       updateImagesLocally()
-                       dismiss()
-                    }) {
-                        Text("Update")
-                            .foregroundStyle(Color.primary)
-                            .padding(10)
-                    }.buttonStyle(.bordered)
-                    
-                    Button(action: {
-                        debugPrint("Discarded")
-
-                    }) {
-                        Text("Cancel")
-                            .foregroundStyle(.accent)
-                            .padding(10)
-                    }.buttonStyle(.bordered)
                 })
                 .onChange(of: selectedItems, {
                     checkWarningMessageStatus()
                     Task {
-                       for item in selectedItems {
+                        
+                        for index in 0..<selectedItems.count {
+                            
                             do {
-                                if let data = try await item.loadTransferable(type: Data.self),
+                                if let data = try await selectedItems[index].loadTransferable(type: Data.self),
                                    let uiImage = UIImage(data: data) {
                                     selectedImages.append(uiImage)
+                                    $recipeData.imageNames.wrappedValue.append("\($recipeData.title.wrappedValue.lowercased())\(index)")
                                 }
                             } catch {
                                 print("Failed to load item: \(error.localizedDescription)")
@@ -206,15 +201,47 @@ struct EditRecipeView: View {
                 })
 
             }
+            
+            Spacer()
+            
+            HStack {
+                Spacer()
+                Button(action: {
+                    debugPrint("Discarded")
+                    updateImagesLocally()
+                    dismiss()
+                })
+                {
+                    Text("Update")
+                        .foregroundStyle(Color.primary)
+                        .padding(10)
+                }
+                .buttonStyle(.bordered)
+                
+                Spacer()
+                
+                Button(action: {
+                    dismiss()
+                    debugPrint("Discarded")
+                })
+                {
+                    Text("Cancel")
+                        .foregroundStyle(.accent)
+                        .padding(10)
+                }
+                .buttonStyle(.bordered)
+                Spacer()
+            }
+            
+            Spacer()
         }
+        .background(
+            .thinMaterial
+        )
         .navigationTitle("Update Recipe")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: {
-            for index in 0..<$recipeData.imageNames.wrappedValue.count {
-                if let uiImage = ImageStorageManager.loadImageFromDocuments(name: $recipeData.imageNames.wrappedValue[index]) {
-                    self.selectedImages.append(uiImage)
-                }
-            }
+            loadRecipeImages()
             checkWarningMessageStatus()
         })
     }
@@ -228,6 +255,19 @@ struct EditRecipeView: View {
             )
             $recipeData.imageNames.wrappedValue.append("\($recipeData.title.wrappedValue.lowercased())\(index)")
         }
+    }
+    
+    private func loadRecipeImages() {
+        for index in 0..<$recipeData.imageNames.wrappedValue.count {
+            if let uiImage = ImageStorageManager.loadImageFromDocuments(name: $recipeData.imageNames.wrappedValue[index]) {
+                self.selectedImages.append(uiImage)
+            }
+        }
+    }
+    
+    private func removeRecipeImages(itemIndex: Int) {
+        $recipeData.imageNames.wrappedValue.remove(at: itemIndex)
+        selectedImages.remove(at: itemIndex)
     }
     
     private func checkWarningMessageStatus() {
