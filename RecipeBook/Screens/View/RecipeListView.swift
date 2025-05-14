@@ -21,7 +21,13 @@ struct RecipeListView: View {
     @Query var recipes: [RecipeData]
     var body: some View {
         
-        NavigationView {
+        VStack {
+            
+            CustomNavigationView(title: "Recipes")
+                .background(Color.white)
+                .shadow(color:.gray.opacity(0.2),radius: 1,x:0,y:5)
+            
+            Spacer()
             
             Group {
                 
@@ -55,20 +61,7 @@ struct RecipeListView: View {
                     CustomContentUnavailableView(contentUnavailableData: contentUnavailabelData)
                 }
             }
-            .navigationTitle("Recipes")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing, content: {
-
-                    NavigationLink {
-                        AddRecipeView()
-                    } label:{
-                        Image(systemName: "plus.circle")
-                            .imageScale(.large)
-                            .fontWeight(.semibold)
-                    }
-                })
-            }
+            Spacer()
         }
         .onAppear(perform: {
             FileHandler.createAppDocumentDirectory()
