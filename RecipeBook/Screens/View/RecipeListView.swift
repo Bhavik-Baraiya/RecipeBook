@@ -76,6 +76,11 @@ struct RecipeListView: View {
     }
 }
 
-#Preview {
+#Preview("English Language") {
     RecipeListView()
+}
+
+#Preview("German Language") {
+    RecipeListView()
+        .environment(\.locale, Locale(identifier: "DE"))
 }

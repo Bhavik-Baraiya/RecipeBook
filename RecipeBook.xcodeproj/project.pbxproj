@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FF1AE0F92DD4CFC100524282 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FF1AE0F82DD4CFC100524282 /* Localizable.xcstrings */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		FF9D4C422D8E820600F4BB89 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FF1AE0F82DD4CFC100524282 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		FF9D4C312D8E820400F4BB89 /* RecipeBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecipeBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF9D4C412D8E820600F4BB89 /* RecipeBookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeBookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF9D4C4B2D8E820600F4BB89 /* RecipeBookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeBookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +93,7 @@
 		FF9D4C282D8E820400F4BB89 = {
 			isa = PBXGroup;
 			children = (
+				FF1AE0F82DD4CFC100524282 /* Localizable.xcstrings */,
 				FF9D4C332D8E820400F4BB89 /* RecipeBook */,
 				FF9D4C442D8E820600F4BB89 /* RecipeBookTests */,
 				FF9D4C4E2D8E820600F4BB89 /* RecipeBookUITests */,
@@ -205,6 +211,10 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
+				"zh-HK",
+				fr,
+				de,
 			);
 			mainGroup = FF9D4C282D8E820400F4BB89;
 			minimizedProjectReferenceProxies = 1;
@@ -225,6 +235,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF1AE0F92DD4CFC100524282 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +353,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -399,6 +411,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

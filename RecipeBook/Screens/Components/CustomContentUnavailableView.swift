@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CustomContentUnavailableModel {
-    var title: String
-    var message: String
+    var title: LocalizedStringResource
+    var message: LocalizedStringResource
     var image: String = ""
     var systemImage: String = ""
 }
