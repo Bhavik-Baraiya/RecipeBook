@@ -20,30 +20,40 @@ struct FavouriteRecipeListView: View {
     var body: some View {
         NavigationView(content: {
             
-            if(favoriteRecipes.isEmpty) {
+            VStack(content:  {
                 
-                ContentUnavailableView(
-                            "No favourite recipe available",
-                            systemImage: "heart.slash",
-                            description: Text("Tap on heart button on recipe item to add entry here")
-                ).foregroundStyle(.accent)
+                CustomNavigationView(title: "Favourites", trainlingButtonImageName: "")
                 
-            } else {
-                
-                List {
-                    ForEach(favoriteRecipes) { recipeItem in
-                        
-                        NavigationLink(destination: RecipeView(recipe: recipeItem)){
+                if(favoriteRecipes.isEmpty) {
+                    
+                    ContentUnavailableView(
+                                "No favourite recipe available",
+                                systemImage: "heart.slash",
+                                description: Text("Tap on heart button on recipe item to add entry here")
+                    ).foregroundStyle(.accent)
+                    
+                } else {
+                    
+                    List {
+                        ForEach(favoriteRecipes) { recipeItem in
                             
-                            RecipeListItemCell(recipeData: recipeItem)
-                            
-                        }.buttonStyle(PlainButtonStyle())
+                            NavigationLink(destination: RecipeView(recipe: recipeItem)){
+                                
+                                RecipeListItemCell(recipeData: recipeItem)
+                                
+                            }.buttonStyle(PlainButtonStyle())
+                        }
+                        .navigationTitle("Favourites")
+                        .navigationBarTitleDisplayMode(.large)
                     }
-                    .navigationTitle("Favourites")
-                    .navigationBarTitleDisplayMode(.large)
                 }
-            }
+            })
+            
+            
+            
+            
         })
+        .toolbar(.hidden)
     }
 }
 

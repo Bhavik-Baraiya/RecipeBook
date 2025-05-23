@@ -10,49 +10,58 @@ import SwiftUI
 struct CustomNavigationView: View {
     
     var title: String
+    var trainlingButtonImageName: String
+    var leadingButtonImageName: String = ""
+    var leadingButtonHidden: Bool = false
+    @State var isSheetPresented: Bool = false
+
     
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         
         HStack {
             
             Spacer().frame(width: 20)
             
-            //Leading button
             Button(action: {
-                debugPrint("leading button tapped")
+                dismiss()
             }, label: {
-                
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color.clear)
-                    .frame(width: 50,height: 50)
+                Image(systemName: leadingButtonImageName)
+                    .font(.title)
             })
+            .opacity(leadingButtonHidden ? 0 : 1)
             
             Spacer()
             
             //Center label
-            Text("Recipes")
+            Text(title)
                 .font(.title)
-                .fontWeight(.bold)
+                .fontWeight(.semibold)
             
             Spacer()
             
             //Trailing button
             Button(action: {
+                isSheetPresented.toggle()
                 debugPrint("trailing button tapped")
             }, label: {
-                Image(systemName: "plus.circle")
-                    .font(.largeTitle)
+                Image(systemName: trainlingButtonImageName)
+                    .font(.title)
             })
-            
-            Spacer().frame(width: 20,height: 80)
+            .fullScreenCover(isPresented: $isSheetPresented, content: {
+                NavigationStack {
+                    AddRecipeView()
+                }
+            })
+            Spacer().frame(width: 20,height: 60)
         }
         .background(
-            .fill.quinary
+            Color.clear
         )
         .frame(height: 80)
     }
 }
 
 #Preview {
-    CustomNavigationView(title: "Recipes")
+    CustomNavigationView(title: "Recipes", trainlingButtonImageName: "", leadingButtonImageName: ""	)
 }

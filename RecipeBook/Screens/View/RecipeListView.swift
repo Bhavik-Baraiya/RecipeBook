@@ -17,52 +17,53 @@ struct RecipeListView: View {
     
     //AppStorages
     @AppStorage("grid-mode") var gridMode: Bool = false
-    
     @Query var recipes: [RecipeData]
+    
     var body: some View {
         
-        VStack {
-            
-            CustomNavigationView(title: "Recipes")
-                .background(Color.white)
-                .shadow(color:.gray.opacity(0.2),radius: 1,x:0,y:5)
-            
-            Spacer()
-            
-            Group {
+        NavigationStack {
+            VStack {
                 
-                if(recipes.count > 0) {
+                CustomNavigationView(title: "Recipes", trainlingButtonImageName: "plus.circle",leadingButtonHidden: false)
+                
+                Spacer()
+                
+                Group {
                     
-                    if(gridMode) {
-                        ScrollView {
-                            LazyVGrid(columns: definedColumns, content: {
-                                ForEach(recipes) { recipeItem in
-                                    
-                                    NavigationLink(destination: RecipeView(recipe: recipeItem)){
-                                        
-                                        RecipeListItemGridCell(recipeData: recipeItem)
-                                        
-                                    }.buttonStyle(PlainButtonStyle())
-                                }
-                            }).padding(.leading, 20)
-                        }
+                    if(recipes.count > 0) {
                         
-                    } else {
-                        List {
-                            ForEach(recipes) { item in
-                                NavigationLink(destination: RecipeView(recipe: item)) {
-                                    RecipeListItemCell(recipeData: item)
+                        if(gridMode) {
+                            ScrollView {
+                                LazyVGrid(columns: definedColumns, content: {
+                                    ForEach(recipes) { recipeItem in
+                                        
+                                        NavigationLink(destination: RecipeView(recipe: recipeItem)){
+                                            
+                                            RecipeListItemGridCell(recipeData: recipeItem)
+                                            
+                                        }.buttonStyle(PlainButtonStyle())
+                                    }
+                                }).padding(.leading, 20)
+                            }
+                            
+                        } else {
+                            List {
+                                ForEach(recipes) { item in
+                                    NavigationLink(destination: RecipeView(recipe: item)) {
+                                        RecipeListItemCell(recipeData: item)
+                                    }
                                 }
                             }
                         }
+                    } else {
+                        let contentUnavailabelData = CustomContentUnavailableModel(title: "No recipes available!", message: "Tap on + icon at top right corner to add your recipe",systemImage: "square.stack.3d.up")
+                        CustomContentUnavailableView(contentUnavailableData: contentUnavailabelData)
                     }
-                } else {
-                    let contentUnavailabelData = CustomContentUnavailableModel(title: "No recipes available!", message: "Tap on + icon at top right corner to add your recipe",systemImage: "square.stack.3d.up")
-                    CustomContentUnavailableView(contentUnavailableData: contentUnavailabelData)
                 }
+                Spacer()
             }
-            Spacer()
         }
+        .toolbar(.hidden)
         .onAppear(perform: {
             FileHandler.createAppDocumentDirectory()
         })

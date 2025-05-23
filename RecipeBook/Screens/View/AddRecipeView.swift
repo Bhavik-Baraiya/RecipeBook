@@ -32,6 +32,9 @@ struct AddRecipeView: View {
     var body: some View {
         
         VStack {
+            
+            CustomNavigationView(title: "Add Recipe", trainlingButtonImageName: "plus.circle",leadingButtonImageName: "chevron.left.circle", leadingButtonHidden: false)
+            
             Form {
                 VStack(alignment: .leading,spacing: 20.0, content: {
                     Text("Recipe title")
@@ -184,7 +187,7 @@ struct AddRecipeView: View {
                     
                     Button(action: {
                         debugPrint("Discarded")
-
+                        dismiss()
                     }) {
                         Text("Cancel")
                             .foregroundStyle(.accent)
@@ -209,8 +212,7 @@ struct AddRecipeView: View {
 
             }
         }
-        .navigationTitle("Add Recipe")
-        .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden)
         .onAppear(perform: {
             for index in 0..<$recipeData.imageNames.wrappedValue.count {
                 if let uiImage = ImageStorageManager.loadImageFromDocuments(name: $recipeData.imageNames.wrappedValue[index]) {

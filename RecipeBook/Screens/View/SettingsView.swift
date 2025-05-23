@@ -26,12 +26,17 @@ struct SettingsView: View {
     var body: some View {
         
         NavigationStack {
-            List {
-                ForEach(settingsItem.indices, id: \.self) { index in
-                    SettingsItemCell(settingItem: settingsItem[index])
-                        .frame(height: 60)
+            
+            VStack {
+                CustomNavigationView(title: "Settings", trainlingButtonImageName: "")
+                List {
+                    ForEach(settingsItem.indices, id: \.self) { index in
+                        SettingsItemCell(settingItem: settingsItem[index])
+                            .frame(height: 60)
+                    }
                 }
             }
+            .toolbar(.hidden)
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.large)
         }
