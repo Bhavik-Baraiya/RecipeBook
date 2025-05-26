@@ -20,9 +20,9 @@ struct FavouriteRecipeListView: View {
     var body: some View {
         NavigationView(content: {
             
-            VStack(content:  {
+            VStack(spacing: 0,content:  {
                 
-                CustomNavigationView(title: "Favourites", trainlingButtonImageName: "")
+                CustomNavigationView(title: "Favourites", trailingButtonImageName: "")
                 
                 if(favoriteRecipes.isEmpty) {
                     
@@ -43,15 +43,9 @@ struct FavouriteRecipeListView: View {
                                 
                             }.buttonStyle(PlainButtonStyle())
                         }
-                        .navigationTitle("Favourites")
-                        .navigationBarTitleDisplayMode(.large)
                     }
                 }
             })
-            
-            
-            
-            
         })
         .toolbar(.hidden)
     }

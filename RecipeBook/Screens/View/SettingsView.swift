@@ -27,8 +27,8 @@ struct SettingsView: View {
         
         NavigationStack {
             
-            VStack {
-                CustomNavigationView(title: "Settings", trainlingButtonImageName: "")
+            VStack(spacing: 0) {
+                CustomNavigationView(title: "Settings", trailingButtonImageName: "")
                 List {
                     ForEach(settingsItem.indices, id: \.self) { index in
                         SettingsItemCell(settingItem: settingsItem[index])
@@ -37,8 +37,6 @@ struct SettingsView: View {
                 }
             }
             .toolbar(.hidden)
-            .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.large)
         }
     }
 }

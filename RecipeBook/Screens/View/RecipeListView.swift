@@ -22,11 +22,10 @@ struct RecipeListView: View {
     var body: some View {
         
         NavigationStack {
-            VStack {
+            
+            VStack(spacing:0) {
                 
-                CustomNavigationView(title: "Recipes", trainlingButtonImageName: "plus.circle",leadingButtonHidden: false)
-                
-                Spacer()
+                CustomNavigationView(title: "Recipes", trailingButtonImageName: "plus.circle",leadingButtonHidden: false)
                 
                 Group {
                     
@@ -43,7 +42,7 @@ struct RecipeListView: View {
                                             
                                         }.buttonStyle(PlainButtonStyle())
                                     }
-                                }).padding(.leading, 20)
+                                }).padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
                             }
                             
                         } else {
@@ -56,11 +55,15 @@ struct RecipeListView: View {
                             }
                         }
                     } else {
+                        
+                        Spacer()
+                        
                         let contentUnavailabelData = CustomContentUnavailableModel(title: "No recipes available!", message: "Tap on + icon at top right corner to add your recipe",systemImage: "square.stack.3d.up")
                         CustomContentUnavailableView(contentUnavailableData: contentUnavailabelData)
+                        
+                        Spacer()
                     }
                 }
-                Spacer()
             }
         }
         .toolbar(.hidden)

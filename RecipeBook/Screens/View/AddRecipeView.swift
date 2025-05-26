@@ -31,9 +31,9 @@ struct AddRecipeView: View {
     
     var body: some View {
         
-        VStack {
+        VStack(spacing:0) {
             
-            CustomNavigationView(title: "Add Recipe", trainlingButtonImageName: "plus.circle",leadingButtonImageName: "chevron.left.circle", leadingButtonHidden: false)
+            CustomNavigationView(leadingButtonImageName: "chevron.left.circle", leadingButtonTitle: "", title: "Add Recipe", trailingButtonImageName: "plus.circle", leadingButtonHidden: false)
             
             Form {
                 VStack(alignment: .leading,spacing: 20.0, content: {

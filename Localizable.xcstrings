@@ -68,6 +68,7 @@
       }
     },
     "Add Recipe" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -268,6 +269,7 @@
       }
     },
     "Recipes" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

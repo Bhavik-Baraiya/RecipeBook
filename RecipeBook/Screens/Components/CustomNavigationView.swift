@@ -9,9 +9,12 @@ import SwiftUI
 
 struct CustomNavigationView: View {
     
-    var title: String
-    var trainlingButtonImageName: String
     var leadingButtonImageName: String = ""
+    var leadingButtonTitle: String = ""
+    var title: String = ""
+    var trailingButtonImageName: String = ""
+    var trailingButtonTitle: String = ""
+    
     var leadingButtonHidden: Bool = false
     @State var isSheetPresented: Bool = false
 
@@ -21,21 +24,27 @@ struct CustomNavigationView: View {
         
         HStack {
             
-            Spacer().frame(width: 20)
+            Spacer().frame(width: 30)
             
             Button(action: {
                 dismiss()
             }, label: {
-                Image(systemName: leadingButtonImageName)
-                    .font(.title)
+                
+                HStack(spacing:5) {
+                    Image(systemName: leadingButtonImageName)
+                        .font(.title2)
+                    Text(leadingButtonTitle)
+                        .frame(width: 40)
+                }
             })
+            .frame(width: 40)
             .opacity(leadingButtonHidden ? 0 : 1)
             
             Spacer()
             
             //Center label
             Text(title)
-                .font(.title)
+                .font(.title3)
                 .fontWeight(.semibold)
             
             Spacer()
@@ -45,23 +54,28 @@ struct CustomNavigationView: View {
                 isSheetPresented.toggle()
                 debugPrint("trailing button tapped")
             }, label: {
-                Image(systemName: trainlingButtonImageName)
-                    .font(.title)
+                
+                HStack(spacing:5) {
+                    Text(trailingButtonTitle)
+                        .frame(width: 40)
+                    Image(systemName: trailingButtonImageName)
+                        .font(.title2)
+                }
             })
+            .frame(width: 40)
             .fullScreenCover(isPresented: $isSheetPresented, content: {
                 NavigationStack {
                     AddRecipeView()
                 }
             })
-            Spacer().frame(width: 20,height: 60)
+            Spacer().frame(width: 30,height: 60)
         }
         .background(
-            Color.clear
+            //Color.orangeMist
         )
-        .frame(height: 80)
     }
 }
 
 #Preview {
-    CustomNavigationView(title: "Recipes", trainlingButtonImageName: "", leadingButtonImageName: ""	)
+    CustomNavigationView(leadingButtonImageName: "chevron.left",leadingButtonTitle:"", title: "Recipes", trailingButtonImageName: "plus.circle",trailingButtonTitle: "")
 }
