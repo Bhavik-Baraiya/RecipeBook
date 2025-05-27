@@ -15,11 +15,14 @@ struct CustomNavigationView: View {
     var trailingButtonImageName: String = ""
     var trailingButtonTitle: String = ""
     
-    var leadingButtonHidden: Bool = false
-    @State var isSheetPresented: Bool = false
-
+    // MARK: navbar button action
     
+    var onLeadingTap: () -> Void
+    var onTrailingTap: () -> Void
+    
+    var leadingButtonHidden: Bool = false
     @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         
         HStack {
@@ -27,7 +30,7 @@ struct CustomNavigationView: View {
             Spacer().frame(width: 30)
             
             Button(action: {
-                dismiss()
+                onLeadingTap()
             }, label: {
                 
                 HStack(spacing:5) {
@@ -37,7 +40,7 @@ struct CustomNavigationView: View {
                         .frame(width: 40)
                 }
             })
-            .frame(width: 40)
+            .frame(width: 50)
             .opacity(leadingButtonHidden ? 0 : 1)
             
             Spacer()
@@ -51,23 +54,17 @@ struct CustomNavigationView: View {
             
             //Trailing button
             Button(action: {
-                isSheetPresented.toggle()
-                debugPrint("trailing button tapped")
+                onTrailingTap()
             }, label: {
                 
                 HStack(spacing:5) {
                     Text(trailingButtonTitle)
-                        .frame(width: 40)
+                        .frame(width: 60)
                     Image(systemName: trailingButtonImageName)
                         .font(.title2)
                 }
             })
-            .frame(width: 40)
-            .fullScreenCover(isPresented: $isSheetPresented, content: {
-                NavigationStack {
-                    AddRecipeView()
-                }
-            })
+            .frame(width: 50)
             Spacer().frame(width: 30,height: 60)
         }
         .background(
@@ -77,5 +74,9 @@ struct CustomNavigationView: View {
 }
 
 #Preview {
-    CustomNavigationView(leadingButtonImageName: "chevron.left",leadingButtonTitle:"", title: "Recipes", trailingButtonImageName: "plus.circle",trailingButtonTitle: "")
+    CustomNavigationView(leadingButtonImageName: "chevron.left", title: "title",trailingButtonImageName:"",trailingButtonTitle: "Update",onLeadingTap: {
+        
+    }, onTrailingTap: {
+        
+    })
 }

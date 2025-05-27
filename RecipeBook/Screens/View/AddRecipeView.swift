@@ -33,7 +33,13 @@ struct AddRecipeView: View {
         
         VStack(spacing:0) {
             
-            CustomNavigationView(leadingButtonImageName: "chevron.left.circle", leadingButtonTitle: "", title: "Add Recipe", trailingButtonImageName: "plus.circle", leadingButtonHidden: false)
+            CustomNavigationView(leadingButtonImageName: "chevron.left",title: "Add recipe",trailingButtonTitle:"Save", onLeadingTap: {
+                dismiss()
+            }, onTrailingTap: {
+                recipeModelContext.insert(recipeData)
+                updateImagesLocally()
+                dismiss()
+            })
             
             Form {
                 VStack(alignment: .leading,spacing: 20.0, content: {

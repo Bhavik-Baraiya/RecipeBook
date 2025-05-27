@@ -29,7 +29,15 @@ struct EditRecipeView: View {
     
     var body: some View {
         
-        VStack {
+        VStack(spacing: 0) {
+            
+            CustomNavigationView(leadingButtonImageName: "chevron.left", title:$recipeData.title.wrappedValue,trailingButtonImageName: "",trailingButtonTitle: "Update", onLeadingTap: {
+                dismiss()
+            }, onTrailingTap: {
+                updateImagesLocally()
+                dismiss()
+            })
+            
             Form {
                 VStack(alignment: .leading,spacing: 20.0, content: {
                     Text("Recipe title")
@@ -235,6 +243,7 @@ struct EditRecipeView: View {
             
             Spacer()
         }
+        .toolbar(.hidden)
         .background(
             .thinMaterial
         )

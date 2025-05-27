@@ -18,6 +18,7 @@ struct RecipeListView: View {
     //AppStorages
     @AppStorage("grid-mode") var gridMode: Bool = false
     @Query var recipes: [RecipeData]
+    @State var displayAddRecipeView: Bool = false
     
     var body: some View {
         
@@ -25,7 +26,11 @@ struct RecipeListView: View {
             
             VStack(spacing:0) {
                 
-                CustomNavigationView(title: "Recipes", trailingButtonImageName: "plus.circle",leadingButtonHidden: false)
+                CustomNavigationView(title: "Recipes",trailingButtonImageName: "plus.circle", onLeadingTap: {
+                   
+                }, onTrailingTap: {
+                    displayAddRecipeView.toggle()
+                })
                 
                 Group {
                     
@@ -66,6 +71,9 @@ struct RecipeListView: View {
                 }
             }
         }
+        .fullScreenCover(isPresented: $displayAddRecipeView, content: {
+            AddRecipeView()
+        })
         .toolbar(.hidden)
         .onAppear(perform: {
             FileHandler.createAppDocumentDirectory()

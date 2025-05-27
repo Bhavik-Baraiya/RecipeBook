@@ -11,13 +11,21 @@ struct RecipeView: View {
     
     @Bindable var recipe: RecipeData
     @State var displayPopup: Bool = false
+    @State var showEditRecipeView: Bool = false
+    @Environment(\.dismiss) var perfromBack
     
     var body: some View {
             
             ZStack {
                 ScrollView(.vertical) {
                     
-                    VStack(spacing: 40) {
+                    VStack(spacing: 0) {
+                        
+                        CustomNavigationView(leadingButtonImageName: "chevron.left", title:$recipe.title.wrappedValue,trailingButtonImageName: "pencil.circle",trailingButtonTitle: "", onLeadingTap: {
+                            perfromBack()
+                        }, onTrailingTap: {
+                            showEditRecipeView.toggle()
+                        })
                         
                         BannerView(images: $recipe.imageNames.wrappedValue)
                             .frame(height: 300)
@@ -92,8 +100,12 @@ struct RecipeView: View {
                 }
                 
         }
+        .fullScreenCover(isPresented: $showEditRecipeView, content: {
+            EditRecipeView(recipeData: recipe)
+        })
         .navigationTitle(recipe.title)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden)
     }
 }
 
