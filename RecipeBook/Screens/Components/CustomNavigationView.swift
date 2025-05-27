@@ -17,10 +17,9 @@ struct CustomNavigationView: View {
     
     // MARK: navbar button action
     
-    var onLeadingTap: () -> Void
-    var onTrailingTap: () -> Void
+    var onLeadingTap: (() -> Void)? = nil
+    var onTrailingTap: (() -> Void)? = nil
     
-    var leadingButtonHidden: Bool = false
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -29,19 +28,25 @@ struct CustomNavigationView: View {
             
             Spacer().frame(width: 30)
             
-            Button(action: {
-                onLeadingTap()
-            }, label: {
+            if let onLeadingTap = onLeadingTap {
+                Button(action: {
+                    onLeadingTap()
+                }, label: {
+                    
+                    HStack(spacing:5) {
+                        Image(systemName: leadingButtonImageName)
+                            .font(.title2)
+                        Text(leadingButtonTitle)
+                            .frame(width: 60)
+                    }
+                })
+                .frame(width: 60)
                 
-                HStack(spacing:5) {
-                    Image(systemName: leadingButtonImageName)
-                        .font(.title2)
-                    Text(leadingButtonTitle)
-                        .frame(width: 40)
-                }
-            })
-            .frame(width: 50)
-            .opacity(leadingButtonHidden ? 0 : 1)
+            } else {
+                // Maintain spacing if button is not shown
+                Spacer().frame(width: 60)
+            }
+            
             
             Spacer()
             
@@ -53,18 +58,25 @@ struct CustomNavigationView: View {
             Spacer()
             
             //Trailing button
-            Button(action: {
-                onTrailingTap()
-            }, label: {
+            
+            if let onTrailingTap = onTrailingTap {
+                Button(action: {
+                    onTrailingTap()
+                }, label: {
+                    
+                    HStack(spacing:5) {
+                        Text(trailingButtonTitle)
+                            .frame(width: 60)
+                        Image(systemName: trailingButtonImageName)
+                            .font(.title2)
+                    }
+                })
+                .frame(width: 60)
                 
-                HStack(spacing:5) {
-                    Text(trailingButtonTitle)
-                        .frame(width: 60)
-                    Image(systemName: trailingButtonImageName)
-                        .font(.title2)
-                }
-            })
-            .frame(width: 50)
+            } else {
+                // Maintain spacing if button is not shown
+                Spacer().frame(width: 60)
+            }
             Spacer().frame(width: 30,height: 60)
         }
         .background(

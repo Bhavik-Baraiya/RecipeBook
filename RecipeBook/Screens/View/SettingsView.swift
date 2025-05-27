@@ -28,11 +28,7 @@ struct SettingsView: View {
         NavigationStack {
             
             VStack(spacing: 0) {
-                CustomNavigationView(title: "Settings", onLeadingTap: {
-                    
-                }, onTrailingTap: {
-                    
-                })
+                CustomNavigationView(title: "Settings")
                 List {
                     ForEach(settingsItem.indices, id: \.self) { index in
                         SettingsItemCell(settingItem: settingsItem[index])

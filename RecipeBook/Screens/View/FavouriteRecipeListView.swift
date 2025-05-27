@@ -22,11 +22,7 @@ struct FavouriteRecipeListView: View {
             
             VStack(spacing: 0,content:  {
                 
-                CustomNavigationView(title: "Favourites",onLeadingTap: {
-                    
-                }, onTrailingTap: {
-                    
-                })
+                CustomNavigationView(title: "Favourites")
                 
                 if(favoriteRecipes.isEmpty) {
                     
