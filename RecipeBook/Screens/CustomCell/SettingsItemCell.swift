@@ -55,8 +55,6 @@ struct SettingsItemCell: View {
         switch item.name {
             case darkModeSettingsOption:
                 return $darkModeEnabled
-            case cloudSyncSettingsOption:
-                return $cloudSyncEnabled
             case viewModeSettingsOption:
                 return $gridMode
             default:
