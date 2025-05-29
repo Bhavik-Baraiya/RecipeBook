@@ -7,18 +7,26 @@
 
 import SwiftUI
 
+struct NavigationButton: Identifiable {
+    let id = UUID()
+    var systemImageName: String? = nil
+    var imageName: String? = nil
+    var title: String? = nil
+    let action: () -> Void
+}
+
+struct NavigationTitle: Identifiable {
+    let id = UUID()
+    let title: String
+    var subTitle: String? = nil
+}
+
 struct CustomNavigationView: View {
     
-    var leadingButtonImageName: String = ""
-    var leadingButtonTitle: String = ""
-    var title: String = ""
-    var trailingButtonImageName: String = ""
-    var trailingButtonTitle: String = ""
-    
-    // MARK: navbar button action
-    
-    var onLeadingTap: (() -> Void)? = nil
-    var onTrailingTap: (() -> Void)? = nil
+    var title: NavigationTitle? = nil
+    var leadingButtons: [NavigationButton]? = nil
+    var trailingButtons: [NavigationButton]? = nil
+    var navBarHeight: CGFloat = 80.0
     
     @Environment(\.dismiss) var dismiss
     
@@ -28,67 +36,91 @@ struct CustomNavigationView: View {
             
             Spacer().frame(width: 30)
             
-            if let onLeadingTap = onLeadingTap {
-                Button(action: {
-                    onLeadingTap()
-                }, label: {
-                    
-                    HStack(spacing:5) {
-                        Image(systemName: leadingButtonImageName)
+            if let leadingBtns = leadingButtons {
+                HStack(spacing: 16) {
+                    ForEach(leadingBtns) { button in
+                        HStack {
+                            Button(action: button.action) {
+                                HStack {
+                                    
+                                    if let buttonImage = button.systemImageName {
+                                        Image(systemName: buttonImage)
+                                    } else {
+                                        Image(button.imageName ?? "")
+                                    }
+                                    if let buttonTitle = button.title {
+                                        Text(buttonTitle)
+                                    }
+                                }
+                            }
                             .font(.title2)
-                        Text(leadingButtonTitle)
-                            .frame(width: 60)
+                            .foregroundColor(.accent)
+                        }
                     }
-                })
-                .frame(width: 60)
-                
+                }
             } else {
-                // Maintain spacing if button is not shown
                 Spacer().frame(width: 60)
             }
-            
-            
-            Spacer()
-            
-            //Center label
-            Text(title)
-                .font(.title3)
-                .fontWeight(.semibold)
             
             Spacer()
             
             //Trailing button
             
-            if let onTrailingTap = onTrailingTap {
-                Button(action: {
-                    onTrailingTap()
-                }, label: {
-                    
-                    HStack(spacing:5) {
-                        Text(trailingButtonTitle)
-                            .frame(width: 60)
-                        Image(systemName: trailingButtonImageName)
-                            .font(.title2)
+            if let trailingBtns = trailingButtons {
+                HStack(spacing: 16) {
+                    ForEach(trailingBtns) { button in
+                        Button(action: button.action) {
+                            HStack {
+                                if let buttonTitle = button.title {
+                                    Text(buttonTitle)
+                                }
+                                if let buttonImage = button.systemImageName {
+                                    Image(systemName: buttonImage)
+                                } else {
+                                    Image(button.imageName ?? "")
+                                }
+                            }
+                        }
+                        .font(.title2)
+                        .foregroundColor(.accent)
                     }
-                })
-                .frame(width: 60)
-                
+                }
             } else {
-                // Maintain spacing if button is not shown
                 Spacer().frame(width: 60)
             }
-            Spacer().frame(width: 30,height: 60)
+            
+            Spacer().frame(width: 30)
         }
+        .overlay(content: {
+            VStack(spacing: 4, content: {
+                if let navigationTitle = title {
+                    Text(navigationTitle.title)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color.secondaryApp)
+                    
+                    if let subTitle = navigationTitle.subTitle {
+                        Text(subTitle)
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                    }
+                }
+            })
+        })
+        .frame(height: navBarHeight)
         .background(
-            //Color.orangeMist
+            //Color.secondary
         )
     }
 }
 
 #Preview {
-    CustomNavigationView(leadingButtonImageName: "chevron.left", title: "title",trailingButtonImageName:"",trailingButtonTitle: "Update",onLeadingTap: {
-        
-    }, onTrailingTap: {
-        
+    let titleDetails =  NavigationTitle(title: "Main title",subTitle: "Sub title")
+    let leadingButton = NavigationButton(systemImageName: "chevron.left",title: "Back", action: {
+        debugPrint("left button tap")
     })
+    let trailingButton = NavigationButton(systemImageName: "chevron.right",title: "Right", action: {
+        debugPrint("right button tap")
+    })
+    CustomNavigationView(title: titleDetails, leadingButtons: [leadingButton], trailingButtons: [trailingButton])
 }

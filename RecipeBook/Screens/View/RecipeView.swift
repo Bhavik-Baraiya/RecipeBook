@@ -21,11 +21,18 @@ struct RecipeView: View {
                     
                     VStack(spacing: 0) {
                         
-                        CustomNavigationView(leadingButtonImageName: "chevron.left", title:$recipe.title.wrappedValue,trailingButtonImageName: "pencil.circle",trailingButtonTitle: "", onLeadingTap: {
+                        let titleDetails =  NavigationTitle(title: $recipe.title.wrappedValue)
+                        let backButton = NavigationButton(systemImageName: "chevron.left", action: {
                             perfromBack()
-                        }, onTrailingTap: {
+                        })
+                        
+                        let editButton = NavigationButton(systemImageName: "pencil.circle",action: {
                             showEditRecipeView.toggle()
                         })
+                        let deleteButton = NavigationButton(systemImageName: "trash", action: {
+                            displayPopup.toggle()
+                        })
+                        CustomNavigationView(title: titleDetails,leadingButtons: [backButton], trailingButtons: [editButton,deleteButton])
                         
                         BannerView(images: $recipe.imageNames.wrappedValue)
                             .frame(height: 300)

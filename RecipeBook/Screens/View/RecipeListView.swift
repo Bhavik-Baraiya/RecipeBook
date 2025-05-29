@@ -26,11 +26,11 @@ struct RecipeListView: View {
             
             VStack(spacing:0) {
                 
-                CustomNavigationView(title: "Recipes",trailingButtonImageName: "plus.circle", onLeadingTap: {
-                   
-                }, onTrailingTap: {
+                let titleDetails =  NavigationTitle(title: "Recipes")
+                let trailingButton = NavigationButton(systemImageName: "plus.circle", action: {
                     displayAddRecipeView.toggle()
                 })
+                CustomNavigationView(title: titleDetails, trailingButtons: [trailingButton])
                 
                 Group {
                     

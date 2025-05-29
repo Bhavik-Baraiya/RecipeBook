@@ -31,12 +31,15 @@ struct EditRecipeView: View {
         
         VStack(spacing: 0) {
             
-            CustomNavigationView(leadingButtonImageName: "chevron.left", title:$recipeData.title.wrappedValue,trailingButtonImageName: "",trailingButtonTitle: "Update", onLeadingTap: {
+            let titleDetails =  NavigationTitle(title: $recipeData.title.wrappedValue)
+            let backButton = NavigationButton(systemImageName: "chevron.left", action: {
                 dismiss()
-            }, onTrailingTap: {
+            })
+            let saveButton = NavigationButton(title: "Update", action: {
                 updateImagesLocally()
                 dismiss()
             })
+            CustomNavigationView(title: titleDetails,leadingButtons: [backButton], trailingButtons: [saveButton])
             
             Form {
                 VStack(alignment: .leading,spacing: 20.0, content: {

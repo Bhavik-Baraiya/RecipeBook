@@ -22,7 +22,8 @@ struct FavouriteRecipeListView: View {
             
             VStack(spacing: 0,content:  {
                 
-                CustomNavigationView(title: "Favourites")
+                let titleDetails =  NavigationTitle(title: "Favourites")
+                CustomNavigationView(title: titleDetails)
                 
                 if(favoriteRecipes.isEmpty) {
                     

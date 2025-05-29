@@ -28,7 +28,10 @@ struct SettingsView: View {
         NavigationStack {
             
             VStack(spacing: 0) {
-                CustomNavigationView(title: "Settings")
+                
+                let titleDetails =  NavigationTitle(title: "Settings")
+                CustomNavigationView(title: titleDetails)
+                
                 List {
                     ForEach(settingsItem.indices, id: \.self) { index in
                         SettingsItemCell(settingItem: settingsItem[index])
