@@ -22,105 +22,97 @@ struct NavigationTitle: Identifiable {
 }
 
 struct CustomNavigationView: View {
-    
     var title: NavigationTitle? = nil
     var leadingButtons: [NavigationButton]? = nil
     var trailingButtons: [NavigationButton]? = nil
     var navBarHeight: CGFloat = 80.0
-    
-    @Environment(\.dismiss) var dismiss
-    
+
     var body: some View {
-        
-        HStack {
-            
-            Spacer().frame(width: 30)
-            
-            if let leadingBtns = leadingButtons {
-                HStack(spacing: 16) {
-                    ForEach(leadingBtns) { button in
-                        HStack {
-                            Button(action: button.action) {
-                                HStack {
-                                    
-                                    if let buttonImage = button.systemImageName {
-                                        Image(systemName: buttonImage)
-                                    } else {
-                                        Image(button.imageName ?? "")
-                                    }
-                                    if let buttonTitle = button.title {
-                                        Text(buttonTitle)
-                                    }
-                                }
-                            }
-                            .font(.title2)
-                            .foregroundColor(.accent)
-                        }
-                    }
-                }
-            } else {
-                Spacer().frame(width: 60)
-            }
-            
-            Spacer()
-            
-            //Trailing button
-            
-            if let trailingBtns = trailingButtons {
-                HStack(spacing: 16) {
-                    ForEach(trailingBtns) { button in
-                        Button(action: button.action) {
-                            HStack {
-                                if let buttonTitle = button.title {
-                                    Text(buttonTitle)
-                                }
-                                if let buttonImage = button.systemImageName {
-                                    Image(systemName: buttonImage)
-                                } else {
-                                    Image(button.imageName ?? "")
-                                }
-                            }
-                        }
-                        .font(.title2)
-                        .foregroundColor(.accent)
-                    }
-                }
-            } else {
-                Spacer().frame(width: 60)
-            }
-            
-            Spacer().frame(width: 30)
-        }
-        .overlay(content: {
-            VStack(spacing: 4, content: {
-                if let navigationTitle = title {
+        ZStack {
+            // Centered Title & Subtitle
+            if let navigationTitle = title {
+                VStack(spacing: 4) {
                     Text(navigationTitle.title)
                         .font(.title2)
                         .fontWeight(.semibold)
                         .foregroundColor(Color.secondaryApp)
-                    
+
                     if let subTitle = navigationTitle.subTitle {
                         Text(subTitle)
-                            .font(.title3)
-                            .fontWeight(.semibold)
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
                     }
                 }
-            })
-        })
+                .multilineTextAlignment(.center)
+            }
+
+            // Leading & Trailing Buttons
+            HStack {
+                // Leading buttons
+                if let leadingBtns = leadingButtons {
+                    HStack(spacing: 16) {
+                        ForEach(leadingBtns) { button in
+                            NavigationBarButtonView(button: button)
+                        }
+                    }
+                } else {
+                    Spacer().frame(width: 60) // Ensure alignment
+                }
+
+                Spacer()
+
+                // Trailing buttons
+                if let trailingBtns = trailingButtons {
+                    HStack(spacing: 16) {
+                        ForEach(trailingBtns) { button in
+                            NavigationBarButtonView(button: button)
+                        }
+                    }
+                } else {
+                    Spacer().frame(width: 60) // Ensure alignment
+                }
+            }
+            .padding(.horizontal, 20)
+        }
         .frame(height: navBarHeight)
-        .background(
-            //Color.secondary
-        )
+        .background(Color.white) // Add your background color
+    }
+}
+
+struct NavigationBarButtonView: View {
+    var button: NavigationButton
+
+    var body: some View {
+        Button(action: button.action) {
+            HStack(spacing: 4) {
+                if let systemImage = button.systemImageName {
+                    Image(systemName: systemImage)
+                } else if let imageName = button.imageName {
+                    Image(imageName)
+                }
+
+                if let title = button.title {
+                    Text(title)
+                }
+            }
+            .font(.title3)
+            .foregroundColor(.accentColor)
+        }
     }
 }
 
 #Preview {
-    let titleDetails =  NavigationTitle(title: "Main title",subTitle: "Sub title")
-    let leadingButton = NavigationButton(systemImageName: "chevron.left",title: "Back", action: {
+    let titleDetails = NavigationTitle(title: "Main title", subTitle: "Sub title")
+    let leadingButton = NavigationButton(systemImageName: "chevron.left", title: "Back") {
         debugPrint("left button tap")
-    })
-    let trailingButton = NavigationButton(systemImageName: "chevron.right",title: "Right", action: {
+    }
+    let trailingButton = NavigationButton(systemImageName: "chevron.right", title: "Next") {
         debugPrint("right button tap")
-    })
-    CustomNavigationView(title: titleDetails, leadingButtons: [leadingButton], trailingButtons: [trailingButton])
+    }
+
+    return CustomNavigationView(
+        title: titleDetails,
+        leadingButtons: [leadingButton],
+        trailingButtons: [trailingButton]
+    )
 }
