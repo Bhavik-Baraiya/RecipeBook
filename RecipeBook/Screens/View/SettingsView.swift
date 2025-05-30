@@ -9,10 +9,10 @@ import SwiftUI
 
 //Settings Options
 
-let darkModeSettingsOption = "Enable Dark Mode"
-let cloudSyncSettingsOption = "Sync on cloud"
-let viewModeSettingsOption = "List/Grid"
-let aboutSettingsOption = "About"
+let darkModeSettingsOption = String(localized: "Enable Dark Mode")
+let cloudSyncSettingsOption = String(localized: "Sync on cloud")
+let viewModeSettingsOption = String(localized: "List/Grid")
+let aboutSettingsOption = String(localized: "About")
 
 
 let settingsItem: [SettingsItem] = [
