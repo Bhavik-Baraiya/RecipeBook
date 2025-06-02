@@ -34,11 +34,14 @@ struct RecipeListItemCell: View {
                     .fontWeight(.heavy)
                     .foregroundColor(Color.secondaryApp)
                 
-                Text($recipeData.ingredients.wrappedValue)
-                    .font(.subheadline)
+                Spacer()
+                
+                Text($recipeData.category.wrappedValue)
+                    .font(.title3)
                     .multilineTextAlignment(.leading)
                     .lineLimit(5)
             }
+            .padding()
         }
     }
 }
