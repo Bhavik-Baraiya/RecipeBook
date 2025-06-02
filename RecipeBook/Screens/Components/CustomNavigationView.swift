@@ -25,7 +25,7 @@ struct CustomNavigationView: View {
     var title: NavigationTitle? = nil
     var leadingButtons: [NavigationButton]? = nil
     var trailingButtons: [NavigationButton]? = nil
-    var navBarHeight: CGFloat = 80.0
+    var navBarHeight: CGFloat = 60.0
 
     var body: some View {
         ZStack {
@@ -43,6 +43,7 @@ struct CustomNavigationView: View {
                             .foregroundColor(.gray)
                     }
                 }
+                .frame(width: 120.0,height: navBarHeight)
                 .multilineTextAlignment(.center)
             }
 
