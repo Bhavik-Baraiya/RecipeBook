@@ -15,45 +15,14 @@ struct RecipeView: View {
     var body: some View {
             
             ZStack {
+                
                 ScrollView(.vertical) {
                     
-                    VStack(spacing: 40) {
-                        
+                    VStack(spacing: 20) {
                         BannerView(images: $recipe.imageNames.wrappedValue)
                             .frame(height: 300)
-                            .padding(20)
-                        
-                        Button(action: {
-                            $recipe.isFavourite.wrappedValue.toggle()
-                        })
-                        {
-                            Image(systemName: $recipe.isFavourite.wrappedValue ? "heart.fill": "heart")
-                                .resizable()
-                                .scaledToFill()
-                        }
-                            .frame(width: 25,height: 25)
-                            .background(
-                                Circle()
-                                    .fill(Color.gray)
-                                    .opacity(0.3)
-                                    .frame(width: 50, height: 50, alignment: .center)
-                            )
-                            .offset(x:155, y: -40)
-                            
-                        
-                        Text(recipe.category)
-                            .font(.title)
-                            .foregroundColor(.primary)
-                            .background(
-                                Color.accentColor
-                                    .frame(height: 5)
-                                    .offset(y:20)
-                            )
-                            .padding(.horizontal)
-                        
+                            .padding(.horizontal, 5)
                         DetailsView(recipeData: recipe)
-                        
-                        Spacer()
                     }
                 }
                 
@@ -98,5 +67,25 @@ struct RecipeView: View {
 }
 
 #Preview {
-    RecipeView(recipe: RecipeData(title: "", ingredients: "", instructions: "", category: "", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true))
+    RecipeView(recipe: RecipeData(title: "Spaghetti Carbonara",
+                                  ingredients: """
+                                                    - 200g spaghetti
+                                                    - 100g pancetta
+                                                    - 2 large eggs
+                                                    - 50g Parmesan cheese
+                                                    - Salt and pepper
+                                                    """,
+                                  instructions: """
+                                                    1. Cook spaghetti in salted water.
+                                                    2. Fry pancetta until crispy.
+                                                    3. Beat eggs and mix with Parmesan.
+                                                    4. Mix spaghetti with pancetta and egg mixture.
+                                                    5. Serve immediately.
+                                                    """,
+                                  category: "Italian",
+                                  preparationTimeInHours: 10,
+                                  preparationTimeInMinutes: 15,
+                                  imageNames: [""],
+                                  isFavourite: true)
+    )
 }

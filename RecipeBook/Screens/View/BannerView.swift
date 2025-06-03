@@ -8,36 +8,42 @@
 import SwiftUI
 
 struct BannerView: View {
-    
     let images: [String]
-    
+
     var body: some View {
-        HStack {
-            TabView {
-                
-                if(images.count > 0) {
-                    ForEach(images, id: \.self) { image in
-                        if let storedImage = ImageStorageManager.loadImageFromDocuments(name: image)
-                        {
-                            Image(uiImage: storedImage)
+        TabView {
+            if images.isEmpty {
+                placeholderView()
+            } else {
+                ForEach(images, id: \.self) { image in
+                    if let storedImage = ImageStorageManager.loadImageFromDocuments(name: image) {
+                        Image(uiImage: storedImage)
                             .resizable()
                             .scaledToFill()
-                        } else {
-                            Image(systemName: "")
-                                .resizable()
-                                .scaledToFill()
-                                .background(Color(Utilities.getRandomPlaceHolderColor()))
-                        }
-                    } // LOOP
-                } else {
-                    Image(systemName: "")
-                        .resizable()
-                        .scaledToFill()
-                        .background(Color(Utilities.getRandomPlaceHolderColor()))
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .clipped()
+                    } else {
+                        placeholderView()
+                    }
                 }
-            } //TABVIEW
-            .tabViewStyle(.page)
+            }
         }
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+        .frame(height: 300)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .padding(.horizontal, 20)
+    }
+
+    @ViewBuilder
+    private func placeholderView() -> some View {
+        ZStack {
+            Color(Utilities.getRandomPlaceHolderColor())
+            Image(systemName: "photo")
+                .font(.system(size: 40))
+                .foregroundColor(.white.opacity(0.6))
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .clipped()
     }
 }
 
