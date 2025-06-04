@@ -24,72 +24,45 @@ struct AddRecipeView: View {
     private let categories = [
         "Indian",
         "Italian",
-        "Breakfast",
-        "Salad",
-        "Dessert"
+        "French",
+        "Chinese"
     ]
     
     var body: some View {
         
         VStack {
             Form {
-                VStack(alignment: .leading,spacing: 20.0, content: {
-                    Text("Recipe title")
-                        .font(.headline)
-                    TextField("Enter recipe title", text: $recipeData.title)
-                        .tint(.accentColor)
-                })
+                
+                recipeInputView(
+                    headLabelText: "Recipe title",
+                    placeHolder: "Enter recipe title",
+                    textData: $recipeData.title
+                )
+                
+                recipeInputView(
+                    headLabelText: "Recipe ingredients",
+                    placeHolder: "Enter recipe ingredients",
+                    textData: $recipeData.ingredients
+                )
+                
+                recipeInputView(
+                    headLabelText: "Recipe instructions",
+                    placeHolder: "Enter recipe instructions",
+                    textData: $recipeData.instructions
+                )
                 
                 VStack(alignment: .leading,spacing: 20.0, content: {
-                    Text("Recipe ingredients ")
-                        .font(.headline)
                     
-                    ZStack(alignment: .leading) {
-                        if $recipeData.ingredients.wrappedValue.isEmpty {
-                            Text("Enter recipe ingredients")
-                                .font(.custom("Helvetica", size: 16))
-                                .padding(.all)
-                                .foregroundStyle(Color.secondary.opacity(0.5))
-                                .offset(x:0, y: -4)
-                        }
-                            
-                        TextEditor(text: $recipeData.ingredients)
-                            .font(.callout)
-                            .padding(10)
-                        
-                    }
-                })
-                
-                VStack(alignment: .leading,spacing: 20.0, content: {
-                    Text("Recipe instructions ")
-                        .font(.headline)
-                    
-                    ZStack(alignment: .leading) {
-                        if $recipeData.instructions.wrappedValue.isEmpty {
-                            Text("Enter recipe instructions")
-                                .font(.custom("Helvetica", size: 16))
-                                .padding(.all)
-                                .foregroundStyle(Color.secondary.opacity(0.5))
-                                .offset(x:0, y: -4)
-                        }
-                            
-                        TextEditor(text: $recipeData.instructions)
-                            .font(.callout)
-                            .padding(10)
-                    }
-                })
-                
-                VStack(alignment: .leading,spacing: 20.0, content: {
-                    Text("You Selected: \(selectedCategory)")
-                        .font(.headline)
-                    Picker("Select category", selection: $recipeData.category, content: {
+                    Picker("Select category", selection: self.$selectedCategory, content: {
                         ForEach(categories, id: \.self) { category in
                             Text(category)
                         }
                     })
+                    Text("You Selected: \(self.selectedCategory)")
+                        .font(.headline)
                 })
                 
-                VStack(alignment: .leading,spacing: 20.0, content: {
+                VStack(alignment: .leading,spacing: 0, content: {
                     TimeSetterView(selectedHour: $recipeData.preparationTimeInHours, selectedMinutes: $recipeData.preparationTimeInMinutes)
                 })
                 
@@ -169,9 +142,8 @@ struct AddRecipeView: View {
                         }
                     }
                 })
-                
-                HStack(spacing: 120, content: {
-                    
+                HStack {
+                    Spacer()
                     Button(action: {
                        recipeModelContext.insert(recipeData)
                        updateImagesLocally()
@@ -182,15 +154,22 @@ struct AddRecipeView: View {
                             .padding(10)
                     }.buttonStyle(.bordered)
                     
+                    Spacer()
+                    
+                    Spacer()
+                    
                     Button(action: {
+                        dismiss()
                         debugPrint("Discarded")
-
-                    }) {
+                    })
+                    {
                         Text("Cancel")
                             .foregroundStyle(.accent)
                             .padding(10)
-                    }.buttonStyle(.bordered)
-                })
+                    }
+                    .buttonStyle(.bordered)
+                    Spacer()
+                }
                 .onChange(of: selectedItems, {
                     checkWarningMessageStatus()
                     Task {
@@ -239,19 +218,23 @@ struct AddRecipeView: View {
             showWarningMessage = false
         }
     }
+    
+    @ViewBuilder
+    private func recipeInputView(headLabelText: String, placeHolder: String, textData: Binding<String>) -> some View{
+        VStack(alignment: .leading,spacing: 20.0, content: {
+            Text(headLabelText)
+                .font(.headline)
+            
+            TextField(
+                placeHolder,
+                text: textData,
+                axis: .vertical
+            )
+            .tint(.accentColor)
+        })
+    }
 }
 
 #Preview {
-    
-    do {
-        let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
-        let modelContainer = try ModelContainer(for: RecipeData.self, configurations: configuration)
-        let tmpData = RecipeData(title: "Mango juice", ingredients: "...", instructions: "...", category: "Indian", preparationTimeInHours: 1, preparationTimeInMinutes: 45, imageNames: ["",""], isFavourite: false)
-        return EditRecipeView(recipeData: tmpData)
-            .modelContainer(modelContainer)
-        
-        
-    } catch {
-        fatalError("Error in model configuration")
-    }
+    AddRecipeView()
 }
