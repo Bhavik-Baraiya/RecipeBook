@@ -22,6 +22,9 @@ struct RecipeView: View {
                         BannerView(images: $recipe.imageNames.wrappedValue)
                             .frame(height: 300)
                             .padding(.horizontal, 5)
+                        
+                        recipeHeaderView()
+                        
                         DetailsView(recipeData: recipe)
                     }
                 }
@@ -63,6 +66,44 @@ struct RecipeView: View {
         }
         .navigationTitle(recipe.title)
         .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    @ViewBuilder
+    private func recipeHeaderView() -> some View {
+        
+        var prepTime: String {
+            "\(recipe.preparationTimeInHours):\(recipe.preparationTimeInMinutes)"
+        }
+        
+        let headerData = [
+            RecipeHeaderViewContent(systemImage: "clock", title: prepTime),
+            RecipeHeaderViewContent(systemImage: "person", title: "1-2"),
+            RecipeHeaderViewContent(systemImage: "fork.knife", title: "Desert"),
+        ]
+        
+        HStack(alignment:.center, spacing: 20) {
+            
+            ForEach(headerData, id: \.id) { item in
+                self.getHeaderImageText(imageName: item.systemImage, title: item.title)
+            }
+            
+            Spacer()
+            
+            Button(action: {
+                recipe.isFavourite.toggle()
+            }, label: {
+                Image(systemName: recipe.isFavourite ? "heart.fill" : "heart")
+            })
+        }
+        .padding()
+    }
+    
+    
+    func getHeaderImageText(imageName:String,title: String) -> some View{
+       HStack(spacing: 5) {
+        Image(systemName: imageName)
+        Text(title)
+       }
     }
 }
 
