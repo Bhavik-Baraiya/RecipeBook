@@ -181,6 +181,17 @@ struct EditRecipeView: View {
                     }
                     
                 })
+                let primaryButton = BottomActionButton(title: "Update",action: {
+                    updateImagesLocally()
+                    dismiss()
+                })
+                let secondaryButton = BottomActionButton(title: "Cancel", action: {
+                    dismiss()
+                })
+                
+                let bottomBtns = [primaryButton, secondaryButton]
+                RecipeBottomActionBar(buttons: bottomBtns)
+                
                 .onChange(of: selectedItems, {
                     checkWarningMessageStatus()
                     Task {
@@ -201,39 +212,6 @@ struct EditRecipeView: View {
                 })
 
             }
-            
-            Spacer()
-            
-            HStack {
-                Spacer()
-                Button(action: {
-                    debugPrint("Discarded")
-                    updateImagesLocally()
-                    dismiss()
-                })
-                {
-                    Text("Update")
-                        .foregroundStyle(Color.primary)
-                        .padding(10)
-                }
-                .buttonStyle(.bordered)
-                
-                Spacer()
-                
-                Button(action: {
-                    dismiss()
-                    debugPrint("Discarded")
-                })
-                {
-                    Text("Cancel")
-                        .foregroundStyle(.accent)
-                        .padding(10)
-                }
-                .buttonStyle(.bordered)
-                Spacer()
-            }
-            
-            Spacer()
         }
         .background(
             .thinMaterial
@@ -276,6 +254,19 @@ struct EditRecipeView: View {
         } else {
             showWarningMessage = false
         }
+    }
+    
+    private func setBottomBar() {
+        let primaryButton = BottomActionButton(title: "Update",action: {
+            updateImagesLocally()
+            dismiss()
+        })
+        let secondaryButton = BottomActionButton(title: "Cancel", action: {
+            dismiss()
+        })
+        
+        let bottomBtns = [primaryButton, secondaryButton]
+        RecipeBottomActionBar(buttons: bottomBtns)
     }
 }
 

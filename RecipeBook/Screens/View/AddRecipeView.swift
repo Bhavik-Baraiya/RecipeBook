@@ -142,34 +142,6 @@ struct AddRecipeView: View {
                         }
                     }
                 })
-                HStack {
-                    Spacer()
-                    Button(action: {
-                       recipeModelContext.insert(recipeData)
-                       updateImagesLocally()
-                       dismiss()
-                    }) {
-                        Text("Add")
-                            .foregroundStyle(Color.primary)
-                            .padding(10)
-                    }.buttonStyle(.bordered)
-                    
-                    Spacer()
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        dismiss()
-                        debugPrint("Discarded")
-                    })
-                    {
-                        Text("Cancel")
-                            .foregroundStyle(.accent)
-                            .padding(10)
-                    }
-                    .buttonStyle(.bordered)
-                    Spacer()
-                }
                 .onChange(of: selectedItems, {
                     checkWarningMessageStatus()
                     Task {
@@ -185,7 +157,17 @@ struct AddRecipeView: View {
                         }
                     }
                 })
-
+                let primaryButton = BottomActionButton(title: "Add",action: {
+                    recipeModelContext.insert(recipeData)
+                    updateImagesLocally()
+                    dismiss()
+                })
+                let secondaryButton = BottomActionButton(title: "Cancel", action: {
+                    dismiss()
+                })
+                
+                let bottomBtns = [primaryButton, secondaryButton]
+                RecipeBottomActionBar(buttons: bottomBtns)
             }
         }
         .navigationTitle("Add Recipe")

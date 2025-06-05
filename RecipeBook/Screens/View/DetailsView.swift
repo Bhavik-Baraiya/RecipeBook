@@ -50,7 +50,7 @@ struct DetailsView: View {
                 Spacer()
             }
             
-            Text(content)
+            Text(content.isEmpty ? "No data available" : content)
                 .font(.subheadline)
                 .multilineTextAlignment(.leading)
         }
@@ -59,7 +59,7 @@ struct DetailsView: View {
         .background(
             .thinMaterial
         )
-        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 
