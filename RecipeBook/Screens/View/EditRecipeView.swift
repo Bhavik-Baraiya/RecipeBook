@@ -154,17 +154,6 @@ struct EditRecipeView: View {
                     }
                     
                 })
-                let primaryButton = BottomActionButton(title: "Update",action: {
-                    updateImagesLocally()
-                    dismiss()
-                })
-                let secondaryButton = BottomActionButton(title: "Cancel", action: {
-                    dismiss()
-                })
-                
-                let bottomBtns = [primaryButton, secondaryButton]
-                RecipeBottomActionBar(buttons: bottomBtns)
-                
                 .onChange(of: selectedItems, {
                     checkWarningMessageStatus()
                     Task {
@@ -183,12 +172,18 @@ struct EditRecipeView: View {
                         }
                     }
                 })
-
+                let primaryButton = BottomActionButton(title: "Update",action: {
+                    updateImagesLocally()
+                    dismiss()
+                })
+                let secondaryButton = BottomActionButton(title: "Cancel", action: {
+                    dismiss()
+                })
+                
+                let bottomBtns = [primaryButton, secondaryButton]
+                RecipeBottomActionBar(buttons: bottomBtns)
             }
         }
-        .background(
-            .thinMaterial
-        )
         .navigationTitle("Update Recipe")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: {

@@ -9,8 +9,8 @@ import SwiftData
 import SwiftUI
 
 let definedColumns = [
-    GridItem(.flexible(), spacing: 5),
-    GridItem(.flexible(), spacing: 5)
+    GridItem(.flexible(), spacing: 10),
+    GridItem(.flexible(), spacing: 10)
 ]
 
 struct RecipeListView: View {
@@ -46,6 +46,7 @@ struct RecipeListView: View {
                                 }
                             }
                         }
+                        .padding(.horizontal)
                     } else {
                         List(recipes) { recipeItem in
                             NavigationLink(destination: RecipeView(recipe: recipeItem)) {

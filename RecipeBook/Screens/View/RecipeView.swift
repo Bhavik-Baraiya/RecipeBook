@@ -20,10 +20,11 @@ struct RecipeView: View {
                 
                 ScrollView(.vertical) {
                     
-                    VStack(spacing: 20) {
+                    VStack(spacing: 0) {
                         BannerView(images: $recipe.imageNames.wrappedValue)
                             .frame(height: 300)
                             .padding(.horizontal)
+                            .padding(.vertical)
                         
                         recipeHeaderView()
                         

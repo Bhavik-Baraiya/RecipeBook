@@ -56,7 +56,7 @@ struct RecipeListItemGridCell: View {
                         }.frame(width: 25,height: 25)
                     }
                         
-                }.frame(width: 170,height: 100)
+                }.frame(width: 150,height: 100)
                     
             }
         }
