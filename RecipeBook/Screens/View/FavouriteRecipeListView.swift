@@ -39,9 +39,10 @@ struct FavouriteRecipeListView: View {
                             
                         }.buttonStyle(PlainButtonStyle())
                     }
-                    .navigationTitle("Favourites")
-                    .navigationBarTitleDisplayMode(.large)
                 }
+                .listRowSpacing(16)
+                .navigationTitle("Favourites")
+                .navigationBarTitleDisplayMode(.large)
             }
         })
     }

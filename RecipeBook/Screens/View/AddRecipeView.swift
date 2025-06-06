@@ -23,10 +23,11 @@ struct AddRecipeView: View {
     
     //Defined categories
     private let categories = [
-        "Indian",
-        "Italian",
-        "French",
-        "Chinese"
+      "Beverage",
+      "Meal",
+      "Dessert",
+      "Snacks",
+      "Soup"
     ]
     
     var body: some View {
@@ -59,7 +60,7 @@ struct AddRecipeView: View {
                             Text(category)
                         }
                     })
-                    Text("You Selected: \(self.selectedCategory)")
+                    Text("You Selected: \(self.$selectedCategory.wrappedValue)")
                         .font(.headline)
                 })
                 

@@ -12,7 +12,7 @@ import PhotosUI
 struct EditRecipeView: View {
     
     @Bindable var recipeData: RecipeData
-    @State var selectedCategory = "Indian"
+    @State var selectedCategory:String = "Indian"
     @State var selectedItems:[PhotosPickerItem] = []
     @State var selectedImages: [UIImage] = []
     @State var showWarningMessage: Bool = false
@@ -20,10 +20,11 @@ struct EditRecipeView: View {
     
     //Defined categories
     private let categories = [
-        "Indian",
-        "Italian",
-        "French",
-        "Chinese"
+      "Beverage",
+      "Meal",
+      "Dessert",
+      "Snacks",
+      "Soup"
     ]
     
     var body: some View {
@@ -50,7 +51,7 @@ struct EditRecipeView: View {
                 )
                 
                 VStack(alignment: .leading,spacing: 20.0, content: {
-                    Text("You Selected: \(selectedCategory)")
+                    Text("You Selected: \($recipeData.category.wrappedValue)")
                         .font(.headline)
                     Picker("Select category", selection: $recipeData.category, content: {
                         ForEach(categories, id: \.self) { category in
