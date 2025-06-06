@@ -12,6 +12,7 @@ struct DeletePopupView: View {
     @State private var offset:CGFloat = 1000
     @Binding var isPopupDisplayed:Bool
     @Bindable var recipeData: RecipeData
+    @Binding var refreshPage: Bool
     @Environment(\.modelContext) var recipeModelContext
     var body: some View {
         
@@ -43,7 +44,10 @@ struct DeletePopupView: View {
                     }.buttonStyle(.bordered)
                     
                     Button(action: {
-                        recipeModelContext.delete(recipeData)
+                        let dataManager = DataManager.init(modelContext: recipeModelContext)
+                        dataManager.delete(data: recipeData)
+                        refreshPage.toggle()
+                        closePopup()
                     }) {
                         Text("Delete")
                             .foregroundStyle(.accent)
@@ -74,5 +78,5 @@ struct DeletePopupView: View {
 }
 
 #Preview {
-    DeletePopupView(isPopupDisplayed: .constant(true), recipeData:  RecipeData(title: "", ingredients: "", instructions: "", category: "", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true))
+    DeletePopupView(isPopupDisplayed: .constant(true), recipeData:  RecipeData(title: "", ingredients: "", instructions: "", category: "", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true), refreshPage: .constant(false))
 }

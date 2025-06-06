@@ -18,7 +18,7 @@ class RecipeData {
     var imageNames: [String]
     var isFavourite: Bool
     
-    init(title: String, ingredients: String, instructions: String, category: String = "", preparationTimeInHours: Int = 0, preparationTimeInMinutes: Int = 0, imageNames: [String], isFavourite: Bool = false) {
+    init(title: String = "", ingredients: String = "", instructions: String = "", category: String = "", preparationTimeInHours: Int = 0, preparationTimeInMinutes: Int = 0, imageNames: [String] = [], isFavourite: Bool = false) {
         self.title = title
         self.ingredients = ingredients
         self.instructions = instructions

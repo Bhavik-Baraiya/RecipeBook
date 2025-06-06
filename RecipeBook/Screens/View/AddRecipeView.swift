@@ -12,11 +12,12 @@ import SwiftUI
 
 struct AddRecipeView: View {
     
-    @State var recipeData = RecipeData(title: "", ingredients: "", instructions: "", imageNames: [""])
+    @State var recipeData = RecipeData()
     @State var selectedCategory = "Indian"
     @State var selectedItems:[PhotosPickerItem] = []
     @State var selectedImages: [UIImage] = []
     @State var showWarningMessage: Bool = false
+    @Binding var dataReloadRequest: Bool
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var recipeModelContext
     
@@ -158,8 +159,10 @@ struct AddRecipeView: View {
                     }
                 })
                 let primaryButton = BottomActionButton(title: "Add",action: {
-                    recipeModelContext.insert(recipeData)
-                    updateImagesLocally()
+                    let datamanager = DataManager(modelContext: recipeModelContext)
+                    datamanager.insert(data: recipeData)
+                    saveImagesLocally()
+                    dataReloadRequest.toggle()
                     dismiss()
                 })
                 let secondaryButton = BottomActionButton(title: "Cancel", action: {
@@ -182,7 +185,7 @@ struct AddRecipeView: View {
         })
     }
     
-    private func updateImagesLocally() {
+    private func saveImagesLocally() {
         $recipeData.imageNames.wrappedValue.removeAll()
         for index in 0..<selectedImages.count {
             ImageStorageManager.saveImageToDocuments(
@@ -218,5 +221,5 @@ struct AddRecipeView: View {
 }
 
 #Preview {
-    AddRecipeView()
+    AddRecipeView(dataReloadRequest: .constant(false))
 }

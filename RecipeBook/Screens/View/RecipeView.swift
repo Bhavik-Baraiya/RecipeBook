@@ -11,6 +11,8 @@ struct RecipeView: View {
     
     @Bindable var recipe: RecipeData
     @State var displayPopup: Bool = false
+    @State var perfromBack: Bool = false
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
             
@@ -21,7 +23,7 @@ struct RecipeView: View {
                     VStack(spacing: 20) {
                         BannerView(images: $recipe.imageNames.wrappedValue)
                             .frame(height: 300)
-                            .padding(.horizontal, 5)
+                            .padding(.horizontal)
                         
                         recipeHeaderView()
                         
@@ -30,7 +32,7 @@ struct RecipeView: View {
                 }
                 
                 if(displayPopup) {
-                    DeletePopupView(isPopupDisplayed: $displayPopup, recipeData: recipe)
+                    DeletePopupView(isPopupDisplayed: $displayPopup, recipeData: recipe, refreshPage: $perfromBack)
                 }
             }
             .toolbar {
@@ -64,6 +66,9 @@ struct RecipeView: View {
                 }
                 
         }
+        .onChange(of: perfromBack, {
+            dismiss()
+        })
         .navigationTitle(recipe.title)
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -83,6 +88,8 @@ struct RecipeView: View {
         
         HStack(alignment:.center, spacing: 20) {
             
+            Spacer().frame(width: 0)
+            
             ForEach(headerData, id: \.id) { item in
                 self.getHeaderImageText(imageName: item.systemImage, title: item.title)
             }
@@ -94,8 +101,15 @@ struct RecipeView: View {
             }, label: {
                 Image(systemName: recipe.isFavourite ? "heart.fill" : "heart")
             })
+            
+            Spacer().frame(width: 0)
         }
-        .padding()
+        .frame(height: 60.0)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(.thinMaterial)
+        )
+        .padding(.horizontal)
     }
     
     

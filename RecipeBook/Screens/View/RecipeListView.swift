@@ -15,53 +15,52 @@ let definedColumns = [
 
 struct RecipeListView: View {
     
-    //AppStorages
+    // MARK: - AppStorage
     @AppStorage("grid-mode") var gridMode: Bool = false
     
-    @Query var recipes: [RecipeData]
+    // MARK: - Environment
+    @Environment(\.modelContext) var recipeModelContext
+    
+    // MARK: - State
+    @State private var recipes: [RecipeData] = []
+    @State private var shouldRefresh = false
+    
     var body: some View {
         
-        NavigationView {
-            
+        NavigationStack {
             Group {
-                
-                if(recipes.count > 0) {
-                    
-                    if(gridMode) {
+                if recipes.isEmpty {
+                    let contentUnavailabelData = CustomContentUnavailableModel(title: "No recipes available!", message: "Tap on + icon at top right corner to add your recipe",systemImage: "square.stack.3d.up")
+                    CustomContentUnavailableView(contentUnavailableData: contentUnavailabelData)
+                    .foregroundStyle(.accent)
+                    .padding(20)
+                } else {
+                    if gridMode {
                         ScrollView {
-                            LazyVGrid(columns: definedColumns, content: {
+                            LazyVGrid(columns: definedColumns) {
                                 ForEach(recipes) { recipeItem in
-                                    
-                                    NavigationLink(destination: RecipeView(recipe: recipeItem)){
-                                        
+                                    NavigationLink(destination: RecipeView(recipe: recipeItem)) {
                                         RecipeListItemGridCell(recipeData: recipeItem)
-                                        
-                                    }.buttonStyle(PlainButtonStyle())
-                                }
-                            }).padding(.leading, 20)
-                        }
-                        
-                    } else {
-                        List {
-                            ForEach(recipes) { item in
-                                NavigationLink(destination: RecipeView(recipe: item)) {
-                                    RecipeListItemCell(recipeData: item)
+                                    }
+                                    .buttonStyle(.plain)
                                 }
                             }
                         }
+                    } else {
+                        List(recipes) { recipeItem in
+                            NavigationLink(destination: RecipeView(recipe: recipeItem)) {
+                                RecipeListItemCell(recipeData: recipeItem)
+                            }
+                        }
                     }
-                } else {
-                    let contentUnavailabelData = CustomContentUnavailableModel(title: "No recipes available!", message: "Tap on + icon at top right corner to add your recipe",systemImage: "square.stack.3d.up")
-                    CustomContentUnavailableView(contentUnavailableData: contentUnavailabelData)
                 }
             }
             .navigationTitle("Recipes")
-            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing, content: {
-
+                    
                     NavigationLink {
-                        AddRecipeView()
+                        AddRecipeView(dataReloadRequest: $shouldRefresh)
                     } label:{
                         Image(systemName: "plus.circle")
                             .imageScale(.large)
@@ -69,10 +68,18 @@ struct RecipeListView: View {
                     }
                 })
             }
+            .onAppear {
+                loadData()
+            }
+            .onChange(of: shouldRefresh, {
+                loadData()
+            })
         }
-        .onAppear(perform: {
-            FileHandler.createAppDocumentDirectory()
-        })
+    }
+    
+    private func loadData() {
+        let manager = DataManager.init(modelContext: recipeModelContext)
+        recipes = manager.fetch()
     }
 }
 

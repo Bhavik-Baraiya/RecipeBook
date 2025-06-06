@@ -31,51 +31,24 @@ struct EditRecipeView: View {
         
         VStack {
             Form {
-                VStack(alignment: .leading,spacing: 20.0, content: {
-                    Text("Recipe title")
-                        .font(.headline)
-                    TextField("Enter recipe title", text: $recipeData.title)
-                        .tint(.accentColor)
-                })
                 
-                VStack(alignment: .leading,spacing: 20.0, content: {
-                    Text("Recipe ingredients ")
-                        .font(.headline)
-                    
-                    ZStack(alignment: .leading) {
-                        if $recipeData.ingredients.wrappedValue.isEmpty {
-                            Text("Enter recipe ingredients")
-                                .font(.custom("Helvetica", size: 16))
-                                .padding(.all)
-                                .foregroundStyle(Color.secondary.opacity(0.5))
-                                .offset(x:0, y: -4)
-                        }
-                            
-                        TextEditor(text: $recipeData.ingredients)
-                            .font(.callout)
-                            .padding(10)
-                        
-                    }
-                })
+                recipeInputView(
+                    headLabelText: "Recipe title",
+                    placeHolder: "Enter recipe title",
+                    textData: $recipeData.title
+                )
                 
-                VStack(alignment: .leading,spacing: 20.0, content: {
-                    Text("Recipe instructions ")
-                        .font(.headline)
-                    
-                    ZStack(alignment: .leading) {
-                        if $recipeData.instructions.wrappedValue.isEmpty {
-                            Text("Enter recipe instructions")
-                                .font(.custom("Helvetica", size: 16))
-                                .padding(.all)
-                                .foregroundStyle(Color.secondary.opacity(0.5))
-                                .offset(x:0, y: -4)
-                        }
-                            
-                        TextEditor(text: $recipeData.instructions)
-                            .font(.callout)
-                            .padding(10)
-                    }
-                })
+                recipeInputView(
+                    headLabelText: "Recipe ingredients",
+                    placeHolder: "Enter recipe ingredients",
+                    textData: $recipeData.ingredients
+                )
+                
+                recipeInputView(
+                    headLabelText: "Recipe instructions",
+                    placeHolder: "Enter recipe instructions",
+                    textData: $recipeData.instructions
+                )
                 
                 VStack(alignment: .leading,spacing: 20.0, content: {
                     Text("You Selected: \(selectedCategory)")
@@ -266,7 +239,22 @@ struct EditRecipeView: View {
         })
         
         let bottomBtns = [primaryButton, secondaryButton]
-        RecipeBottomActionBar(buttons: bottomBtns)
+        let _ = RecipeBottomActionBar(buttons: bottomBtns)
+    }
+    
+    @ViewBuilder
+    private func recipeInputView(headLabelText: String, placeHolder: String, textData: Binding<String>) -> some View{
+        VStack(alignment: .leading,spacing: 20.0, content: {
+            Text(headLabelText)
+                .font(.headline)
+            
+            TextField(
+                placeHolder,
+                text: textData,
+                axis: .vertical
+            )
+            .tint(.accentColor)
+        })
     }
 }
 

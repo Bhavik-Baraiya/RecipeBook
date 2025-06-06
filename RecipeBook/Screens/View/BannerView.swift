@@ -31,7 +31,6 @@ struct BannerView: View {
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
         .frame(height: 300)
         .clipShape(RoundedRectangle(cornerRadius: 16))
-        .padding(.horizontal, 20)
     }
 
     @ViewBuilder
