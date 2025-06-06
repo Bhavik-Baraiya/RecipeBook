@@ -160,6 +160,7 @@ struct AddRecipeView: View {
                 })
                 let primaryButton = BottomActionButton(title: "Add",action: {
                     let datamanager = DataManager(modelContext: recipeModelContext)
+                    recipeData.category = self.selectedCategory
                     datamanager.insert(data: recipeData)
                     saveImagesLocally()
                     dataReloadRequest.toggle()

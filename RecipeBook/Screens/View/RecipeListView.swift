@@ -53,6 +53,7 @@ struct RecipeListView: View {
                                 RecipeListItemCell(recipeData: recipeItem)
                             }
                         }
+                        .listRowSpacing(16)
                     }
                 }
             }

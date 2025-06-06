@@ -22,9 +22,8 @@ struct EditRecipeView: View {
     private let categories = [
         "Indian",
         "Italian",
-        "Breakfast",
-        "Salad",
-        "Dessert"
+        "French",
+        "Chinese"
     ]
     
     var body: some View {

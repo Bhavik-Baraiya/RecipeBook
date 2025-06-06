@@ -28,13 +28,11 @@ struct RecipeListItemCell: View {
                     
                 
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading,spacing:20) {
                 Text($recipeData.title.wrappedValue)
                     .font(.title2)
                     .fontWeight(.heavy)
                     .foregroundColor(Color.secondaryApp)
-                
-                Spacer()
                 
                 Text($recipeData.category.wrappedValue)
                     .font(.title3)
