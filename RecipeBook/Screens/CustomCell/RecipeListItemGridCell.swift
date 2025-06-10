@@ -24,8 +24,7 @@ struct RecipeListItemGridCell: View {
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(height: 110)
-                    .padding(.vertical)
+                    .frame(width: 150,height: 150)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .background(Color(Utilities.getRandomPlaceHolderColor())
                         .cornerRadius(20))
