@@ -24,7 +24,8 @@ struct RecipeListItemGridCell: View {
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 130, height: 140)
+                    .frame(height: 110)
+                    .padding(.vertical)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .background(Color(Utilities.getRandomPlaceHolderColor())
                         .cornerRadius(20))
@@ -34,16 +35,18 @@ struct RecipeListItemGridCell: View {
                         .font(.title3)
                         .fontWeight(.heavy)
                         .foregroundColor(.accent)
-                        .frame(minWidth: 50)
+                        .frame(minWidth: 90)
                     
                     Spacer().frame(height: 20)
                     
-                    HStack(alignment:.center,spacing: 50) {
+                    HStack(alignment:.center) {
                         Text($recipeData.category.wrappedValue)
-                            .font(.subheadline)
+                            .font(.headline)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.leading)
                             .lineLimit(5)
+                        
+                        Spacer()
                         
                         Button(action: {
                             $recipeData.isFavourite.wrappedValue.toggle()
@@ -52,7 +55,7 @@ struct RecipeListItemGridCell: View {
                                 .resizable()
                                 .scaledToFill()
                         }.frame(width: 25,height: 25)
-                    }.frame(width: 130)
+                    }
                 }
             }.frame(width: 150,height: 220)
         }
@@ -60,5 +63,5 @@ struct RecipeListItemGridCell: View {
 }
 
 #Preview {
-    RecipeListItemGridCell(recipeData: RecipeData(title: "Apple Juice", ingredients: "", instructions: "", category: "Salad", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true))
+    RecipeListItemGridCell(recipeData: RecipeData(title: "Sample Recipe", ingredients: "", instructions: "", category: "Salad", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true))
 }
