@@ -18,7 +18,8 @@ struct FavouriteRecipeListView: View {
     }
     
     var body: some View {
-        NavigationView(content: {
+        
+        NavigationStack {
             
             if(favoriteRecipes.isEmpty) {
                 
@@ -44,7 +45,7 @@ struct FavouriteRecipeListView: View {
                 .navigationTitle("Favourites")
                 .navigationBarTitleDisplayMode(.large)
             }
-        })
+        }
     }
 }
 
