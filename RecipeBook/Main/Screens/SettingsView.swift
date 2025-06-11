@@ -26,8 +26,17 @@ struct SettingsView: View {
         NavigationStack {
             List {
                 ForEach(settingsItem.indices, id: \.self) { index in
-                    SettingsItemCell(settingItem: settingsItem[index])
-                        .frame(height: 60)
+    
+                    Group {
+                        if(settingsItem[index].name == aboutSettingsOption) {
+                            NavigationLink(destination: AboutView()) {
+                                SettingsItemCell(settingItem: settingsItem[index])
+                            }
+                        } else {
+                            SettingsItemCell(settingItem: settingsItem[index])
+                        }
+                    }
+                    .frame(height:60.0)
                 }
             }
             .navigationTitle("Settings")
