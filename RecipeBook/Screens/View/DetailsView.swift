@@ -27,10 +27,8 @@ struct DetailsView: View {
         VStack(alignment: .leading, spacing: 15, content: {
             
             recipeBody(iconImage: "tag.fill",headline: "Category:", content: recipeData.category)
-            recipeBody(iconImage: "list.clipboard.fill",headline: "Description:", content: recipeData.instructions)
             recipeBody(iconImage: "checklist.checked",headline: "Ingredients:", content: recipeData.ingredients)
             recipeBody(iconImage: "list.triangle",headline: "Instructions:", content: recipeData.instructions)
-            recipeBody(iconImage: "lightbulb.min.fill",headline: "Tips:", content: recipeData.instructions)
         })
         .padding()
     }

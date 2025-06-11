@@ -83,8 +83,8 @@ struct RecipeView: View {
         
         let headerData = [
             RecipeHeaderViewContent(systemImage: "clock", title: prepTime),
-            RecipeHeaderViewContent(systemImage: "person", title: "1-2"),
-            RecipeHeaderViewContent(systemImage: "fork.knife", title: "Desert"),
+            //RecipeHeaderViewContent(systemImage: "person", title: "1-2"),
+            //RecipeHeaderViewContent(systemImage: "fork.knife", title: "Desert"),
         ]
         
         HStack(alignment:.center, spacing: 20) {
