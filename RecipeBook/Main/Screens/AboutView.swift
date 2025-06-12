@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AboutView: View {
     
+    @AppStorage(darkModeSupport) var isDarkModeEnabled:Bool = false
+    
     var body: some View {
         
         NavigationStack {
@@ -21,6 +23,11 @@ struct AboutView: View {
                             .resizable()
                             .frame(width: 100,height: 100)
                             .offset(x:-14)
+                            .shadow(
+                                color: isDarkModeEnabled ? Color("BackgroundTransparentDark") : Color("BackgroundTransparentLight"),
+                                    radius: 3,
+                                    x: 1,
+                                    y: 1)
                         Text("RecipeBook")
                             .font(.title)
                             .fontWeight(.bold)
@@ -30,16 +37,16 @@ struct AboutView: View {
                     
                     aboutBodyView(headingText: "About app", descriptionText: "RecipeBook is your ultimate kitchen companion – whether you’re a beginner or a seasoned chef. Save your favorite recipes, explore new dishes, and create your own personalized cookbook, all in one place.")
                     
-                    aboutBodyView(headingText: "Key Features", descriptionText: "🧑‍🍳 Save and organize your own recipes\n\n🔍 Search by ingredients or dish name\n\n❤️ Mark and share your favorite recipes\n\n🌐 Offline access anytime, anywhere\n\n📸 Add photos and notes to your recipes")
+                    aboutBodyView(headingText: "Key Features", descriptionText: "🧑‍🍳 Save and organize your own recipes\n❤️ Mark and share your favorite recipes\n🌐 Offline access anytime, anywhere\n📸 Add photos and notes to your recipes")
+                        .lineSpacing(20)
                     
                     aboutBodyView(headingText: "Version", descriptionText: "RecipeBook v1.0.0")
                     
                     VStack(alignment:.leading,spacing: 20){
                         Text("Contact & Support")
-                            .font(.title)
-                            .fontWeight(.bold)
+                            .bodyTitleStyle()
                         Text("Have feedback or need help?")
-                            .font(.headline)
+                            .font(.subheadline)
                         
                         VStack(alignment:.leading) {
                             HStack {
@@ -51,6 +58,7 @@ struct AboutView: View {
                                 Link("www.recipebook.app", destination: URL(string: "www.recipebook.app")!)
                             }
                         }
+                        .font(.footnote)
                     }//Footer
                 }
                 .padding()
@@ -65,12 +73,11 @@ struct AboutView: View {
     
    
     func aboutBodyView(headingText:String, descriptionText:String) -> some View{
-        VStack(alignment:.leading,spacing: 10){
+        VStack(alignment:.leading,spacing: 20){
             Text(headingText)
-                .font(.title2)
-                .fontWeight(.bold)
+                .bodyTitleStyle()
             Text(descriptionText)
-                .font(.callout)
+                .bodyTextStyle()
         }
     }
     
