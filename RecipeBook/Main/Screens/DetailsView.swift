@@ -40,19 +40,14 @@ struct DetailsView: View {
             
             HStack {
                 Image(systemName: iconImage)
-                
                 Text(headline)
-                    .font(.title3)
-                    .fontWeight(.bold)
-                
                 Spacer()
             }
+            .bodyTitleStyle()
             
             Text(content.isEmpty ? "No data available" : content)
-                .font(.subheadline)
-                .multilineTextAlignment(.leading)
+                .bodyTextStyle()
         }
-        
         .padding()
         .background(
             .thinMaterial
