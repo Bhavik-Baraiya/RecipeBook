@@ -18,7 +18,7 @@ struct TimeSetterView: View {
     var body: some View {
     
         VStack(alignment: .leading, spacing: 0) {
-            Text("Preparation time")
+            Text(label_PreparationTimeText)
                 .font(.headline)
             
             HStack(spacing: 10) {
@@ -40,7 +40,7 @@ struct TimeSetterView: View {
                 .clipped()
             }
             
-            Text("Selected Time: \(selectedHour)h \(selectedMinutes)m")
+            Text("\(label_SelectedTimeText): \(selectedHour)h \(selectedMinutes)m")
                 .font(.subheadline)
                 .foregroundColor(.gray)
         }

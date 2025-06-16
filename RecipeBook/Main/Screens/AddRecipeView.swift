@@ -36,31 +36,31 @@ struct AddRecipeView: View {
             Form {
                 
                 recipeInputView(
-                    headLabelText: "Recipe title",
-                    placeHolder: "Enter recipe title",
+                    headLabelText: label_RecipeTitleText,
+                    placeHolder: placeHolder_RecipeTitle,
                     textData: $recipeData.title
                 )
                 
                 recipeInputView(
-                    headLabelText: "Recipe ingredients",
-                    placeHolder: "Enter recipe ingredients",
+                    headLabelText: label_RecipeIngredientsText,
+                    placeHolder: placeHolder_RecipeIngredients.capitalized,
                     textData: $recipeData.ingredients
                 )
                 
                 recipeInputView(
-                    headLabelText: "Recipe instructions",
-                    placeHolder: "Enter recipe instructions",
+                    headLabelText: label_RecipeInstructionsText,
+                    placeHolder: placeHolder_RecipeInstructions.capitalized,
                     textData: $recipeData.instructions
                 )
                 
                 VStack(alignment: .leading,spacing: 20.0, content: {
                     
-                    Picker("Select category", selection: self.$selectedCategory, content: {
+                    Picker(label_SelectCategoryText, selection: self.$selectedCategory, content: {
                         ForEach(categories, id: \.self) { category in
                             Text(category)
                         }
                     })
-                    Text("You Selected: \(self.$selectedCategory.wrappedValue)")
+                    Text("\(label_SelectedCategoryText) \(self.$selectedCategory.wrappedValue)")
                         .font(.headline)
                 })
                 
@@ -70,16 +70,16 @@ struct AddRecipeView: View {
                 
                 VStack(alignment: .leading,spacing: 20.0, content: {
                     
-                    Text("Update pictures")
+                    Text(label_AddPicturesText)
                         .font(.headline)
-                    Text("*You can upload maximum 5 pictures")
+                    Text(maxUploadWarning_Message)
                         .font(.footnote)
                         .foregroundStyle(.accent)
                     
                     if $recipeData.imageNames.wrappedValue.count > 4 {
                     
                         if showWarningMessage {
-                            Text("You have to remove the addded photos in order to update")
+                            Text(removeUploadedMedia_Message)
                                 .font(.footnote)
                                 .foregroundStyle(.accent)
                         }
@@ -113,7 +113,7 @@ struct AddRecipeView: View {
                         }
                     } else {
                         let maxImageSelectionLimit = 5
-                        PhotosPicker("Add pictures", selection: $selectedItems, maxSelectionCount: maxImageSelectionLimit, matching: .images)
+                        PhotosPicker(label_UploadText, selection: $selectedItems, maxSelectionCount: maxImageSelectionLimit, matching: .images)
                             .buttonStyle(.bordered)
                         ScrollView(.horizontal) {
                             HStack(spacing: 10) {
