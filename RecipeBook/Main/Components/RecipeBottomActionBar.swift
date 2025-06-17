@@ -25,7 +25,7 @@ struct RecipeBottomActionBar: View {
             
             if let buttons = buttons {
                 ForEach(buttons, id: \.id) { button in
-                    Spacer()
+                    Spacer().frame(width: 40)
                     Button(action: {
                         button.action?()
                     })
@@ -41,13 +41,18 @@ struct RecipeBottomActionBar: View {
                         }
                         
                         Text(button.title ?? "")
+                            .font(.callout).fontDesign(.rounded)
                             .foregroundStyle(Color.primary)
-                            .padding(10)
                     }
-                    .frame(width: 120.0)
-                    .buttonStyle(.bordered)
+                    .frame(width: 120.0,height: 55.0)
                     .padding(.vertical)
-                    Spacer()
+                    .background(content: {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.gray.opacity(0.2))
+                            .padding(.vertical)
+                    })
+                    
+                    Spacer().frame(width: 40)
                 }
             }
         }
@@ -55,7 +60,6 @@ struct RecipeBottomActionBar: View {
             RoundedRectangle(cornerRadius: 10)
                 .fill(.clear)
         )
-        .padding(.horizontal)
        
     }
 }
