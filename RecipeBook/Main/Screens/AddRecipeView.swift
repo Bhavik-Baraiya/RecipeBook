@@ -13,10 +13,12 @@ import SwiftUI
 struct AddRecipeView: View {
     
     @State var recipeData = RecipeData()
-    @State var selectedCategory = "Indian"
+    @State var selectedCategory = "None"
     @State var selectedItems:[PhotosPickerItem] = []
     @State var selectedImages: [UIImage] = []
     @State var showWarningMessage: Bool = false
+    @State var showInformationRequiredAlert: Bool = false
+    @State private var validationError: RecipeValidationError?
     @Binding var dataReloadRequest: Bool
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var recipeModelContext
@@ -159,14 +161,7 @@ struct AddRecipeView: View {
                         }
                     }
                 })
-                let primaryButton = BottomActionButton(title: "Add",action: {
-                    let datamanager = DataManager(modelContext: recipeModelContext)
-                    recipeData.category = self.selectedCategory
-                    datamanager.insert(data: recipeData)
-                    saveImagesLocally()
-                    dataReloadRequest.toggle()
-                    dismiss()
-                })
+                let primaryButton = BottomActionButton(title: "Add", action: handleAddAction)
                 let secondaryButton = BottomActionButton(title: "Cancel", action: {
                     dismiss()
                 })
@@ -175,6 +170,12 @@ struct AddRecipeView: View {
                 RecipeBottomActionBar(buttons: bottomBtns)
             }
         }
+        .alert(popupTitle_InformationRequired, isPresented: $showInformationRequiredAlert) {
+            Button("Dismiss", role: .cancel) {
+                showInformationRequiredAlert = false
+            }
+        } message: {
+            Text(validationError?.errorDescription ?? "An unknown error occurred.")        }
         .navigationTitle("Add Recipe")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: {
@@ -185,6 +186,35 @@ struct AddRecipeView: View {
             }
             checkWarningMessageStatus()
         })
+    }
+    
+    private func handleAddAction() {
+        do {
+            try Validator.validateRecipe(
+                title: recipeData.title,
+                ingredients: recipeData.ingredients,
+                instructions: recipeData.instructions,
+                category: selectedCategory,
+                prepTimeInHour:recipeData.preparationTimeInHours,
+                prepTimeInMinute: recipeData.preparationTimeInMinutes,
+                images: selectedImages
+            )
+            performSaveOperation()
+            dismiss()
+        } catch let error as RecipeValidationError {
+            validationError = error
+            showInformationRequiredAlert = true
+        } catch {
+            showInformationRequiredAlert = true
+        }
+    }
+    
+    private func performSaveOperation() {
+        let datamanager = DataManager(modelContext: recipeModelContext)
+        datamanager.insert(data: recipeData)
+        recipeData.category = self.selectedCategory
+        saveImagesLocally()
+        dataReloadRequest.toggle()
     }
     
     private func saveImagesLocally() {

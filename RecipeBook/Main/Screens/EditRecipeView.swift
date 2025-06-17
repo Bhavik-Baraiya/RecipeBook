@@ -12,7 +12,7 @@ import PhotosUI
 struct EditRecipeView: View {
     
     @Bindable var recipeData: RecipeData
-    @State var selectedCategory:String = "Indian"
+    @State var selectedCategory = "None"
     @State var selectedItems:[PhotosPickerItem] = []
     @State var selectedImages: [UIImage] = []
     @State var showWarningMessage: Bool = false
