@@ -16,6 +16,8 @@ struct EditRecipeView: View {
     @State var selectedItems:[PhotosPickerItem] = []
     @State var selectedImages: [UIImage] = []
     @State var showWarningMessage: Bool = false
+    @State var showInformationRequiredAlert: Bool = false
+    @State private var validationError: RecipeValidationError?
     @Environment(\.dismiss) var dismiss
     
     //Defined categories
@@ -172,10 +174,7 @@ struct EditRecipeView: View {
                         }
                     }
                 })
-                let primaryButton = BottomActionButton(title: "Update",action: {
-                    updateImagesLocally()
-                    dismiss()
-                })
+                let primaryButton = BottomActionButton(title: "Update",action:handleUpdate)
                 let secondaryButton = BottomActionButton(title: "Cancel", action: {
                     dismiss()
                 })
@@ -184,12 +183,45 @@ struct EditRecipeView: View {
                 RecipeBottomActionBar(buttons: bottomBtns)
             }
         }
+        .alert(popupTitle_InformationRequired, isPresented: $showInformationRequiredAlert) {
+            Button("Dismiss", role: .cancel) {
+                showInformationRequiredAlert = false
+            }
+        } message: {
+            Text(validationError?.errorDescription ?? "An unknown error occurred.")
+        }
         .navigationTitle("Update Recipe")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: {
             loadRecipeImages()
             checkWarningMessageStatus()
         })
+    }
+    
+    private func handleUpdate() {
+        do {
+            try Validator.validateRecipe(
+                title: recipeData.title,
+                ingredients: recipeData.ingredients,
+                instructions: recipeData.instructions,
+                category: recipeData.category,
+                prepTimeInHour:recipeData.preparationTimeInHours,
+                prepTimeInMinute: recipeData.preparationTimeInMinutes,
+                images: selectedImages
+            )
+            performUpdateOperation()
+            dismiss()
+        } catch let error as RecipeValidationError {
+            validationError = error
+            showInformationRequiredAlert = true
+        } catch {
+            showInformationRequiredAlert = true
+        }
+    }
+    
+    private func performUpdateOperation() {
+        updateImagesLocally()
+        dismiss()
     }
     
     private func updateImagesLocally() {

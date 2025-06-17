@@ -49,8 +49,19 @@ enum RecipeValidationError: Error, LocalizedError {
 }
 
 extension String {
-    var isAlphabetical: Bool {
-        let allowedCharacters = CharacterSet.letters.union(.whitespaces)
-        return !self.isEmpty && self.rangeOfCharacter(from: allowedCharacters.inverted) == nil
+    var isRecipeDetailValid: Bool {
+        let trimmed = self.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else { return false }
+        let allowedPunctuation = CharacterSet(charactersIn: ",()-")
+        let allowedCharacters = CharacterSet.letters
+            .union(.decimalDigits)
+            .union(.whitespaces)
+            .union(allowedPunctuation)
+        guard self.rangeOfCharacter(from: allowedCharacters.inverted) == nil else { return false }
+        guard self.contains(where: { $0.isLetter }) else { return false }
+        let digitOnlySet = CharacterSet.decimalDigits
+        let nonDigitOrWhitespace = self.contains(where: { !($0.isWhitespace || digitOnlySet.contains($0.unicodeScalars.first!)) })
+        
+        return nonDigitOrWhitespace
     }
 }

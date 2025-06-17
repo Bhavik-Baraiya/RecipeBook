@@ -175,7 +175,8 @@ struct AddRecipeView: View {
                 showInformationRequiredAlert = false
             }
         } message: {
-            Text(validationError?.errorDescription ?? "An unknown error occurred.")        }
+            Text(validationError?.errorDescription ?? "An unknown error occurred.")
+        }
         .navigationTitle("Add Recipe")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: {

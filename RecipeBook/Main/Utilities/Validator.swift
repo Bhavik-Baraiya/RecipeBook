@@ -21,7 +21,7 @@ class Validator {
         if trimmedTitle.isEmpty {
             throw RecipeValidationError.missingTitle
         }
-        if !trimmedTitle.isAlphabetical {
+        if !trimmedTitle.isRecipeDetailValid {
             throw RecipeValidationError.invalidTitle
         }
         
@@ -29,7 +29,7 @@ class Validator {
         if trimmedIngredients.isEmpty {
             throw RecipeValidationError.missingIngredients
         }
-        if !trimmedIngredients.isAlphabetical {
+        if !trimmedIngredients.isRecipeDetailValid {
             throw RecipeValidationError.invalidIngredients
         }
 
@@ -37,7 +37,7 @@ class Validator {
         if trimmedInstructions.isEmpty {
             throw RecipeValidationError.missingInstructions
         }
-        if !trimmedInstructions.isAlphabetical {
+        if !trimmedInstructions.isRecipeDetailValid {
             throw RecipeValidationError.invalidInstructions
         }
 
