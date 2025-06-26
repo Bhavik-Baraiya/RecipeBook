@@ -29,7 +29,11 @@ struct SettingsView: View {
     
                     Group {
                         if(settingsItem[index].name == aboutSettingsOption) {
-                            NavigationLink(destination: AboutView()) {
+                            
+                            ZStack {
+                                NavigationLink(destination: AboutView()) {
+                                    SettingsItemCell(settingItem: settingsItem[index])
+                                }.opacity(0)
                                 SettingsItemCell(settingItem: settingsItem[index])
                             }
                         } else {

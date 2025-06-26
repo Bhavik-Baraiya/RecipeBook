@@ -47,6 +47,8 @@ struct SettingsItemCell: View {
                     .font(.subheadline)
                     .foregroundColor(.primary)
                     .fontWeight(.medium)
+                
+                Spacer()
             }
 
         }
