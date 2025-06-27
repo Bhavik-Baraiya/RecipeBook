@@ -25,7 +25,9 @@ struct RecipeBottomActionBar: View {
             
             if let buttons = buttons {
                 ForEach(buttons, id: \.id) { button in
-                    Spacer().frame(width: 40)
+                    
+                    bottomBarSpacerView()
+                     
                     Button(action: {
                         button.action?()
                     })
@@ -52,15 +54,19 @@ struct RecipeBottomActionBar: View {
                             .padding(.vertical)
                     })
                     
-                    Spacer().frame(width: 40)
+                    bottomBarSpacerView()
                 }
             }
         }
+        .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .fill(.clear)
         )
-       
+    }
+    
+    func bottomBarSpacerView() -> some View {
+        return Spacer().frame(width: UIDevice.isIPad ? 120 : 40)
     }
 }
 
