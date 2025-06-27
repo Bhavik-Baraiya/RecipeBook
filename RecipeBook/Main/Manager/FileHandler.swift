@@ -9,27 +9,20 @@ import Foundation
 
 class FileHandler {
     
-    static func appDocumentDirectory() -> URL {
-        let DocumentDirectory = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
-        let appPath = DocumentDirectory.appendingPathComponent(appFolderName)
-        let recipeData = appPath?.appendingPathComponent(recipeDataFolderName)
-        guard let recipeImagesPath = recipeData?.appendingPathComponent(recipeImagesFolderName) else { return URL(fileURLWithPath: "")}
-        return recipeImagesPath
-    }
-    
-    static func createAppDocumentDirectory() {
-        let recipeImagesPath = appDocumentDirectory()
-        let defaultFileManger = FileManager.default
-        if(!defaultFileManger.fileExists(atPath: recipeImagesPath.path())) {
-            do
-            {
-                try FileManager.default.createDirectory(atPath: recipeImagesPath.path, withIntermediateDirectories: true, attributes: nil)
-                print("Local Directory: ",recipeImagesPath as Any)
-            }
-            catch let error as NSError
-            {
-                print("Unable to create directory \(error.debugDescription)")
-            }
+    static func appImagesFolderDirectory() -> URL {
+       
+        let fileManager = FileManager.default
+        
+        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        
+        let imgFolderURL = documentsURL.appendingPathComponent("RecipeBook/Recipes/RecipeImages")
+        
+        do {
+            try fileManager.createDirectory(at: imgFolderURL, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print("Failed to create directories: \(error.localizedDescription)")
+            return URL(fileURLWithPath: "")
         }
+        return imgFolderURL
     }
 }

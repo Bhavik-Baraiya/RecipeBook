@@ -81,9 +81,13 @@ struct RecipeView: View {
             "\(recipe.preparationTimeInHours):\(recipe.preparationTimeInMinutes)"
         }
         
+        var recipeLevel: String {
+            getDifficultyLevel(for: recipe.level)
+        }
+        
         let headerData = [
             RecipeHeaderViewContent(systemImage: "clock", title: prepTime),
-            //RecipeHeaderViewContent(systemImage: "person", title: "1-2"),
+            RecipeHeaderViewContent(systemImage: "flame.fill", title: recipeLevel)
             //RecipeHeaderViewContent(systemImage: "fork.knife", title: "Desert"),
         ]
         
@@ -119,6 +123,14 @@ struct RecipeView: View {
         Image(systemName: imageName)
         Text(title)
        }
+    }
+    
+    func getDifficultyLevel(for value: Int) -> String {
+        if let level = DifficultyLevel(rawValue: value) {
+            return level.description
+        } else {
+            return "Unknown"
+        }
     }
 }
 

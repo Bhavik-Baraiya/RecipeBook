@@ -8,6 +8,20 @@
 import Foundation
 import UIKit
 
+enum DifficultyLevel: Int {
+    case low = 0
+    case medium = 1
+    case high = 2
+
+    var description: String {
+        switch self {
+        case .low: return "Low"
+        case .medium: return "Medium"
+        case .high: return "High"
+        }
+    }
+}
+
 enum RecipeValidationError: Error, LocalizedError {
     
     // Missing Fields

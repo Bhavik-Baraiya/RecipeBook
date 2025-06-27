@@ -19,6 +19,7 @@ struct AddRecipeView: View {
     @State var showWarningMessage: Bool = false
     @State var showInformationRequiredAlert: Bool = false
     @State private var validationError: RecipeValidationError?
+    @State private var levelSelection = 0
     @Binding var dataReloadRequest: Bool
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var recipeModelContext
@@ -54,6 +55,22 @@ struct AddRecipeView: View {
                     placeHolder: placeHolder_RecipeInstructions.capitalized,
                     textData: $recipeData.instructions
                 )
+                
+                VStack(alignment:.leading) {
+                    
+                    Text(label_SelectLevelText)
+                        .font(.headline)
+                    
+                    Spacer().frame(height: 20)
+                    
+                    Picker(selection: $levelSelection, label: Text("Picker")) {
+                        Text("Low").tag(0)
+                        Text("Medium").tag(1)
+                        Text("High").tag(2)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    Spacer().frame(height: 15)
+                }
                 
                 VStack(alignment: .leading,spacing: 20.0, content: {
                     
@@ -214,6 +231,7 @@ struct AddRecipeView: View {
         let datamanager = DataManager(modelContext: recipeModelContext)
         datamanager.insert(data: recipeData)
         recipeData.category = self.selectedCategory
+        recipeData.level = self.levelSelection
         saveImagesLocally()
         dataReloadRequest.toggle()
     }

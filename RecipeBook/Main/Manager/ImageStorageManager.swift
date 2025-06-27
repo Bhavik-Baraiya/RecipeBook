@@ -15,7 +15,7 @@ class ImageStorageManager {
             return
         }
         
-        let fileName = FileHandler.appDocumentDirectory().appendingPathComponent("\(name)\(imageFileExtension)")
+        let fileName = FileHandler.appImagesFolderDirectory().appendingPathComponent("\(name)\(imageFileExtension)")
         
         do {
             try data.write(to: fileName)
@@ -27,7 +27,7 @@ class ImageStorageManager {
     
     static func loadImageFromDocuments(name: String) -> UIImage? {
         
-        let path = FileHandler.appDocumentDirectory().appendingPathComponent("\(name)\(imageFileExtension)")
+        let path = FileHandler.appImagesFolderDirectory().appendingPathComponent("\(name)\(imageFileExtension)")
         print("Looking for image at path: \(path.path)")
         return UIImage(contentsOfFile: path.path)
     }
