@@ -17,6 +17,7 @@ struct AddRecipeView: View {
     @State var selectedItems:[PhotosPickerItem] = []
     @State var selectedImages: [UIImage] = []
     @State var showWarningMessage: Bool = false
+    @State var showingAddMediaDialog: Bool = false
     @State var showInformationRequiredAlert: Bool = false
     @State private var validationError: RecipeValidationError?
     @State private var levelSelection = 0
@@ -89,94 +90,26 @@ struct AddRecipeView: View {
                 
                 VStack(alignment: .leading,spacing: 20.0, content: {
                     
-                    Text(label_AddPicturesText)
+                    Text(label_AddMediaText)
                         .font(.headline)
+                    
                     Text(maxUploadWarning_Message)
                         .font(.footnote)
                         .foregroundStyle(.accent)
                     
-                    if $recipeData.imageNames.wrappedValue.count > 4 {
+                    Text(label_UploadMediaText)
+                        .frame(width: .infinity,height: 40.0)
+                        .font(.callout)
+                        .padding(.vertical,10)
+                        .padding(.horizontal,20)
+                        .background(content: {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.gray.opacity(0.2))
+                        })
+                        .onTapGesture(perform: {
+                            showingAddMediaDialog.toggle()
+                        })
                     
-                        if showWarningMessage {
-                            Text(removeUploadedMedia_Message)
-                                .font(.footnote)
-                                .foregroundStyle(.accent)
-                        }
-                        
-                        ScrollView(.horizontal) {
-                            HStack(spacing: 10) {
-                                ForEach(selectedImages.indices, id: \.self) { index in
-                                    
-                                    ZStack(alignment: .topTrailing) {
-                                        Image(uiImage: selectedImages[index])
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 90, height: 90)
-                                            .clipShape(
-                                                RoundedRectangle(cornerRadius: 10)
-                                            )
-                                        
-                                        Button {
-                                            selectedImages.remove(at: index)
-                                        } label: {
-                                            Image(systemName: "xmark.circle.fill")
-                                                .resizable()
-                                                .frame(width: 24, height: 24)
-                                                .foregroundColor(.white)
-                                                .background(Circle().fill(Color.black.opacity(0.6)))
-                                                .padding(6)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        let maxImageSelectionLimit = 5
-                        PhotosPicker(label_UploadText, selection: $selectedItems, maxSelectionCount: maxImageSelectionLimit, matching: .images)
-                            .buttonStyle(.bordered)
-                        ScrollView(.horizontal) {
-                            HStack(spacing: 10) {
-                                ForEach(selectedImages.indices, id: \.self) { index in
-                                    
-                                    ZStack(alignment: .topTrailing) {
-                                        Image(uiImage: selectedImages[index])
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 90, height: 90)
-                                            .clipShape(
-                                                RoundedRectangle(cornerRadius: 10)
-                                            )
-                                        
-                                        Button {
-                                            selectedImages.remove(at: index)
-                                        } label: {
-                                            Image(systemName: "xmark.circle.fill")
-                                                .resizable()
-                                                .frame(width: 24, height: 24)
-                                                .foregroundColor(.white)
-                                                .background(Circle().fill(Color.black.opacity(0.6)))
-                                                .padding(6)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                })
-                .onChange(of: selectedItems, {
-                    checkWarningMessageStatus()
-                    Task {
-                       for item in selectedItems {
-                            do {
-                                if let data = try await item.loadTransferable(type: Data.self),
-                                   let uiImage = UIImage(data: data) {
-                                    selectedImages.append(uiImage)
-                                }
-                            } catch {
-                                print("Failed to load item: \(error.localizedDescription)")
-                            }
-                        }
-                    }
                 })
                 let primaryButton = BottomActionButton(title: "Add", action: handleAddAction)
                 let secondaryButton = BottomActionButton(title: "Cancel", action: {
@@ -187,6 +120,9 @@ struct AddRecipeView: View {
                 RecipeBottomActionBar(buttons: bottomBtns)
             }
         }
+        .confirmationDialog(label_UploadMediaText, isPresented: $showingAddMediaDialog,titleVisibility: .visible , actions: {
+            self.uploadMediaActionOptionsView()
+        })
         .alert(popupTitle_InformationRequired, isPresented: $showInformationRequiredAlert) {
             Button("Dismiss", role: .cancel) {
                 showInformationRequiredAlert = false
@@ -267,6 +203,28 @@ struct AddRecipeView: View {
                 axis: .vertical
             )
             .tint(.accentColor)
+        })
+    }
+    
+    @ViewBuilder
+    func uploadMediaActionOptionsView() -> some View {
+        
+        Button(action:{
+            debugPrint("Camera option selected")
+        }, label: {
+            Text("Camera")
+        })
+        
+        Button(action:{
+            debugPrint("Photos option selected")
+        }, label: {
+            Text("Photos")
+        })
+        
+        Button(action:{
+            debugPrint("Videos option selected")
+        }, label: {
+            Text("Videos")
         })
     }
 }
