@@ -19,8 +19,11 @@ struct AddRecipeView: View {
     @State var showWarningMessage: Bool = false
     @State var showingAddMediaDialog: Bool = false
     @State var showInformationRequiredAlert: Bool = false
+    @State private var showImagePicker: Bool = false
+    @State private var sourceType: UIImagePickerController.SourceType = .camera
     @State private var validationError: RecipeValidationError?
     @State private var levelSelection = 0
+    @State private var image: UIImage?
     @Binding var dataReloadRequest: Bool
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var recipeModelContext
@@ -98,7 +101,7 @@ struct AddRecipeView: View {
                         .foregroundStyle(.accent)
                     
                     Text(label_UploadMediaText)
-                        .frame(width: .infinity,height: 40.0)
+                        .frame(height:40)
                         .font(.callout)
                         .padding(.vertical,10)
                         .padding(.horizontal,20)
@@ -109,6 +112,13 @@ struct AddRecipeView: View {
                         .onTapGesture(perform: {
                             showingAddMediaDialog.toggle()
                         })
+                    
+                        if let image = image {
+                            Image(uiImage: (image))
+                                .resizable()
+                                .cornerRadius(5)
+                                .frame(width: 50, height: 50)
+                        }
                     
                 })
                 let primaryButton = BottomActionButton(title: "Add", action: handleAddAction)
@@ -122,6 +132,9 @@ struct AddRecipeView: View {
         }
         .confirmationDialog(label_UploadMediaText, isPresented: $showingAddMediaDialog,titleVisibility: .visible , actions: {
             self.uploadMediaActionOptionsView()
+        })
+        .sheet(isPresented: $showImagePicker, content: {
+            ImagePicker(image: self.$image, isShown: self.$showImagePicker, sourceType: self.sourceType)
         })
         .alert(popupTitle_InformationRequired, isPresented: $showInformationRequiredAlert) {
             Button("Dismiss", role: .cancel) {
@@ -210,13 +223,15 @@ struct AddRecipeView: View {
     func uploadMediaActionOptionsView() -> some View {
         
         Button(action:{
-            debugPrint("Camera option selected")
+            self.showImagePicker = true
+            self.sourceType = .camera
         }, label: {
             Text("Camera")
         })
         
         Button(action:{
-            debugPrint("Photos option selected")
+            self.showImagePicker = true
+            self.sourceType = .photoLibrary
         }, label: {
             Text("Photos")
         })
