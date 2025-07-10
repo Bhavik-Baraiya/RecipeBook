@@ -47,6 +47,7 @@ let placeHolder_RecipeInstructions = "Enter Recipe Instructions"
 //Form Warning Messages
 
 let maxUploadWarning_Message = "*You Can Upload Maximum 5 Pictures"
-let removeUploadedMedia_Message = "You have to remove the addded photos in order to update".capitalized
+let removeUploadedPhotos_Message = "You have to remove the addded photos in order to update".capitalized
+let removeUploadedVideos_Message = "You have to remove the addded videos in order to update".capitalized
 let popupTitle_InformationRequired = "Information Required!".capitalized
 let popupMessage_InformationRequired = "You need to fill in the recipe information to proceed.".capitalized

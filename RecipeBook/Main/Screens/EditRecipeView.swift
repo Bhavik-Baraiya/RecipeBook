@@ -79,7 +79,7 @@ struct EditRecipeView: View {
                         if selectedImages.count > 4 {
                         
                             if showWarningMessage {
-                                Text(removeUploadedMedia_Message)
+                                Text(removeUploadedPhotos_Message)
                                     .font(.footnote)
                                     .foregroundStyle(.accent)
                             }
@@ -119,7 +119,7 @@ struct EditRecipeView: View {
                                 .buttonStyle(.bordered)
                             
                             if showWarningMessage {
-                                Text(removeUploadedMedia_Message)
+                                Text(removeUploadedPhotos_Message)
                                     .font(.footnote)
                                     .foregroundStyle(.accent)
                             }
