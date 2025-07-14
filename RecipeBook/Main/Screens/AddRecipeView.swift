@@ -16,7 +16,7 @@ struct AddRecipeView: View {
     @State private var selectedCategory = "None"
     @State private var selectedPhotosItems:[PhotosPickerItem] = []
     @State private var selectedPhotos: [UIImage] = []
-    @State private var selectedVideos: [String] = []
+    @State private var selectedVideos: [URL] = []
     @State private var sourceType: UIImagePickerController.SourceType = .camera
     @State private var cameraPicture: UIImage?
     @State private var levelSelection = 0
@@ -31,6 +31,7 @@ struct AddRecipeView: View {
     @State private var showingWarningMessage: Bool = false
     @State private var showingAddMediaDialog: Bool = false
     @State private var showingPhotoPicker: Bool = false
+    @State private var showingVideoPicker: Bool = false
     @State private var showingInformationRequiredAlert: Bool = false
     @State private var showingPhotoCapture: Bool = false
     
@@ -38,6 +39,10 @@ struct AddRecipeView: View {
     
     @State private var photosSelected: Bool = false
     @State private var videoSelected: Bool = false
+    
+    // MARK: - StateObjects
+    
+    @StateObject var videoManager = VideoStorageManager()
     
     private let categories = [
       "Beverage",
@@ -139,12 +144,23 @@ struct AddRecipeView: View {
         .sheet(isPresented: $showingPhotoCapture, content: {
             ImagePicker(image: $cameraPicture, isShown: self.$showingPhotoCapture, sourceType: self.sourceType)
         })
+        .sheet(isPresented: $showingVideoPicker, content: {
+            VideoPickerView { selectedURL in
+                videoManager.saveVideoLocally(from: selectedURL)
+            }
+        })
         .onChange(of: self.cameraPicture, {
             
             if let picture = self.cameraPicture {
                 self.selectedPhotos.append(picture)
                 self.photosSelected = true
             }
+        })
+        .onChange(of: self.showingVideoPicker, {
+            selectedVideos = videoManager.savedVideoURLs
+        })
+        .onChange(of: self.selectedVideos, {
+            self.videoSelected = true
         })
         .photosPicker(
             isPresented: $showingPhotoPicker,
@@ -281,7 +297,7 @@ struct AddRecipeView: View {
         })
         
         Button(action:{
-            debugPrint("Videos option selected")
+            self.showingVideoPicker = true
         }, label: {
             Text("Videos")
         })
