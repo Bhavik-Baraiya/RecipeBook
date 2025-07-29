@@ -78,5 +78,5 @@ struct DeletePopupView: View {
 }
 
 #Preview {
-    DeletePopupView(isPopupDisplayed: .constant(true), recipeData:  RecipeData(title: "", ingredients: "", instructions: "", category: "", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true), refreshPage: .constant(false))
+    DeletePopupView(isPopupDisplayed: .constant(true), recipeData:  RecipeData(title: "", ingredients: "", instructions: "", category: "", level: 1, preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], videos: [], isFavourite: true), refreshPage: .constant(false))
 }

@@ -21,7 +21,7 @@ struct RecipeView: View {
                 ScrollView(.vertical) {
                     
                     VStack(spacing: 0) {
-                        BannerView(images: $recipe.imageNames.wrappedValue)
+                        BannerView(recipeData: recipe)
                             .frame(height: 300)
                             .padding(.horizontal)
                             .padding(.vertical)
@@ -151,9 +151,9 @@ struct RecipeView: View {
                                                     5. Serve immediately.
                                                     """,
                                   category: "Italian",
-                                  preparationTimeInHours: 10,
+                                  level: 1, preparationTimeInHours: 10,
                                   preparationTimeInMinutes: 15,
                                   imageNames: [""],
-                                  isFavourite: true)
+                                  videos: [], isFavourite: true)
     )
 }

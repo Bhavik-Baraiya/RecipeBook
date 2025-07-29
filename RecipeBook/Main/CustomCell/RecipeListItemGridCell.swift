@@ -16,9 +16,9 @@ struct RecipeListItemGridCell: View {
         GroupBox {
             
             VStack(alignment:.leading) {
-                
+                let imageStorage = ImageStorageManager(recipeId: self.$recipeData.id)
                 let imageName = $recipeData.imageNames.wrappedValue.count > 0 ? $recipeData.imageNames.wrappedValue[0] : ""
-                let uiImage = ImageStorageManager.loadImageFromDocuments(name: imageName)
+                let uiImage = imageStorage.loadImageFromDocuments(name: imageName)
                 let image = uiImage != nil ? Image(uiImage: uiImage!) : Image(systemName: "")
         
                 image
@@ -62,5 +62,5 @@ struct RecipeListItemGridCell: View {
 }
 
 #Preview {
-    RecipeListItemGridCell(recipeData: RecipeData(title: "Sample Recipe", ingredients: "", instructions: "", category: "Salad", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true))
+    RecipeListItemGridCell(recipeData: RecipeData(title: "Sample Recipe", ingredients: "", instructions: "", category: "Salad", level: 1, preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], videos: [], isFavourite: true))
 }

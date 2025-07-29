@@ -6,9 +6,11 @@
 //
 
 import SwiftData
+import Foundation
 
 @Model
 class RecipeData {
+    var id: UUID
     var title: String
     var ingredients: String
     var instructions: String
@@ -17,9 +19,23 @@ class RecipeData {
     var preparationTimeInHours: Int
     var preparationTimeInMinutes: Int
     var imageNames: [String]
+    var videos: [URL]
     var isFavourite: Bool
     
-    init(title: String = "", ingredients: String = "", instructions: String = "", category: String = "", preparationTimeInHours: Int = 0, preparationTimeInMinutes: Int = 0, imageNames: [String] = [], isFavourite: Bool = false, level: Int = 0) {
+    init(
+        id: UUID = UUID(),
+        title: String,
+        ingredients: String,
+        instructions: String,
+        category: String,
+        level: Int,
+        preparationTimeInHours: Int,
+        preparationTimeInMinutes: Int,
+        imageNames: [String] = [],
+        videos: [URL] = [],
+        isFavourite: Bool = false
+    ) {
+        self.id = id
         self.title = title
         self.ingredients = ingredients
         self.instructions = instructions
@@ -28,6 +44,7 @@ class RecipeData {
         self.preparationTimeInHours = preparationTimeInHours
         self.preparationTimeInMinutes = preparationTimeInMinutes
         self.imageNames = imageNames
+        self.videos = videos
         self.isFavourite = isFavourite
     }
 }

@@ -21,6 +21,10 @@ let recipeImagesFolderName = "RecipeImages"
 
 let imageFileExtension = ".jpeg"
 
+// -- Extension for video file
+
+let videoFileExtension = ".mp4"
+
 //Form Fields Titles
 
 let label_RecipeTitleText = "Recipe Title"

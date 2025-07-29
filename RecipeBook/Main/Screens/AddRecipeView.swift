@@ -12,7 +12,7 @@ import SwiftUI
 
 struct AddRecipeView: View {
     
-    @State private var recipeData = RecipeData()
+    @State private var recipeData = RecipeData(title: "", ingredients: "", instructions: "", category: "", level: 1, preparationTimeInHours: 1, preparationTimeInMinutes: 2)
     @State private var selectedCategory = "None"
     @State private var selectedPhotosItems:[PhotosPickerItem] = []
     @State private var selectedPhotos: [UIImage] = []
@@ -146,7 +146,10 @@ struct AddRecipeView: View {
         })
         .sheet(isPresented: $showingVideoPicker, content: {
             VideoPickerView { selectedURL in
-                videoManager.saveVideoLocally(from: selectedURL)
+                let recipeVideoLocalPath = videoManager.getVideoLocalDirectory(recipeID: $recipeData.id)
+                videoManager.saveVideoLocally(from: selectedURL, to: recipeVideoLocalPath)
+                self.selectedVideos.append(selectedURL)
+                self.recipeData.videos.append(selectedURL)
             }
         })
         .onChange(of: self.cameraPicture, {
@@ -191,8 +194,9 @@ struct AddRecipeView: View {
         .navigationTitle("Add Recipe")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: {
+            let imageStorage = ImageStorageManager(recipeId: self.$recipeData.id)
             for index in 0..<$recipeData.imageNames.wrappedValue.count {
-                if let uiImage = ImageStorageManager.loadImageFromDocuments(name: $recipeData.imageNames.wrappedValue[index]) {
+                if let uiImage = imageStorage.loadImageFromDocuments(name: $recipeData.imageNames.wrappedValue[index]) {
                     self.selectedPhotos.append(uiImage)
                 }
             }
@@ -246,8 +250,9 @@ struct AddRecipeView: View {
     private func saveImagesLocally() {
         
         $recipeData.imageNames.wrappedValue.removeAll()
+        let imageStorage = ImageStorageManager(recipeId: self.$recipeData.id)
         for index in 0..<selectedPhotos.count {
-            ImageStorageManager.saveImageToDocuments(
+            imageStorage.saveImageToDocuments(
                 image: selectedPhotos[index],
                 name: "\($recipeData.title.wrappedValue.lowercased())\(index)"
             )

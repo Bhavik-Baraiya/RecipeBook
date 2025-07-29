@@ -14,8 +14,12 @@ struct RecipeListItemCell: View {
     var body: some View {
         HStack() {
             
+            let imageStorage = ImageStorageManager(recipeId: self.$recipeData.id)
+            
             let imageName = $recipeData.imageNames.wrappedValue.count > 0 ? $recipeData.imageNames.wrappedValue[0] : ""
-            let uiImage = ImageStorageManager.loadImageFromDocuments(name: imageName)
+            
+            let uiImage = imageStorage.loadImageFromDocuments(name: imageName)
+            
             let image = uiImage != nil ? Image(uiImage: uiImage!) : Image(systemName: "")
     
                 image
@@ -45,5 +49,5 @@ struct RecipeListItemCell: View {
 }
 
 #Preview {
-    RecipeListItemCell(recipeData:RecipeData(title: "", ingredients: "", instructions: "", category: "", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true))
+    RecipeListItemCell(recipeData:RecipeData(title: "", ingredients: "", instructions: "", category: "", level: 1, preparationTimeInHours: 01, preparationTimeInMinutes: 1, imageNames: [""], videos: [], isFavourite: true))
 }

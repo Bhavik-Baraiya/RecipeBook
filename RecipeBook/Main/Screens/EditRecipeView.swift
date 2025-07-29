@@ -226,8 +226,11 @@ struct EditRecipeView: View {
     
     private func updateImagesLocally() {
         $recipeData.imageNames.wrappedValue.removeAll()
+        
+        let imageStorage = ImageStorageManager(recipeId: self.$recipeData.id)
+        
         for index in 0..<selectedImages.count {
-            ImageStorageManager.saveImageToDocuments(
+            imageStorage.saveImageToDocuments(
                 image: selectedImages[index],
                 name: "\($recipeData.title.wrappedValue.lowercased())\(index)"
             )
@@ -236,8 +239,10 @@ struct EditRecipeView: View {
     }
     
     private func loadRecipeImages() {
+        let imageStorage = ImageStorageManager(recipeId: self.$recipeData.id)
         for index in 0..<$recipeData.imageNames.wrappedValue.count {
-            if let uiImage = ImageStorageManager.loadImageFromDocuments(name: $recipeData.imageNames.wrappedValue[index]) {
+            
+            if let uiImage = imageStorage.loadImageFromDocuments(name: $recipeData.imageNames.wrappedValue[index]) {
                 self.selectedImages.append(uiImage)
             }
         }
@@ -286,16 +291,6 @@ struct EditRecipeView: View {
 }
 
 #Preview {
-    
-    do {
-        let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
-        let modelContainer = try ModelContainer(for: RecipeData.self, configurations: configuration)
-        let tmpData = RecipeData(title: "Mango juice", ingredients: "...", instructions: "...", category: "Indian", preparationTimeInHours: 1, preparationTimeInMinutes: 45, imageNames: ["",""], isFavourite: false)
-        return EditRecipeView(recipeData: tmpData)
-            .modelContainer(modelContainer)
-        
-        
-    } catch {
-        fatalError("Error in model configuration")
-    }
+    let tmpData = RecipeData(title: "Mango juice", ingredients: "...", instructions: "...", category: "Indian", level: 1, preparationTimeInHours: 1, preparationTimeInMinutes: 45, imageNames: ["",""], videos: [], isFavourite: false)
+    EditRecipeView(recipeData: tmpData)
 }

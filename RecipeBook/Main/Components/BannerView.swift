@@ -8,23 +8,37 @@
 import SwiftUI
 
 struct BannerView: View {
-    let images: [String]
-
+    
+    @State var recipeData: RecipeData?
+    
     var body: some View {
         TabView {
-            if images.isEmpty {
+            
+            if (recipeData?.imageNames.count == 0) {
                 placeholderView()
             } else {
-                ForEach(images, id: \.self) { image in
-                    if let storedImage = ImageStorageManager.loadImageFromDocuments(name: image) {
-                        Image(uiImage: storedImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .clipped()
-                    } else {
-                        placeholderView()
+                
+                if let recipeId = recipeData?.id {
+                    
+                    let imageStorage = ImageStorageManager(recipeId: recipeId)
+                    
+                    if let images = recipeData?.imageNames {
+                        
+                        ForEach(images, id: \.self) { image in
+                        
+                            if let storedImage = imageStorage.loadImageFromDocuments(name: image) {
+                                Image(uiImage: storedImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .clipped()
+                            } else {
+                                placeholderView()
+                            }
+                        }
                     }
+                } else {
+                    EmptyView()
                 }
             }
         }
@@ -47,5 +61,5 @@ struct BannerView: View {
 }
 
 #Preview {
-    BannerView(images: ["spaghetti_carbonara","chicken_biryani","pancakes"])
+    BannerView(recipeData: RecipeData(title: "", ingredients: "", instructions: "", category: "1", level: 1, preparationTimeInHours: 1, preparationTimeInMinutes: 1))
 }

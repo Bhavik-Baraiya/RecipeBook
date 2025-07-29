@@ -9,13 +9,30 @@ import SwiftUI
 
 class ImageStorageManager {
     
-    static func saveImageToDocuments(image: UIImage, name: String) {
+    private var recipeId: UUID?
+    private var fileHandler: FileHandler?
+    
+    init(recipeId: UUID) {
+        self.recipeId = recipeId
+        self.initFileHandler()
+    }
+
+    private func initFileHandler() {
+        
+        guard let recipeId = self.recipeId else { return }
+        self.fileHandler = FileHandler(recipeId: recipeId)
+    }
+    
+    func saveImageToDocuments(image: UIImage, name: String) {
         guard let data = image.jpegData(compressionQuality: 0.8) else {
             print("Failed to convert image to data")
             return
         }
         
-        let fileName = FileHandler.appImagesFolderDirectory().appendingPathComponent("\(name)\(imageFileExtension)")
+        guard let recipeId = self.recipeId else {return}
+        
+        let fileHandler = FileHandler(recipeId: recipeId)
+        let fileName = fileHandler.getPhotoLocalDirectory().appendingPathComponent("\(name)\(imageFileExtension)")
         
         do {
             try data.write(to: fileName)
@@ -25,9 +42,11 @@ class ImageStorageManager {
         }
     }
     
-    static func loadImageFromDocuments(name: String) -> UIImage? {
+    func loadImageFromDocuments(name: String) -> UIImage? {
         
-        let path = FileHandler.appImagesFolderDirectory().appendingPathComponent("\(name)\(imageFileExtension)")
+        guard let photosLocalURL = self.fileHandler?.getPhotoLocalDirectory() else { return nil }
+        
+        let path = photosLocalURL.appendingPathComponent("\(name)\(imageFileExtension)")
         print("Looking for image at path: \(path.path)")
         return UIImage(contentsOfFile: path.path)
     }

@@ -12,12 +12,12 @@ class VideoStorageManager: ObservableObject {
     @Published var savedVideoURLs: [URL] = []
 
     init() {
-        loadSavedVideos()
+        //loadSavedVideos()
     }
 
-    func saveVideoLocally(from url: URL) {
+    func saveVideoLocally(from url: URL, to localPath: URL) {
         let fileManager = FileManager.default
-        let destinationURL = getDocumentsDirectory().appendingPathComponent(url.lastPathComponent)
+        let destinationURL = localPath.appendingPathComponent(url.lastPathComponent)
 
         do {
             if !fileManager.fileExists(atPath: destinationURL.path) {
@@ -45,5 +45,23 @@ class VideoStorageManager: ObservableObject {
 
     private func getDocumentsDirectory() -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    }
+    
+    func getVideoLocalDirectory(recipeID: UUID) -> URL {
+       
+        
+        let completeVideoLocalPath = "RecipeBook/Recipes/\(recipeID)/Videos"
+        let fileManager = FileManager.default
+        
+        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let videoFolderURL = documentsURL.appendingPathComponent(completeVideoLocalPath)
+        
+        do {
+            try fileManager.createDirectory(at: videoFolderURL, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print("Failed to create directories: \(error.localizedDescription)")
+            return URL(fileURLWithPath: "")
+        }
+        return videoFolderURL
     }
 }

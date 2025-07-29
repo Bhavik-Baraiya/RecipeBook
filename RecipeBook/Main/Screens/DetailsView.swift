@@ -57,5 +57,5 @@ struct DetailsView: View {
 }
 
 #Preview {
-    DetailsView(recipeData: RecipeData(title: "", ingredients: "", instructions: "", category: "", preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], isFavourite: true))
+    DetailsView(recipeData: RecipeData(title: "", ingredients: "", instructions: "", category: "", level: 1, preparationTimeInHours: 0, preparationTimeInMinutes: 1, imageNames: [""], videos: [], isFavourite: true))
 }
