@@ -7,6 +7,8 @@
 
 import Foundation
 import UIKit
+import SwiftUI
+import AVFoundation
 
 class Utilities {
     
@@ -25,5 +27,20 @@ class Utilities {
         }
         
         return placeHolderColor
+    }
+    
+    static func generateThumbnailImage(from videoURL: URL) -> Image? {
+        let asset = AVURLAsset(url: videoURL)
+        let assetImageGenerator = AVAssetImageGenerator(asset: asset)
+        assetImageGenerator.appliesPreferredTrackTransform = true
+        
+        do {
+            let cgImage = try assetImageGenerator.copyCGImage(at: CMTime(seconds: 1, preferredTimescale: 60), actualTime: nil)
+            let uiImage = UIImage(cgImage: cgImage)
+            return Image(uiImage: uiImage) // SwiftUI Image
+        } catch {
+            print("Error generating thumbnail: \(error)")
+            return nil
+        }
     }
 }

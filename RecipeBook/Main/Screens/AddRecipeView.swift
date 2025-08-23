@@ -469,11 +469,11 @@ struct AddRecipeView: View {
                         Button {
                             
                         } label: {
-                            Image(systemName: "play.circle")
+                            
+                            Utilities.generateThumbnailImage(from: selectedVideos[index])?
                                 .resizable()
+                                .scaledToFill()
                                 .frame(width: 45, height: 45)
-                                .foregroundColor(.white)
-                                .background(Circle().fill(Color.black.opacity(0.6)))
                         }
                     })
                     
