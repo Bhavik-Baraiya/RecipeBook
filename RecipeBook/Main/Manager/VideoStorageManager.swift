@@ -56,6 +56,10 @@ class VideoStorageManager: ObservableObject {
         let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         let videoFolderURL = documentsURL.appendingPathComponent(completeVideoLocalPath)
         
+        if(fileManager.fileExists(atPath: videoFolderURL.absoluteString)) {
+            return videoFolderURL
+        }
+        
         do {
             try fileManager.createDirectory(at: videoFolderURL, withIntermediateDirectories: true, attributes: nil)
         } catch {

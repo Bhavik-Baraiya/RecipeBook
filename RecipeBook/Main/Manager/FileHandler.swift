@@ -58,38 +58,4 @@ class FileHandler {
             return URL(fileURLWithPath: "")
         }
     }
-    
-    static func appImagesFolderDirectory() -> URL {
-       
-        let fileManager = FileManager.default
-        
-        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-        
-        let imgFolderURL = documentsURL.appendingPathComponent("RecipeBook/Recipes/RecipeImages")
-        
-        do {
-            try fileManager.createDirectory(at: imgFolderURL, withIntermediateDirectories: true, attributes: nil)
-        } catch {
-            print("Failed to create directories: \(error.localizedDescription)")
-            return URL(fileURLWithPath: "")
-        }
-        return imgFolderURL
-    }
-    
-    static func appVideosFolderDirectory() -> URL {
-       
-        let fileManager = FileManager.default
-        
-        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-        
-        let imgFolderURL = documentsURL.appendingPathComponent("RecipeBook/Recipes")
-        
-        do {
-            try fileManager.createDirectory(at: imgFolderURL, withIntermediateDirectories: true, attributes: nil)
-        } catch {
-            print("Failed to create directories: \(error.localizedDescription)")
-            return URL(fileURLWithPath: "")
-        }
-        return imgFolderURL
-    }
 }

@@ -29,7 +29,7 @@ struct RecipeBottomActionBar: View {
                     bottomBarSpacerView()
                      
                     Button(action: {
-                        button.action?()
+                        //button.action?()
                     })
                     {
                         if let imageName = button.imageName {
@@ -52,6 +52,10 @@ struct RecipeBottomActionBar: View {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.gray.opacity(0.2))
                             .padding(.vertical)
+                    })
+                    .onTapGesture(perform: {
+                        button.action?()
+                        debugPrint("\(String(describing: button.title)) perfromed")
                     })
                     
                     bottomBarSpacerView()

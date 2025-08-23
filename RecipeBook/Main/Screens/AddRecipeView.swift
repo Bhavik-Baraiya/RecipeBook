@@ -148,8 +148,7 @@ struct AddRecipeView: View {
             VideoPickerView { selectedURL in
                 let recipeVideoLocalPath = videoManager.getVideoLocalDirectory(recipeID: $recipeData.id)
                 videoManager.saveVideoLocally(from: selectedURL, to: recipeVideoLocalPath)
-                self.selectedVideos.append(selectedURL)
-                self.recipeData.videos.append(selectedURL)
+                self.selectedVideos.append(recipeVideoLocalPath)
             }
         })
         .onChange(of: self.cameraPicture, {
@@ -207,7 +206,7 @@ struct AddRecipeView: View {
     
     @ViewBuilder
     private func bottomActions() -> some View {
-        let primaryButton = BottomActionButton(title: "Add", action: handleAddAction)
+        let primaryButton = BottomActionButton(title: "Add", action: { handleAddAction() })
         let secondaryButton = BottomActionButton(title: "Cancel", action: {
             dismiss()
         })
@@ -223,10 +222,11 @@ struct AddRecipeView: View {
                 ingredients: recipeData.ingredients,
                 instructions: recipeData.instructions,
                 category: selectedCategory,
-                prepTimeInHour:recipeData.preparationTimeInHours,
+                prepTimeInHour: recipeData.preparationTimeInHours,
                 prepTimeInMinute: recipeData.preparationTimeInMinutes,
                 images: selectedPhotos
             )
+            // ✅ Only dismiss if validation succeeds
             performSaveOperation()
             dismiss()
         } catch let error as RecipeValidationError {
@@ -244,6 +244,7 @@ struct AddRecipeView: View {
         recipeData.category = self.selectedCategory
         recipeData.level = self.levelSelection
         saveImagesLocally()
+        saveVideosLocally()
         dataReloadRequest.toggle()
     }
     
@@ -257,6 +258,14 @@ struct AddRecipeView: View {
                 name: "\($recipeData.title.wrappedValue.lowercased())\(index)"
             )
             $recipeData.imageNames.wrappedValue.append("\($recipeData.title.wrappedValue.lowercased())\(index)")
+        }
+    }
+    
+    private func saveVideosLocally() {
+        
+        $recipeData.videos.wrappedValue.removeAll()
+        for video in selectedVideos {
+            $recipeData.videos.wrappedValue.append(video)
         }
     }
     

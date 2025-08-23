@@ -25,7 +25,7 @@ struct BannerView: View {
                     if let images = recipeData?.imageNames {
                         
                         ForEach(images, id: \.self) { image in
-                        
+                            
                             if let storedImage = imageStorage.loadImageFromDocuments(name: image) {
                                 Image(uiImage: storedImage)
                                     .resizable()
@@ -37,8 +37,16 @@ struct BannerView: View {
                             }
                         }
                     }
-                } else {
-                    EmptyView()
+                    
+                    if let videos = recipeData?.videos {
+                        
+                        ForEach(videos, id: \.self) { video in
+                            VideoPlayerView(recipeTitle:recipeData?.title,videoURL: video)
+                        }
+                        
+                    } else {
+                        EmptyView()
+                    }
                 }
             }
         }
