@@ -20,13 +20,14 @@ class VideoStorageManager: ObservableObject {
         let destinationURL = localPath.appendingPathComponent(url.lastPathComponent)
 
         do {
-            if !fileManager.fileExists(atPath: destinationURL.path) {
-                try fileManager.copyItem(at: url, to: destinationURL)
-                DispatchQueue.main.async {
-                    self.savedVideoURLs.append(destinationURL)
-                }
-            } else {
-                print("File already exists at \(destinationURL.lastPathComponent)")
+            if fileManager.fileExists(atPath: destinationURL.path) {
+                print("File already exists at \(destinationURL.lastPathComponent) Replacing it with the latest one.")
+                try fileManager.removeItem(atPath: destinationURL.path)
+            }
+            
+            try fileManager.copyItem(at: url, to: destinationURL)
+            DispatchQueue.main.async {
+                self.savedVideoURLs.append(destinationURL)
             }
         } catch {
             print("Error saving video locally: \(error)")

@@ -14,11 +14,12 @@ struct EditRecipeView: View {
     @Bindable var recipeData: RecipeData
     @State var selectedCategory = "None"
     @State var selectedItems:[PhotosPickerItem] = []
-    @State var selectedImages: [UIImage] = []
+    @State private var selectedPhotos: [UIImage] = []
+    @State private var selectedVideos: [URL] = []
     @State var showWarningMessage: Bool = false
     @State var showInformationRequiredAlert: Bool = false
     @State private var validationError: RecipeValidationError?
-    @Environment(\.dismiss) var dismiss
+    @State private var cameraPicture: UIImage?
     
     //Defined categories
     private let categories = [
@@ -28,6 +29,30 @@ struct EditRecipeView: View {
       "Snacks",
       "Soup"
     ]
+    
+    // MARK: Enviornment Properties
+
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) var recipeModelContext
+    
+    // MARK: Presenting Flag Properties
+    
+    @State private var showingWarningMessage: Bool = false
+    @State private var showingAddMediaDialog: Bool = false
+    @State private var showingPhotoPicker: Bool = false
+    @State private var showingVideoPicker: Bool = false
+    @State private var showingInformationRequiredAlert: Bool = false
+    @State private var showingPhotoCapture: Bool = false
+    
+    // MARK: Operation Flag Properties
+    
+    @State private var photosSelected: Bool = false
+    @State private var videoSelected: Bool = false
+    @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
+    
+    // MARK: - StateObjects
+    
+    @StateObject var videoManager = VideoStorageManager()
     
     var body: some View {
         
@@ -68,124 +93,81 @@ struct EditRecipeView: View {
                 
                 VStack(alignment: .leading,spacing: 20.0, content: {
                     
-                    Text(label_UpdatePicturesText)
+                    Text(label_AddMediaText)
                         .font(.headline)
+                    
                     Text(maxUploadWarning_Message)
                         .font(.footnote)
                         .foregroundStyle(.accent)
                     
+                    Text(label_UploadMediaText)
+                        .frame(height:40)
+                        .font(.callout)
+                        .padding(.vertical,10)
+                        .padding(.horizontal,20)
+                        .background(content: {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.gray.opacity(0.2))
+                        })
+                        .onTapGesture(perform: {
+                            showingAddMediaDialog.toggle()
+                        })
                     
-                    Group {
-                        if selectedImages.count > 4 {
-                        
-                            if showWarningMessage {
-                                Text(removeUploadedPhotos_Message)
-                                    .font(.footnote)
-                                    .foregroundStyle(.accent)
-                            }
-                            
-                            ScrollView(.horizontal) {
-                                HStack(spacing: 10) {
-                                    ForEach(selectedImages.indices, id: \.self) { index in
-                                        
-                                        ZStack(alignment: .topTrailing) {
-                                            Image(uiImage: selectedImages[index])
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                                .frame(width: 90, height: 90)
-                                                .clipShape(
-                                                    RoundedRectangle(cornerRadius: 10)
-                                                )
-                                            
-                                            Button {
-                                                removeRecipeImages(itemIndex: index)
-                                                checkWarningMessageStatus()
-                                            } label: {
-                                                Image(systemName: "xmark.circle.fill")
-                                                    .resizable()
-                                                    .frame(width: 24, height: 24)
-                                                    .foregroundColor(.white)
-                                                    .background(Circle().fill(Color.black.opacity(0.6)))
-                                                    .padding(6)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            let imagesCount = $recipeData.imageNames.wrappedValue.count
-                            let maxImageSelectionLimit = 5 - imagesCount
-                            PhotosPicker("\(label_UploadText)", selection: $selectedItems, maxSelectionCount: maxImageSelectionLimit, matching: .images)
-                                .buttonStyle(.bordered)
-                            
-                            if showWarningMessage {
-                                Text(removeUploadedPhotos_Message)
-                                    .font(.footnote)
-                                    .foregroundStyle(.accent)
-                            }
-                            
-                            ScrollView(.horizontal) {
-                                HStack(spacing: 10) {
-                                    ForEach(selectedImages.indices, id: \.self) { index in
-                                        
-                                        ZStack(alignment: .topTrailing) {
-                                            Image(uiImage: selectedImages[index])
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                                .frame(width: 90, height: 90)
-                                                .clipShape(
-                                                    RoundedRectangle(cornerRadius: 10)
-                                                )
-                                            
-                                            Button {
-                                                removeRecipeImages(itemIndex: index)
-                                                checkWarningMessageStatus()
-                                            } label: {
-                                                Image(systemName: "xmark.circle.fill")
-                                                    .resizable()
-                                                    .frame(width: 24, height: 24)
-                                                    .foregroundColor(.white)
-                                                    .background(Circle().fill(Color.black.opacity(0.6)))
-                                                    .padding(6)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                        if(self.photosSelected == true || self.videoSelected == true) {
+                            configureMediaList()
                         }
-                    }
                     
                 })
-                .onChange(of: selectedItems, {
-                    checkWarningMessageStatus()
-                    Task {
-                        
-                        for index in 0..<selectedItems.count {
-                            
-                            do {
-                                if let data = try await selectedItems[index].loadTransferable(type: Data.self),
-                                   let uiImage = UIImage(data: data) {
-                                    selectedImages.append(uiImage)
-                                    $recipeData.imageNames.wrappedValue.append("\($recipeData.title.wrappedValue.lowercased())\(index)")
-                                }
-                            } catch {
-                                print("Failed to load item: \(error.localizedDescription)")
-                            }
-                        }
-                    }
-                })
-                let primaryButton = BottomActionButton(title: "Update",action:handleUpdate)
-                let secondaryButton = BottomActionButton(title: "Cancel", action: {
-                    dismiss()
-                })
-                
-                let bottomBtns = [primaryButton, secondaryButton]
-                RecipeBottomActionBar(buttons: bottomBtns)
+                self.bottomActions()
             }
         }
-        .alert(popupTitle_InformationRequired, isPresented: $showInformationRequiredAlert) {
+        .confirmationDialog(label_UploadMediaText, isPresented: $showingAddMediaDialog,titleVisibility: .visible , actions: {
+            self.uploadMediaActionOptionsView()
+        })
+        .sheet(isPresented: $showingPhotoCapture, content: {
+            ImagePicker(image: $cameraPicture, isShown: self.$showingPhotoCapture, sourceType: self.sourceType)
+        })
+        .sheet(isPresented: $showingVideoPicker, content: {
+            VideoPickerView { selectedURL in
+                let recipeVideoLocalPath = videoManager.getVideoLocalDirectory(recipeID: $recipeData.id)
+                videoManager.saveVideoLocally(from: selectedURL, to: recipeVideoLocalPath)
+                self.selectedVideos.append(recipeVideoLocalPath)
+            }
+        })
+        .photosPicker(
+            isPresented: $showingPhotoPicker,
+            selection: $selectedItems,
+            maxSelectionCount: 5,
+            matching: .images
+        )
+        .onChange(of: selectedItems, {
+            selectedPhotos = []
+            for item in selectedItems {
+                Task {
+                    if let data = try? await item.loadTransferable(type: Data.self),
+                       let image = UIImage(data: data) {
+                        selectedPhotos.append(image)
+                    }
+                }
+            }
+            checkWarningMessageStatus()
+            self.photosSelected = true
+        })
+        .onChange(of: self.cameraPicture, {
+            if let picture = self.cameraPicture {
+                self.selectedPhotos.append(picture)
+                self.photosSelected = true
+            }
+        })
+        .onChange(of: self.showingVideoPicker, {
+            selectedVideos = videoManager.savedVideoURLs
+        })
+        .onChange(of: self.selectedVideos, {
+            self.videoSelected = true
+        })
+        .alert(popupTitle_InformationRequired, isPresented: $showingInformationRequiredAlert) {
             Button("Dismiss", role: .cancel) {
-                showInformationRequiredAlert = false
+                showingInformationRequiredAlert = false
             }
         } message: {
             Text(validationError?.errorDescription ?? "An unknown error occurred.")
@@ -194,8 +176,213 @@ struct EditRecipeView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: {
             loadRecipeImages()
+            loadRecipeVideos()
             checkWarningMessageStatus()
         })
+    }
+    
+    @ViewBuilder
+    func uploadMediaActionOptionsView() -> some View {
+        
+        Button(action:{
+            self.showingPhotoCapture = true
+            self.sourceType = .camera
+        }, label: {
+            Text("Camera")
+        })
+        
+        Button(action:{
+            showingPhotoPicker.toggle()
+        }, label: {
+            Text("Photos")
+        })
+        
+        Button(action:{
+            self.showingVideoPicker = true
+        }, label: {
+            Text("Videos")
+        })
+    }
+
+    @ViewBuilder
+    func configureMediaList() -> some View {
+        
+        VStack {
+            if selectedPhotos.count > 4 {
+                showRemoveImageMessage()
+            }
+            
+            if selectedVideos.count > 4 {
+                showRemoveVideosMessage()
+            }
+            
+            self.mediaListView()
+        }
+    }
+
+    @ViewBuilder
+    private func bottomActions() -> some View {
+        let primaryButton = BottomActionButton(title: "Update", action: { handleUpdate() })
+        let secondaryButton = BottomActionButton(title: "Cancel", action: {
+            dismiss()
+        })
+        
+        let bottomBtns = [primaryButton, secondaryButton]
+        RecipeBottomActionBar(buttons: bottomBtns)
+    }
+    
+    func mediaListView() -> some View {
+        
+        return VStack {
+            if(self.selectedPhotos.count > 0) {
+                self.configurePhotosListView()
+            }
+            if (self.selectedVideos.count > 0) {
+                self.configureVideoListView()
+            }
+        }
+    }
+    
+    func photosItemList() -> some View {
+        return ScrollView(.horizontal) {
+            HStack(spacing: 10) {
+                
+                ForEach(selectedPhotos.indices, id: \.self) { index in
+                    
+                    ZStack(alignment: .topTrailing) {
+                        Image(uiImage: selectedPhotos[index])
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 90, height: 90)
+                            .clipShape(
+                                RoundedRectangle(cornerRadius: 10)
+                            )
+                        
+                        Button {
+                            selectedPhotos.remove(at: index)
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .foregroundColor(.white)
+                                .background(Circle().fill(Color.black.opacity(0.6)))
+                                .padding(6)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func configurePhotosListView() -> some View {
+        
+        return  VStack {
+            HStack {
+                Text(label_PhotosHeadingLabel)
+                    .font(.headline)
+                    .foregroundStyle(.accent)
+                
+                Spacer()
+                
+                Button {
+                    debugPrint("Add Photos Button Tapped")
+                } label: {
+                    Image(systemName: "plus.circle")
+                        .font(.body)
+                        .foregroundStyle(.accent)
+                }
+            }
+            .padding()
+            .background(content: {
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(Color.accent.opacity(0.1))
+            })
+            photosItemList()
+        }
+    }
+    
+    func configureVideoListView() -> some View {
+        
+        return  VStack {
+            HStack {
+                Text(label_VideosHeadingLabel)
+                    .font(.headline)
+                    .foregroundStyle(.accent)
+                
+                Spacer()
+                
+                Button {
+                    debugPrint("Add Videos Button Tapped")
+                } label: {
+                    Image(systemName: "plus.circle")
+                        .font(.body)
+                        .foregroundStyle(.accent)
+                }
+            }
+            .padding()
+            .background(content: {
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(Color.accent.opacity(0.1))
+            })
+            videosItemList()
+        }
+    }
+    
+    func videosItemList() -> some View {
+        return ScrollView(.horizontal) {
+            HStack(spacing: 10) {
+                ForEach(selectedVideos.indices, id: \.self) { index in
+                    ZStack(alignment: .center, content: {
+                        
+                        ZStack(alignment: .topTrailing) {
+                            Image(systemName: "photos.square")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 90, height: 90)
+                                .clipShape(
+                                    RoundedRectangle(cornerRadius: 10)
+                                )
+                            
+                            Button {
+                                selectedVideos.remove(at: index)
+                            } label: {
+                                Image(systemName: "xmark.circle.fill")
+                                    .resizable()
+                                    .frame(width: 15, height: 15    )
+                                    .foregroundColor(.white)
+                                    .background(Circle().fill(Color.black.opacity(0.6)))
+                                    .padding(3)
+                            }
+                        }
+                        
+                        Button {
+                            
+                        } label: {
+                            
+                            Utilities.generateThumbnailImage(from: selectedVideos[index])?
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 45, height: 45)
+                        }
+                    })
+                    
+                }
+            }
+        }
+    }
+    
+    func showRemoveImageMessage() -> some View {
+        
+        return Text(removeUploadedPhotos_Message)
+                .font(.footnote)
+                .foregroundStyle(.accent)
+    }
+    
+    func showRemoveVideosMessage() -> some View {
+        
+        return Text(removeUploadedVideos_Message)
+                .font(.footnote)
+                .foregroundStyle(.accent)
     }
     
     private func handleUpdate() {
@@ -207,7 +394,7 @@ struct EditRecipeView: View {
                 category: recipeData.category,
                 prepTimeInHour:recipeData.preparationTimeInHours,
                 prepTimeInMinute: recipeData.preparationTimeInMinutes,
-                images: selectedImages
+                images: selectedPhotos
             )
             performUpdateOperation()
             dismiss()
@@ -221,6 +408,7 @@ struct EditRecipeView: View {
     
     private func performUpdateOperation() {
         updateImagesLocally()
+        updateVideosLocally()
         dismiss()
     }
     
@@ -229,13 +417,17 @@ struct EditRecipeView: View {
         
         let imageStorage = ImageStorageManager(recipeId: self.$recipeData.id)
         
-        for index in 0..<selectedImages.count {
+        for index in 0..<selectedPhotos.count {
             imageStorage.saveImageToDocuments(
-                image: selectedImages[index],
+                image: selectedPhotos[index],
                 name: "\($recipeData.title.wrappedValue.lowercased())\(index)"
             )
             $recipeData.imageNames.wrappedValue.append("\($recipeData.title.wrappedValue.lowercased())\(index)")
         }
+    }
+    
+    private func updateVideosLocally() {
+        self.recipeData.videos = self.selectedVideos
     }
     
     private func loadRecipeImages() {
@@ -243,18 +435,29 @@ struct EditRecipeView: View {
         for index in 0..<$recipeData.imageNames.wrappedValue.count {
             
             if let uiImage = imageStorage.loadImageFromDocuments(name: $recipeData.imageNames.wrappedValue[index]) {
-                self.selectedImages.append(uiImage)
+                self.selectedPhotos.append(uiImage)
             }
+        }
+    }
+    
+    private func loadRecipeVideos() {
+        for video in self.recipeData.videos {
+            self.selectedVideos.append(video)
         }
     }
     
     private func removeRecipeImages(itemIndex: Int) {
         $recipeData.imageNames.wrappedValue.remove(at: itemIndex)
-        selectedImages.remove(at: itemIndex)
+        selectedPhotos.remove(at: itemIndex)
+    }
+    
+    private func removeRecipeVideo(itemIndex: Int) {
+        $recipeData.imageNames.wrappedValue.remove(at: itemIndex)
+        selectedPhotos.remove(at: itemIndex)
     }
     
     private func checkWarningMessageStatus() {
-        if(selectedImages.count > 4) {
+        if(selectedPhotos.count > 4) {
             showWarningMessage = true
         } else {
             showWarningMessage = false
