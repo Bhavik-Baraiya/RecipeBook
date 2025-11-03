@@ -285,12 +285,16 @@ struct EditRecipeView: View {
                 Spacer()
                 
                 Button {
-                    debugPrint("Add Photos Button Tapped")
+                    
                 } label: {
                     Image(systemName: "plus.circle")
                         .font(.body)
                         .foregroundStyle(.accent)
                 }
+                .onTapGesture(perform: {
+                    showingPhotoPicker.toggle()
+                    debugPrint("Add Photos Button Tapped")
+                })
             }
             .padding()
             .background(content: {
@@ -312,12 +316,16 @@ struct EditRecipeView: View {
                 Spacer()
                 
                 Button {
-                    debugPrint("Add Videos Button Tapped")
+                    
                 } label: {
                     Image(systemName: "plus.circle")
                         .font(.body)
                         .foregroundStyle(.accent)
                 }
+                .onTapGesture(perform: {
+                    self.showingVideoPicker = true
+                    debugPrint("Add Videos Button Tapped")
+                })
             }
             .padding()
             .background(content: {
