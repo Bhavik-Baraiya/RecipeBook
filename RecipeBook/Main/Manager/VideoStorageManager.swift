@@ -34,10 +34,14 @@ class VideoStorageManager: ObservableObject {
         }
     }
 
-    func loadSavedVideos() {
-        let docs = getDocumentsDirectory()
+    func loadSavedVideos(recipeID: UUID) {
+        let completeVideoLocalPath = "RecipeBook/Recipes/\(recipeID)/Videos"
+        let fileManager = FileManager.default
+        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let videoFolderURL = documentsURL.appendingPathComponent(completeVideoLocalPath)
         do {
-            let fileURLs = try FileManager.default.contentsOfDirectory(at: docs, includingPropertiesForKeys: nil)
+            let fileURLs = try FileManager.default.contentsOfDirectory(at: videoFolderURL, includingPropertiesForKeys: nil)
+            print("Total saved videos: \(fileURLs)")
             self.savedVideoURLs = fileURLs.filter { $0.pathExtension == "mp4" }
         } catch {
             print("Error loading saved videos: \(error)")

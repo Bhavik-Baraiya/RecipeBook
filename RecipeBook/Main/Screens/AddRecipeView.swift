@@ -159,6 +159,7 @@ struct AddRecipeView: View {
             }
         })
         .onChange(of: self.showingVideoPicker, {
+            videoManager.loadSavedVideos(recipeID: $recipeData.id)
             selectedVideos = videoManager.savedVideoURLs
         })
         .onChange(of: self.selectedVideos, {
