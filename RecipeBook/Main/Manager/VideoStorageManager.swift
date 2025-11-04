@@ -42,7 +42,7 @@ class VideoStorageManager: ObservableObject {
         do {
             let fileURLs = try FileManager.default.contentsOfDirectory(at: videoFolderURL, includingPropertiesForKeys: nil)
             print("Total saved videos: \(fileURLs)")
-            self.savedVideoURLs = fileURLs.filter { $0.pathExtension == "mp4" }
+            self.savedVideoURLs = fileURLs.filter { $0.pathExtension == "mp4" || $0.pathExtension == "mov" }
         } catch {
             print("Error loading saved videos: \(error)")
         }

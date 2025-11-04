@@ -29,6 +29,32 @@ class Utilities {
         return placeHolderColor
     }
     
+    static func generateThumbnailImages(from videoURL: URL, completion: @escaping (Image?) -> Void) {
+        print("Video URL: \(videoURL)")
+        print("Exists: \(FileManager.default.fileExists(atPath: videoURL.path))")
+        let asset = AVURLAsset(url: videoURL)
+        let generator = AVAssetImageGenerator(asset: asset)
+        generator.appliesPreferredTrackTransform = true
+
+        let time = CMTime(seconds: 10, preferredTimescale: 60)
+
+        generator.generateCGImageAsynchronously(for: time) { cgImage, actualTime, error in
+            if let error = error {
+                print("Error generating image: \(error.localizedDescription)")
+                DispatchQueue.main.async { completion(nil) }
+                return
+            }
+
+            if let cgImage = cgImage {
+                let uiImage = UIImage(cgImage: cgImage)
+                let swiftUIImage = Image(uiImage: uiImage)
+                DispatchQueue.main.async { completion(swiftUIImage) }
+            } else {
+                DispatchQueue.main.async { completion(nil) }
+            }
+        }
+    }
+    
     static func generateThumbnailImage(from videoURL: URL) -> Image? {
         let asset = AVURLAsset(url: videoURL)
         let assetImageGenerator = AVAssetImageGenerator(asset: asset)

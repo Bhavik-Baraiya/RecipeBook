@@ -478,11 +478,7 @@ struct AddRecipeView: View {
                         Button {
                             
                         } label: {
-                            
-                            Utilities.generateThumbnailImage(from: selectedVideos[index])?
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 45, height: 45)
+                            VideoThumbnailView(videoURL: selectedVideos[index], size: 45)
                         }
                     })
                     
