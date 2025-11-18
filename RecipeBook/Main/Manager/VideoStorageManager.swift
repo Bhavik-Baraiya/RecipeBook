@@ -11,40 +11,61 @@ class VideoStorageManager: ObservableObject {
     
     @Published var savedVideoURLs: [URL] = []
 
-    init() {
-        //loadSavedVideos()
-    }
-
-    func saveVideoLocally(from url: URL, to localPath: URL) {
+    func saveVideoLocally(from url: URL, for recipeID: UUID) {
+        let relativePath = "RecipeBook/Recipes/\(recipeID)/Videos"
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let folderURL = documentsURL.appendingPathComponent(relativePath)
+        let destinationURL = folderURL.appendingPathComponent(url.lastPathComponent)
+        
         let fileManager = FileManager.default
-        let destinationURL = localPath.appendingPathComponent(url.lastPathComponent)
-
+        
+        try? fileManager.createDirectory(at: folderURL, withIntermediateDirectories: true)
+        
         do {
             if fileManager.fileExists(atPath: destinationURL.path) {
-                print("File already exists at \(destinationURL.lastPathComponent) Replacing it with the latest one.")
-                try fileManager.removeItem(atPath: destinationURL.path)
+                print("Replacing existing video: \(destinationURL.lastPathComponent)")
+                try fileManager.removeItem(at: destinationURL)
             }
             
             try fileManager.copyItem(at: url, to: destinationURL)
+            print("Video saved successfully: \(destinationURL.lastPathComponent)")
+            
             DispatchQueue.main.async {
-                self.savedVideoURLs.append(destinationURL)
+                self.loadSavedVideos(for: recipeID)
             }
+            
         } catch {
             print("Error saving video locally: \(error)")
         }
     }
 
-    func loadSavedVideos(recipeID: UUID) {
-        let completeVideoLocalPath = "RecipeBook/Recipes/\(recipeID)/Videos"
-        let fileManager = FileManager.default
-        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let videoFolderURL = documentsURL.appendingPathComponent(completeVideoLocalPath)
+    func loadSavedVideos(for recipeID: UUID) {
+        let relativePath = "RecipeBook/Recipes/\(recipeID)/Videos"
+        guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            savedVideoURLs = []
+            return
+        }
+        
+        let videoFolderURL = documentsURL.appendingPathComponent(relativePath)
+        
+        guard FileManager.default.fileExists(atPath: videoFolderURL.path) else {
+            savedVideoURLs = []
+            return
+        }
+        
         do {
-            let fileURLs = try FileManager.default.contentsOfDirectory(at: videoFolderURL, includingPropertiesForKeys: nil)
-            print("Total saved videos: \(fileURLs)")
-            self.savedVideoURLs = fileURLs.filter { $0.pathExtension == "mp4" || $0.pathExtension == "mov" }
+            let urls = try FileManager.default.contentsOfDirectory(at: videoFolderURL,
+                                                                   includingPropertiesForKeys: nil)
+            let videoURLs = urls.filter { url in
+                ["mp4", "mov", "m4v"].contains(url.pathExtension.lowercased())
+            }.sorted { $0.lastPathComponent < $1.lastPathComponent } // optional: sort by name
+            
+            self.savedVideoURLs = videoURLs
+            print("Loaded \(videoURLs.count) videos for recipe \(recipeID)")
+            
         } catch {
-            print("Error loading saved videos: \(error)")
+            print("Error loading videos: \(error)")
+            self.savedVideoURLs = []
         }
     }
 

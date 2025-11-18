@@ -130,7 +130,7 @@ struct EditRecipeView: View {
         .sheet(isPresented: $showingVideoPicker, content: {
             VideoPickerView { selectedURL in
                 let recipeVideoLocalPath = videoManager.getVideoLocalDirectory(recipeID: $recipeData.id)
-                videoManager.saveVideoLocally(from: selectedURL, to: recipeVideoLocalPath)
+                videoManager.saveVideoLocally(from: selectedURL, for: $recipeData.id)
                 self.selectedVideos.append(recipeVideoLocalPath)
             }
         })
@@ -160,7 +160,7 @@ struct EditRecipeView: View {
             }
         })
         .onChange(of: self.showingVideoPicker, {
-            videoManager.loadSavedVideos(recipeID: $recipeData.id)
+            videoManager.loadSavedVideos(for: $recipeData.id)
             selectedVideos = videoManager.savedVideoURLs
         })
         .onChange(of: self.selectedVideos, {
