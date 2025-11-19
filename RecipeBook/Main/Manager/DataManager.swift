@@ -18,6 +18,11 @@ class DataManager {
     
     public func insert(data: RecipeData) {
         modelContext.insert(data)
+        do {
+            try modelContext.save()
+        } catch {
+            print(error)
+        }
     }
     
     public func fetch() -> [RecipeData] {

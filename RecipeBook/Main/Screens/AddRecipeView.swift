@@ -241,11 +241,11 @@ struct AddRecipeView: View {
     private func performSaveOperation() {
         
         let datamanager = DataManager(modelContext: recipeModelContext)
-        datamanager.insert(data: recipeData)
         recipeData.category = self.selectedCategory
         recipeData.level = self.levelSelection
         saveImagesLocally()
         saveVideosLocally()
+        datamanager.insert(data: recipeData)
         dataReloadRequest.toggle()
     }
     
