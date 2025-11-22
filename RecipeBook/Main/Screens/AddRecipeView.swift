@@ -266,7 +266,7 @@ struct AddRecipeView: View {
         
         $recipeData.videos.wrappedValue.removeAll()
         for video in selectedVideos {
-            $recipeData.videos.wrappedValue.append(video)
+            $recipeData.videos.wrappedValue.append(video.lastPathComponent)
         }
     }
     

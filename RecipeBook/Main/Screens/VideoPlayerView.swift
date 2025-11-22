@@ -21,19 +21,20 @@ struct VideoPlayerView: View {
         self.recipeTitle = recipeTitle
         self.recipeId = recipeId
         self.videoURL = videoURL
-        self.videoPlayerHelper = VideoPlayerHelper()
+        self.videoPlayerHelper = VideoPlayerHelper(videoURL: videoURL)
         self.videoStorageManager = VideoStorageManager()
     }
     
   var body: some View {
     VStack {
         if let videoURL = self.videoURL,
-           let recipeVideoPlayer = self.videoPlayerHelper?.playVideo(fileName: videoURL){
+           let recipeVideoPlayer = self.videoPlayerHelper?.playVideo(){
             VideoPlayer(player: recipeVideoPlayer)
         } else {
             EmptyView()
                 .overlay(content: {
                     Text("Unable to load the video")
+                        .foregroundStyle(.accent)
                 })
         }
     } //: VSTACK

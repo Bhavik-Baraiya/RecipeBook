@@ -94,4 +94,20 @@ class VideoStorageManager: ObservableObject {
         }
         return videoFolderURL
     }
+    
+    func getVideoLocalPath(recipeId: UUID,videoFileName: String) -> URL {
+        let relativePath = "RecipeBook/Recipes/\(recipeId)/Videos"
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let folderURL = documentsURL.appendingPathComponent(relativePath)
+        let destinationURL = folderURL.appendingPathComponent(videoFileName)
+        
+        let fileManager = FileManager.default
+        
+        
+        try? fileManager.createDirectory(at: folderURL, withIntermediateDirectories: true)
+        if fileManager.fileExists(atPath: destinationURL.path) {
+            return destinationURL
+        }
+        return URL(fileURLWithPath: "")
+    }
 }

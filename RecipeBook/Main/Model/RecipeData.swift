@@ -19,7 +19,7 @@ class RecipeData {
     var preparationTimeInHours: Int
     var preparationTimeInMinutes: Int
     var imageNames: [String]
-    var videos: [URL]
+    var videos: [String]
     var isFavourite: Bool
     
     init(
@@ -32,7 +32,7 @@ class RecipeData {
         preparationTimeInHours: Int,
         preparationTimeInMinutes: Int,
         imageNames: [String] = [],
-        videos: [URL] = [],
+        videos: [String] = [],
         isFavourite: Bool = false
     ) {
         self.id = id

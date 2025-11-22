@@ -436,7 +436,9 @@ struct EditRecipeView: View {
     }
     
     private func updateVideosLocally() {
-        self.recipeData.videos = self.selectedVideos
+        for index in 0..<selectedVideos.count {
+            self.recipeData.videos.append(self.selectedVideos[index].lastPathComponent)
+        }
     }
     
     private func loadRecipeImages() {
@@ -450,9 +452,8 @@ struct EditRecipeView: View {
     }
     
     private func loadRecipeVideos() {
-        for video in self.recipeData.videos {
-            self.selectedVideos.append(video)
-        }
+        videoManager.loadSavedVideos(for: $recipeData.id)
+        selectedVideos = videoManager.savedVideoURLs
     }
     
     private func removeRecipeImages(itemIndex: Int) {

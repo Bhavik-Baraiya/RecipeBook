@@ -7,15 +7,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "046FE667-DBD3-4D59-B540-E1E6ACC5ABEE"
+            uuid = "D3ED49AD-A5C4-4D0B-801F-E89EC81FFE78"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RecipeBook/Main/Screens/EditRecipeView.swift"
+            filePath = "RecipeBook/Main/Components/BannerView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -23,47 +23,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A3595521-BF1A-43C8-8210-05639F3D2494"
+            uuid = "BBD9D38F-4FC2-4422-8798-4C7B8AD7FCC5"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RecipeBook/Main/Screens/VideoPlayerView.swift"
+            filePath = "RecipeBook/Main/Manager/VideoStorageManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "A3595521-BF1A-43C8-8210-05639F3D2494 - 904bbd2b6a304a1d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI._ConditionalContent&lt;_AVKit_SwiftUI.VideoPlayer&lt;SwiftUI.EmptyView&gt;, &lt;&lt;opaque return type of SwiftUI.View.overlay&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(alignment: SwiftUI.Alignment, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0&gt; in RecipeBook.VideoPlayerView.body.getter : some"
-                  moduleName = "RecipeBook.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/bhavikbaraiya/Dev/Personal/Swift%20UI/Learning%20Projects/GitHub/RecipeBook/RecipeBook/Main/Screens/VideoPlayerView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "31"
-                  endingLineNumber = "31">
-               </Location>
-               <Location
-                  uuid = "A3595521-BF1A-43C8-8210-05639F3D2494 - 904bbd2b6a304a1d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI._ConditionalContent&lt;_AVKit_SwiftUI.VideoPlayer&lt;SwiftUI.EmptyView&gt;, &lt;&lt;opaque return type of SwiftUI.View.overlay&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(alignment: SwiftUI.Alignment, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0&gt; in RecipeBook.VideoPlayerView.body.getter : some"
-                  moduleName = "RecipeBook.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/bhavikbaraiya/Dev/Personal/Swift%20UI/Learning%20Projects/GitHub/RecipeBook/RecipeBook/Main/Screens/VideoPlayerView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "31"
-                  endingLineNumber = "31">
-               </Location>
-            </Locations>
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "saveVideoLocally(from:for:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

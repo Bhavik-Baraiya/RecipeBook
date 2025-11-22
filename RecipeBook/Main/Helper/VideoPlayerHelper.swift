@@ -10,15 +10,20 @@ var videoPlayer: AVPlayer?
 
 class VideoPlayerHelper {
     
-    private var videoURL: String?
+    private var videoURL: URL?
     
-    init(videoURL: String? = nil) {
+    init(videoURL: URL) {
         self.videoURL = videoURL
     }
     
-    func playVideo(fileName: URL) -> AVPlayer? {
+    func playVideo() -> AVPlayer? {
         
-        let player = AVPlayer(url: fileName)
+        guard let videoURL = self.videoURL else {
+            print("Video url not found")
+            return nil
+        }
+        print("Playing video at: \(videoURL.absoluteString)")
+        let player = AVPlayer(url: videoURL)
         player.play()
         return player
         

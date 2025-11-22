@@ -39,9 +39,10 @@ struct BannerView: View {
                     }
                     
                     if let videos = recipeData?.videos {
-                        
+                        let videoManager = VideoStorageManager()
                         ForEach(videos, id: \.self) { video in
-                            VideoPlayerView(recipeTitle:recipeData?.title,videoURL: video)
+                            let videoCompleteURL = videoManager.getVideoLocalPath(recipeId: recipeId, videoFileName: video)
+                            VideoPlayerView(recipeTitle:recipeData?.title,videoURL: videoCompleteURL)
                         }
                         
                     } else {
