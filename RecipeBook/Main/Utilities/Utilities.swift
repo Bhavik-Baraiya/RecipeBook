@@ -30,8 +30,6 @@ class Utilities {
     }
     
     static func generateThumbnailImages(from videoURL: URL, completion: @escaping (Image?) -> Void) {
-        print("Video URL: \(videoURL)")
-        print("Exists: \(FileManager.default.fileExists(atPath: videoURL.path))")
         let asset = AVURLAsset(url: videoURL)
         let generator = AVAssetImageGenerator(asset: asset)
         generator.appliesPreferredTrackTransform = true

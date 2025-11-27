@@ -146,9 +146,10 @@ struct AddRecipeView: View {
         })
         .sheet(isPresented: $showingVideoPicker, content: {
             VideoPickerView { selectedURL in
-                let recipeVideoLocalPath = videoManager.getVideoLocalDirectory(recipeID: $recipeData.id)
                 videoManager.saveVideoLocally(from: selectedURL, for: $recipeData.id)
-                self.selectedVideos.append(recipeVideoLocalPath)
+                videoManager.loadSavedVideos(for: $recipeData.id)
+                selectedVideos = videoManager.savedVideoURLs
+                self.videoSelected = true
             }
         })
         .onChange(of: self.cameraPicture, {
@@ -157,13 +158,6 @@ struct AddRecipeView: View {
                 self.selectedPhotos.append(picture)
                 self.photosSelected = true
             }
-        })
-        .onChange(of: self.showingVideoPicker, {
-            videoManager.loadSavedVideos(for: $recipeData.id)
-            selectedVideos = videoManager.savedVideoURLs
-        })
-        .onChange(of: self.selectedVideos, {
-            self.videoSelected = true
         })
         .photosPicker(
             isPresented: $showingPhotoPicker,
@@ -481,7 +475,6 @@ struct AddRecipeView: View {
                             VideoThumbnailView(videoURL: selectedVideos[index], size: 45)
                         }
                     })
-                    
                 }
             }
         }
