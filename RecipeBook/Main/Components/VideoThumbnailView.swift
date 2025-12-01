@@ -36,6 +36,7 @@ struct VideoThumbnailView: View {
 
     private func loadThumbnail() {
         Utilities.generateThumbnailImages(from: videoURL) { image in
+            print("Video URL for generating thumbnail:\(videoURL.absoluteString)")
             DispatchQueue.main.async {
                 print("thumbnail generated: \(String(describing: image))")
                 self.thumbnail = image

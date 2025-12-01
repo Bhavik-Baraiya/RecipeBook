@@ -110,4 +110,16 @@ class VideoStorageManager: ObservableObject {
         }
         return URL(fileURLWithPath: "")
     }
+    
+    func removeVideoAt(path videoURL: URL) {
+        
+        let fileManager = FileManager.default
+        
+        do {
+            try fileManager.removeItem(at: videoURL)
+        } catch {
+            print("Error while removing video item: \(error.localizedDescription)")
+        }
+    }
+    
 }

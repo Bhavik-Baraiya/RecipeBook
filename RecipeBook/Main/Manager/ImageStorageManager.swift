@@ -50,5 +50,17 @@ class ImageStorageManager {
         print("Looking for image at path: \(path.path)")
         return UIImage(contentsOfFile: path.path)
     }
+    
+    func removePhoto(name: String) {
+        
+        let fileManager = FileManager.default
+        guard let photosLocalURL = self.fileHandler?.getPhotoLocalDirectory() else { return }
+        let path = photosLocalURL.appendingPathComponent("\(name)\(imageFileExtension)")
+        do {
+            try fileManager.removeItem(at: path)
+        } catch {
+            print("Error while removing photo item: \(error.localizedDescription)")
+        }
+    }
 }
  

@@ -338,43 +338,34 @@ struct EditRecipeView: View {
     }
     
     func videosItemList() -> some View {
-        return ScrollView(.horizontal) {
-            HStack(spacing: 10) {
-                ForEach(selectedVideos.indices, id: \.self) { index in
-                    ZStack(alignment: .center, content: {
-                        
-                        ZStack(alignment: .topTrailing) {
-                            Image(systemName: "photos.square")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 90, height: 90)
-                                .clipShape(
-                                    RoundedRectangle(cornerRadius: 10)
-                                )
-                            
-                            Button {
-                                selectedVideos.remove(at: index)
-                            } label: {
-                                Image(systemName: "xmark.circle.fill")
-                                    .resizable()
-                                    .frame(width: 15, height: 15    )
-                                    .foregroundColor(.white)
-                                    .background(Circle().fill(Color.black.opacity(0.6)))
-                                    .padding(3)
-                            }
-                        }
-                        
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack() {
+                
+                ForEach(Array(selectedVideos.reversed()), id: \.self) { video in
+                    ZStack(alignment: .topTrailing) {
                         Button {
                             
                         } label: {
-                            
-                            Utilities.generateThumbnailImage(from: selectedVideos[index])?
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 45, height: 45)
+                            VideoThumbnailView(videoURL: video, size: 90)
+                                .frame(width: 90, height: 90)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
-                    })
-                    
+
+                        Button {
+                            
+                            if let realIndex = selectedVideos.firstIndex(of: video) {
+                                selectedVideos.remove(at: realIndex)
+                                videoManager.removeVideoAt(path: video)
+                            }
+                            
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .resizable()
+                                .frame(width: 18, height: 18)
+                                .foregroundColor(.white)
+                                .background(Circle().fill(Color.black.opacity(0.6)))
+                        }
+                    }
                 }
             }
         }

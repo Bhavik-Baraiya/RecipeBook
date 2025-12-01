@@ -27,7 +27,7 @@ struct VideoPlayerView: View {
     
   var body: some View {
     VStack {
-        if let videoURL = self.videoURL,
+        if let _ = self.videoURL,
            let recipeVideoPlayer = self.videoPlayerHelper?.playVideo(){
             VideoPlayer(player: recipeVideoPlayer)
         } else {
