@@ -70,6 +70,9 @@ struct RecipeView: View {
         .onChange(of: perfromBack, {
             dismiss()
         })
+        .onChange(of: displayPopup, {
+            displayPopup.toggle()
+        })
         .navigationTitle(recipe.title)
         .navigationBarTitleDisplayMode(.inline)
     }

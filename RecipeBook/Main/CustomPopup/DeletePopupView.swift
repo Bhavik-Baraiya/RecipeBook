@@ -61,7 +61,7 @@ struct DeletePopupView: View {
             .shadow(radius: 5)
             .offset(x:0, y: offset)
             .onAppear {
-                withAnimation(.spring) {
+                withAnimation(.bouncy) {
                     offset = 0
                 }
             }
