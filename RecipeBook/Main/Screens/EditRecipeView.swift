@@ -427,6 +427,7 @@ struct EditRecipeView: View {
     }
     
     private func updateVideosLocally() {
+        self.recipeData.videos.removeAll()
         for index in 0..<selectedVideos.count {
             self.recipeData.videos.append(self.selectedVideos[index].lastPathComponent)
         }
