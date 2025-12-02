@@ -139,9 +139,9 @@ struct AddRecipeView: View {
                 self.bottomActions()
             }
         }
-        .confirmationDialog(label_UploadMediaText, isPresented: $showingAddMediaDialog,titleVisibility: .visible , actions: {
+        .alert(label_UploadMediaText, isPresented: $showingAddMediaDialog) {
             self.uploadMediaActionOptionsView()
-        })
+        }
         .sheet(isPresented: $showingPhotoCapture, content: {
             ImagePicker(image: $cameraPicture, isShown: self.$showingPhotoCapture, sourceType: self.sourceType)
         })
@@ -316,6 +316,12 @@ struct AddRecipeView: View {
             self.showingVideoPicker = true
         }, label: {
             Text("Videos")
+        })
+        
+        Button(action:{
+            showingAddMediaDialog.toggle()
+        }, label: {
+            Text("Cancel")
         })
     }
     
