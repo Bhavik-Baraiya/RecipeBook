@@ -13,7 +13,6 @@ let darkModeSettingsOption = "Enable Dark Mode"
 let viewModeSettingsOption = "List/Grid"
 let aboutSettingsOption = "About"
 
-
 let settingsItem: [SettingsItem] = [
     SettingsItem(iconName: "dark-mode", name: darkModeSettingsOption, isToggelRequired: true),
     SettingsItem(iconName: "view-mode", name: viewModeSettingsOption, isToggelRequired: true),
