@@ -11,7 +11,7 @@ struct BottomActionButton: Identifiable {
     var id: UUID = UUID()
     var imageName: String? = nil
     var systemImageName: String? = nil
-    var title: String? = nil
+    var title: LocalizedStringKey? = nil
     var action: (() -> Void)?
 }
 

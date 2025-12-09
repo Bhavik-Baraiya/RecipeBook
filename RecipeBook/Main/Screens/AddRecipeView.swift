@@ -13,7 +13,7 @@ import SwiftUI
 struct AddRecipeView: View {
     
     @State private var recipeData = RecipeData(title: "", ingredients: "", instructions: "", category: "", level: 1, preparationTimeInHours: 1, preparationTimeInMinutes: 2)
-    @State private var selectedCategory = "None"
+    @State private var selectedCategory = Category.none
     @State private var selectedPhotosItems:[PhotosPickerItem] = []
     @State private var selectedPhotos: [UIImage] = []
     @State private var selectedVideos: [URL] = []
@@ -69,13 +69,13 @@ struct AddRecipeView: View {
                 
                 recipeInputView(
                     headLabelText: label_RecipeIngredientsText,
-                    placeHolder: placeHolder_RecipeIngredients.capitalized,
+                    placeHolder: placeHolder_RecipeIngredients,
                     textData: $recipeData.ingredients
                 )
                 
                 recipeInputView(
                     headLabelText: label_RecipeInstructionsText,
-                    placeHolder: placeHolder_RecipeInstructions.capitalized,
+                    placeHolder: placeHolder_RecipeInstructions,
                     textData: $recipeData.instructions
                 )
                 
@@ -97,11 +97,11 @@ struct AddRecipeView: View {
                 
                 VStack(alignment: .leading,spacing: 20.0, content: {
                     
-                    Picker(label_SelectCategoryText, selection: self.$selectedCategory, content: {
-                        ForEach(categories, id: \.self) { category in
-                            Text(category)
+                    Picker(label_SelectCategoryText, selection: $selectedCategory) {
+                        ForEach(Category.allCases) { category in
+                            Text(category.title)
                         }
-                    })
+                    }
                     Text("\(label_SelectedCategoryText) \(self.$selectedCategory.wrappedValue)")
                         .font(.headline)
                 })
@@ -223,7 +223,7 @@ struct AddRecipeView: View {
                 title: recipeData.title,
                 ingredients: recipeData.ingredients,
                 instructions: recipeData.instructions,
-                category: selectedCategory,
+                category: "selectedCategory.title",
                 prepTimeInHour: recipeData.preparationTimeInHours,
                 prepTimeInMinute: recipeData.preparationTimeInMinutes,
                 images: selectedPhotos
@@ -242,7 +242,7 @@ struct AddRecipeView: View {
     private func performSaveOperation() {
         
         let datamanager = DataManager(modelContext: recipeModelContext)
-        recipeData.category = self.selectedCategory
+        recipeData.category = "self.selectedCategory.title"
         recipeData.level = self.levelSelection
         saveImagesLocally()
         saveVideosLocally()
@@ -281,7 +281,7 @@ struct AddRecipeView: View {
     }
     
     @ViewBuilder
-    private func recipeInputView(headLabelText: String, placeHolder: String, textData: Binding<String>) -> some View {
+    private func recipeInputView(headLabelText: LocalizedStringKey, placeHolder: LocalizedStringKey, textData: Binding<String>) -> some View {
         
         VStack(alignment: .leading,spacing: 20.0, content: {
             Text(headLabelText)

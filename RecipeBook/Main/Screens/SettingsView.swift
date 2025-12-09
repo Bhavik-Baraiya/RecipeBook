@@ -9,9 +9,9 @@ import SwiftUI
 
 //Settings Options
 
-let darkModeSettingsOption = "Enable Dark Mode"
-let viewModeSettingsOption = "List/Grid"
-let aboutSettingsOption = "About"
+let darkModeSettingsOption:LocalizedStringKey = "Enable Dark Mode"
+let viewModeSettingsOption:LocalizedStringKey = "List/Grid"
+let aboutSettingsOption:LocalizedStringKey = "About"
 
 let settingsItem: [SettingsItem] = [
     SettingsItem(iconName: "dark-mode", name: darkModeSettingsOption, isToggelRequired: true),
@@ -50,4 +50,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environment(\.locale, Locale(identifier: "DE"))
 }

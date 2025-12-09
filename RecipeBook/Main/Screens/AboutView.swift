@@ -72,7 +72,7 @@ struct AboutView: View {
     }
     
    
-    func aboutBodyView(headingText:String, descriptionText:String) -> some View{
+    func aboutBodyView(headingText:LocalizedStringKey, descriptionText:LocalizedStringKey) -> some View{
         VStack(alignment:.leading,spacing: 20){
             Text(headingText)
                 .bodyTitleStyle()

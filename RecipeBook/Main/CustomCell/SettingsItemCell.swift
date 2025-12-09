@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsItem {
     var iconName: String
-    var name: String
+    var name: LocalizedStringKey
     var isToggelRequired: Bool
 }
 

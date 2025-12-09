@@ -480,7 +480,7 @@ struct EditRecipeView: View {
     }
     
     @ViewBuilder
-    private func recipeInputView(headLabelText: String, placeHolder: String, textData: Binding<String>) -> some View{
+    private func recipeInputView(headLabelText: LocalizedStringKey, placeHolder: LocalizedStringKey, textData: Binding<String>) -> some View{
         VStack(alignment: .leading,spacing: 20.0, content: {
             Text(headLabelText)
                 .font(.headline)

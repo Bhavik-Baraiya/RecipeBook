@@ -1,12 +1,69 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "*You can upload maximum 5 pictures" : {
+    "" : {
+
+    },
+    "*You Can Upload Maximum 5 Pictures" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "new",
             "value" : "*Sie können maximal 5 Bilder hochladen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "*You Can Upload Maximum 5 Pictures"
+          }
+        }
+      }
+    },
+    "%@ %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "%@: %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@"
+          }
+        }
+      }
+    },
+    "%@: %lldh %lldm" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$lldh %3$lldm"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$lldh %3$lldm"
           }
         }
       }
@@ -18,6 +75,12 @@
             "state" : "translated",
             "value" : "%lld Std."
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%lld H"
+          }
         }
       }
     },
@@ -28,21 +91,59 @@
             "state" : "translated",
             "value" : "%lld Min."
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%lld m"
+          }
         }
       }
     },
-    "%lld:%lld" : {
+    "📧 Email us at:" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld:%2$lld"
+            "value" : "📧 E-Mail an uns:"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$lld:%2$lld"
+            "value" : "📧 Email us at:"
+          }
+        }
+      }
+    },
+    "🔗 Visit:" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🔗 Besuchen Sie:"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "🔗 Visit:"
+          }
+        }
+      }
+    },
+    "🧑‍🍳 Save and organize your own recipes\n❤️ Mark and share your favorite recipes\n🌐 Offline access anytime, anywhere\n📸 Add photos and notes to your recipes" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "🧑‍🍳 Speichern und organisieren Sie Ihre eigenen Rezepte\n❤️ Markieren und teilen Sie Ihre Lieblingsrezepte\n🌐 Offline-Zugriff jederzeit und überall\n📸 Fügen Sie Fotos und Notizen zu Ihren Rezepten hinzu"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "🧑‍🍳 Save and organize your own recipes\n❤️ Mark and share your favorite recipes\n🌐 Offline access anytime, anywhere\n📸 Add photos and notes to your recipes"
           }
         }
       }
@@ -54,6 +155,28 @@
             "state" : "translated",
             "value" : "Über"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "About"
+          }
+        }
+      }
+    },
+    "About app" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Über die App"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "About app"
+          }
         }
       }
     },
@@ -61,18 +184,30 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "new",
             "value" : "Hinzufügen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Add"
           }
         }
       }
     },
-    "Add pictures" : {
+    "Add Photos & Videos" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fügen Sie Bilder hinzu"
+            "value" : "Fotos & Videos hinzufügen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Add Photos & Videos"
           }
         }
       }
@@ -84,6 +219,12 @@
             "state" : "translated",
             "value" : "Rezept hinzufügen"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Add Recipe"
+          }
         }
       }
     },
@@ -93,6 +234,44 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sind Sie sicher?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Are you sure?"
+          }
+        }
+      }
+    },
+    "Bevarage" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Getränk"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Beverage"
+          }
+        }
+      }
+    },
+    "Camera" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Camera"
           }
         }
       }
@@ -104,6 +283,28 @@
             "state" : "translated",
             "value" : "Abbrechen"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "Contact & Support" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontakt & Support"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Contact & Support"
+          }
         }
       }
     },
@@ -113,6 +314,60 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Löschen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "Dessert" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dessert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dessert"
+          }
+        }
+      }
+    },
+    "Discover, Cook, Share – Your Personal Recipe Companion" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entdecken, Kochen, Teilen – Ihr persönlicher Rezeptbegleiter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Discover, Cook, Share – Your Personal Recipe Companion"
+          }
+        }
+      }
+    },
+    "Dismiss" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dismiss"
           }
         }
       }
@@ -124,35 +379,59 @@
             "state" : "translated",
             "value" : "Dunkelmodus aktivieren"
           }
-        }
-      }
-    },
-    "Enter recipe ingredients" : {
-      "localizations" : {
-        "de" : {
+        },
+        "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rezeptzutaten eingeben"
+            "state" : "new",
+            "value" : "Enable Dark Mode"
           }
         }
       }
     },
-    "Enter recipe instructions" : {
+    "Enter Recipe Ingredients" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rezeptanweisungen eingeben"
+            "state" : "new",
+            "value" : "Rezept-Zutaten eingeben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enter Recipe Ingredients"
           }
         }
       }
     },
-    "Enter recipe title" : {
+    "Enter Recipe Instructions" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "new",
+            "value" : "Rezept-Anweisungen eingeben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enter Recipe Instructions"
+          }
+        }
+      }
+    },
+    "Enter Recipe Title" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
             "value" : "Rezepttitel eingeben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enter Recipe Title"
           }
         }
       }
@@ -164,6 +443,44 @@
             "state" : "translated",
             "value" : "Favoriten"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Favourites"
+          }
+        }
+      }
+    },
+    "Have feedback or need help?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haben Sie Feedback oder benötigen Sie Hilfe?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Have feedback or need help?"
+          }
+        }
+      }
+    },
+    "High" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "High"
+          }
         }
       }
     },
@@ -174,25 +491,43 @@
             "state" : "translated",
             "value" : "Stunde"
           }
-        }
-      }
-    },
-    "Ingredients:" : {
-      "localizations" : {
-        "de" : {
+        },
+        "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zutaten:"
+            "state" : "new",
+            "value" : "Hour"
           }
         }
       }
     },
-    "Instructions:" : {
+    "Information Required!" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anweisungen:"
+            "state" : "new",
+            "value" : "Informationen erforderlich!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Information Required!"
+          }
+        }
+      }
+    },
+    "Key Features" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Hauptmerkmale"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Key Features"
           }
         }
       }
@@ -204,6 +539,60 @@
             "state" : "translated",
             "value" : "Liste/Raster"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "List/Grid"
+          }
+        }
+      }
+    },
+    "Low" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niedrig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Low"
+          }
+        }
+      }
+    },
+    "Meal" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mahlzeit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Meal"
+          }
+        }
+      }
+    },
+    "Medium" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mittel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Medium"
+          }
         }
       }
     },
@@ -213,6 +602,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Minuten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Minutes"
           }
         }
       }
@@ -224,6 +619,12 @@
             "state" : "translated",
             "value" : "Mein Rezept"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "My Recipe"
+          }
         }
       }
     },
@@ -232,7 +633,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kein Lieblingsrezept verfügbar"
+            "value" : "Keine Favoriten-Rezepte verfügbar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No favourite recipe available"
           }
         }
       }
@@ -244,55 +651,171 @@
             "state" : "translated",
             "value" : "Keine Rezepte verfügbar!"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No recipes available!"
+          }
         }
       }
     },
-    "Preparation time" : {
+    "None" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Keine"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "None"
+          }
+        }
+      }
+    },
+    "Photos" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotos"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Photos"
+          }
+        }
+      }
+    },
+    "Picker" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auswahl"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Picker"
+          }
+        }
+      }
+    },
+    "Preparation Time" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vorbereitungszeit"
           }
-        }
-      }
-    },
-    "Prepared In:" : {
-      "localizations" : {
-        "de" : {
+        },
+        "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zubereitet in:"
+            "state" : "new",
+            "value" : "Preparation Time"
           }
         }
       }
     },
-    "Recipe ingredients " : {
+    "Recipe Ingredients" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rezeptzutaten "
+            "value" : "Rezept-Zutaten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Recipe Ingredients"
           }
         }
       }
     },
-    "Recipe instructions " : {
+    "Recipe Instructions" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rezeptanweisungen "
+            "value" : "Rezept-Anweisungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Recipe Instructions"
           }
         }
       }
     },
-    "Recipe title" : {
+    "Recipe Title" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rezepttitel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Recipe Title"
+          }
+        }
+      }
+    },
+    "RecipeBook" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rezeptbuch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "RecipeBook"
+          }
+        }
+      }
+    },
+    "RecipeBook is your ultimate kitchen companion – whether you’re a beginner or a seasoned chef. Save your favorite recipes, explore new dishes, and create your own personalized cookbook, all in one place." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "RecipeBook ist Ihr ultimativer Küchenbegleiter – egal, ob Sie Anfänger oder erfahrener Koch sind. Speichern Sie Ihre Lieblingsrezepte, entdecken Sie neue Gerichte und erstellen Sie Ihr eigenes personalisiertes Kochbuch, alles an einem Ort."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "RecipeBook is your ultimate kitchen companion – whether you’re a beginner or a seasoned chef. Save your favorite recipes, explore new dishes, and create your own personalized cookbook, all in one place."
+          }
+        }
+      }
+    },
+    "RecipeBook v1.0.0" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "RecipeBook v1.0.0"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "RecipeBook v1.0.0"
           }
         }
       }
@@ -304,31 +827,59 @@
             "state" : "translated",
             "value" : "Rezepte"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Recipes"
+          }
         }
       }
     },
-    "Select category" : {
+    "Select Category" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kategorie auswählen"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Select Category"
+          }
         }
       }
     },
-    "Selected Time: %lldh %lldm" : {
+    "Select Difficulty Level" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ausgewählte Zeit: %1$lldh %2$lldm"
+            "value" : "Schwierigkeitsgrad auswählen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Selected Time: %1$lldh %2$lldm"
+            "value" : "Select Difficulty Level"
+          }
+        }
+      }
+    },
+    "Selected Time" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgewählte Zeit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Selected Time"
           }
         }
       }
@@ -340,15 +891,59 @@
             "state" : "translated",
             "value" : "Einstellungen"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Settings"
+          }
         }
       }
     },
-    "Sync on cloud" : {
+    "Snacks" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Snacks"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Snacks"
+          }
+        }
+      }
+    },
+    "Soup" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Suppe"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Soup"
+          }
+        }
+      }
+    },
+    "support@recipebook.app" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In der Cloud synchronisieren"
+            "value" : "support@recipebook.app"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "support@recipebook.app"
           }
         }
       }
@@ -358,7 +953,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tippen Sie auf das +-Symbol in der oberen rechten Ecke, um Ihr Rezept hinzuzufügen"
+            "value" : "Tippen Sie auf das +-Symbol oben rechts, um Ihr Rezept hinzuzufügen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tap on + icon at top right corner to add your recipe"
           }
         }
       }
@@ -368,7 +969,29 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tippen Sie auf die Herzschaltfläche beim Rezept, um es hier hinzuzufügen"
+            "value" : "Tippen Sie auf das Herz-Symbol bei einem Rezept, um es hier hinzuzufügen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tap on heart button on recipe item to add entry here"
+          }
+        }
+      }
+    },
+    "Unable to load the video" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video kann nicht geladen werden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unable to load the video"
           }
         }
       }
@@ -377,18 +1000,30 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "new",
             "value" : "Aktualisieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Update"
           }
         }
       }
     },
-    "Update pictures" : {
+    "Update Pictures" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bilder aktualisieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Update Pictures"
           }
         }
       }
@@ -400,6 +1035,92 @@
             "state" : "translated",
             "value" : "Rezept aktualisieren"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Update Recipe"
+          }
+        }
+      }
+    },
+    "Upload Media" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medien hochladen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Upload Media"
+          }
+        }
+      }
+    },
+    "Upload Pictures" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilder hochladen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Upload Pictures"
+          }
+        }
+      }
+    },
+    "Version" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Version"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Version"
+          }
+        }
+      }
+    },
+    "Videos" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Videos"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Videos"
+          }
+        }
+      }
+    },
+    "www.recipebook.app" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "www.recipebook.app"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "www.recipebook.app"
+          }
         }
       }
     },
@@ -407,22 +1128,66 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sie müssen die hinzugefügten Fotos entfernen, um zu aktualisieren"
+            "state" : "new",
+            "value" : "Sie müssen die hinzugefügten Fotos entfernen, um das Update durchzuführen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You have to remove the added photos in order to update"
           }
         }
       }
     },
-    "You Selected: %@" : {
+    "You have to remove the addded videos in order to update" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sie müssen die hinzugefügten Videos entfernen, um das Update durchzuführen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You have to remove the added videos in order to update"
+          }
+        }
+      }
+    },
+    "You need to fill in the recipe information to proceed." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sie müssen die Rezeptinformationen ausfüllen, um fortzufahren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You need to fill in the recipe information to proceed."
+          }
+        }
+      }
+    },
+    "You Selected" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sie haben ausgewählt: %@"
+            "value" : "Sie haben ausgewählt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You Selected"
           }
         }
       }
     }
   },
-  "version" : "1.0"
+  "version" : "1.1"
 }

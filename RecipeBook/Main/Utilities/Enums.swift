@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 enum DifficultyLevel: Int {
     case low = 0
@@ -83,5 +84,33 @@ extension String {
         guard self.contains(where: { $0.isLetter }) else { return false }
         
         return true
+    }
+}
+
+enum Category: Identifiable, CaseIterable {
+    case bevarage
+    case meal
+    case dessert
+    case snacks
+    case soup
+    case none
+    
+    var id: Self { return  self }
+    
+    var title: LocalizedStringKey {
+        switch self {
+            case .bevarage:
+                "Bevarage"
+            case .meal:
+                "Meal"
+            case .dessert:
+                "Dessert"
+            case .snacks:
+                "Snacks"
+            case .soup:
+                "Soup"
+            case .none:
+                "None"
+        }
     }
 }
