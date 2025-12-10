@@ -10,7 +10,7 @@ import SwiftUI
 struct RecipeHeaderViewContent {
     var id: UUID = UUID()
     var systemImage: String
-    var title: String
+    var title: LocalizedStringKey
 }
 
 struct RecipeBodyViewContent {
@@ -34,7 +34,7 @@ struct DetailsView: View {
     }
     
     @ViewBuilder
-    private func recipeBody(iconImage:String, headline: String, content: String) -> some View {
+    private func recipeBody(iconImage:String, headline: LocalizedStringKey, content: String) -> some View {
         
         VStack(alignment:.leading,spacing: 10) {
             

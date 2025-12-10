@@ -4,6 +4,9 @@
     "" : {
 
     },
+    " : " : {
+
+    },
     "*You Can Upload Maximum 5 Pictures" : {
       "localizations" : {
         "de" : {
@@ -21,6 +24,7 @@
       }
     },
     "%@ %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -37,6 +41,7 @@
       }
     },
     "%@: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -64,6 +69,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$@: %2$lldh %3$lldm"
+          }
+        }
+      }
+    },
+    "%lld : %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld : %2$lld"
           }
         }
       }
@@ -245,6 +260,7 @@
       }
     },
     "Bevarage" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -292,6 +308,16 @@
         }
       }
     },
+    "Category:" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorie:"
+          }
+        }
+      }
+    },
     "Contact & Support" : {
       "localizations" : {
         "de" : {
@@ -325,6 +351,7 @@
       }
     },
     "Dessert" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -516,6 +543,26 @@
         }
       }
     },
+    "Ingredients:" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zutaten:"
+          }
+        }
+      }
+    },
+    "Instructions:" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zubereitung:"
+          }
+        }
+      }
+    },
     "Key Features" : {
       "localizations" : {
         "de" : {
@@ -565,6 +612,7 @@
       }
     },
     "Meal" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -661,6 +709,7 @@
       }
     },
     "None" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -808,8 +857,8 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "RecipeBook v1.0.0"
+            "state" : "translated",
+            "value" : "Rezeptbuch v1.0.0"
           }
         },
         "en" : {
@@ -901,6 +950,7 @@
       }
     },
     "Snacks" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -917,6 +967,7 @@
       }
     },
     "Soup" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

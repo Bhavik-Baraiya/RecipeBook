@@ -12,7 +12,7 @@ import PhotosUI
 struct EditRecipeView: View {
     
     @Bindable var recipeData: RecipeData
-    @State var selectedCategory = "None"
+    @State private var selectedCategory: Category = .none
     @State var selectedItems:[PhotosPickerItem] = []
     @State private var selectedPhotos: [UIImage] = []
     @State private var selectedVideos: [URL] = []
@@ -78,13 +78,16 @@ struct EditRecipeView: View {
                 )
                 
                 VStack(alignment: .leading,spacing: 20.0, content: {
-                    Text("\(label_SelectCategoryText): \($recipeData.category.wrappedValue)")
-                        .font(.headline)
-                    Picker(label_SelectedCategoryText, selection: $recipeData.category, content: {
-                        ForEach(categories, id: \.self) { category in
-                            Text(category)
+                    Picker(label_SelectCategoryText, selection: $selectedCategory) {
+                        ForEach(Category.allCases) { category in
+                            Text(LocalizedStringKey(category.title))
+                                .tag(category)
                         }
-                    })
+                    }
+                    Text(label_SelectedCategoryText) +
+                    Text(" : ") +
+                    Text(LocalizedStringKey(selectedCategory.title))
+                        .font(.headline)
                 })
                 
                 VStack(alignment: .leading,spacing: 20.0, content: {
@@ -391,7 +394,7 @@ struct EditRecipeView: View {
                 title: recipeData.title,
                 ingredients: recipeData.ingredients,
                 instructions: recipeData.instructions,
-                category: recipeData.category,
+                category: selectedCategory.title,
                 prepTimeInHour:recipeData.preparationTimeInHours,
                 prepTimeInMinute: recipeData.preparationTimeInMinutes,
                 images: selectedPhotos

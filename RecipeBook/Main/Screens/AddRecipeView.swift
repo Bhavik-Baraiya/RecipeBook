@@ -13,7 +13,7 @@ import SwiftUI
 struct AddRecipeView: View {
     
     @State private var recipeData = RecipeData(title: "", ingredients: "", instructions: "", category: "", level: 1, preparationTimeInHours: 1, preparationTimeInMinutes: 2)
-    @State private var selectedCategory = Category.none
+    @State private var selectedCategory: Category = .none
     @State private var selectedPhotosItems:[PhotosPickerItem] = []
     @State private var selectedPhotos: [UIImage] = []
     @State private var selectedVideos: [URL] = []
@@ -99,10 +99,13 @@ struct AddRecipeView: View {
                     
                     Picker(label_SelectCategoryText, selection: $selectedCategory) {
                         ForEach(Category.allCases) { category in
-                            Text(category.title)
+                            Text(LocalizedStringKey(category.title))
+                                .tag(category)
                         }
                     }
-                    Text("\(label_SelectedCategoryText) \(self.$selectedCategory.wrappedValue)")
+                    Text(label_SelectedCategoryText) +
+                    Text(" : ") +
+                    Text(LocalizedStringKey(selectedCategory.title))
                         .font(.headline)
                 })
                 
@@ -223,7 +226,7 @@ struct AddRecipeView: View {
                 title: recipeData.title,
                 ingredients: recipeData.ingredients,
                 instructions: recipeData.instructions,
-                category: "selectedCategory.title",
+                category: selectedCategory.title,
                 prepTimeInHour: recipeData.preparationTimeInHours,
                 prepTimeInMinute: recipeData.preparationTimeInMinutes,
                 images: selectedPhotos
@@ -242,7 +245,7 @@ struct AddRecipeView: View {
     private func performSaveOperation() {
         
         let datamanager = DataManager(modelContext: recipeModelContext)
-        recipeData.category = "self.selectedCategory.title"
+        recipeData.category = selectedCategory.title
         recipeData.level = self.levelSelection
         saveImagesLocally()
         saveVideosLocally()

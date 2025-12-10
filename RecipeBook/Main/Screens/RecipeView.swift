@@ -80,9 +80,10 @@ struct RecipeView: View {
     @ViewBuilder
     private func recipeHeaderView() -> some View {
         
-        var prepTime: String {
-            "\(recipe.preparationTimeInHours):\(recipe.preparationTimeInMinutes)"
+        var prepTime: LocalizedStringKey {
+            LocalizedStringKey("\(recipe.preparationTimeInHours) : \(recipe.preparationTimeInMinutes)")
         }
+
         
         var recipeLevel: String {
             getDifficultyLevel(for: recipe.level)
@@ -90,7 +91,7 @@ struct RecipeView: View {
         
         let headerData = [
             RecipeHeaderViewContent(systemImage: "clock", title: prepTime),
-            RecipeHeaderViewContent(systemImage: "flame.fill", title: recipeLevel)
+            RecipeHeaderViewContent(systemImage: "flame.fill", title: LocalizedStringKey(recipeLevel))
             //RecipeHeaderViewContent(systemImage: "fork.knife", title: "Desert"),
         ]
         
@@ -121,7 +122,7 @@ struct RecipeView: View {
     }
     
     
-    func getHeaderImageText(imageName:String,title: String) -> some View{
+    func getHeaderImageText(imageName:String,title: LocalizedStringKey) -> some View{
        HStack(spacing: 5) {
         Image(systemName: imageName)
         Text(title)

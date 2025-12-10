@@ -97,7 +97,7 @@ enum Category: Identifiable, CaseIterable {
     
     var id: Self { return  self }
     
-    var title: LocalizedStringKey {
+    var title: String {
         switch self {
             case .bevarage:
                 "Bevarage"
