@@ -124,12 +124,6 @@ struct EditRecipeView: View {
                 self.bottomActions()
             }
         }
-        .onAppear(perform: {
-            selectedCategory =
-            Category.allCases.first {
-                $0.title == recipeData.category
-            } ?? .none
-        })
         .confirmationDialog(label_UploadMediaText, isPresented: $showingAddMediaDialog,titleVisibility: .visible , actions: {
             self.uploadMediaActionOptionsView()
         })
@@ -185,6 +179,10 @@ struct EditRecipeView: View {
         .navigationTitle("Update Recipe")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: {
+            selectedCategory =
+            Category.allCases.first {
+                $0.title == recipeData.category
+            } ?? .none
             loadRecipeImages()
             loadRecipeVideos()
             checkWarningMessageStatus()
@@ -444,6 +442,9 @@ struct EditRecipeView: View {
     }
     
     private func loadRecipeImages() {
+        if($recipeData.imageNames.wrappedValue.count > 0) {
+            self.photosSelected = true
+        }
         let imageStorage = ImageStorageManager(recipeId: self.$recipeData.id)
         for index in 0..<$recipeData.imageNames.wrappedValue.count {
             
