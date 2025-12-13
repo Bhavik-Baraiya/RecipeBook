@@ -124,6 +124,12 @@ struct EditRecipeView: View {
                 self.bottomActions()
             }
         }
+        .onAppear(perform: {
+            selectedCategory =
+            Category.allCases.first {
+                $0.title == recipeData.category
+            } ?? .none
+        })
         .confirmationDialog(label_UploadMediaText, isPresented: $showingAddMediaDialog,titleVisibility: .visible , actions: {
             self.uploadMediaActionOptionsView()
         })
@@ -169,7 +175,7 @@ struct EditRecipeView: View {
         .onChange(of: self.selectedVideos, {
             self.videoSelected = true
         })
-        .alert(popupTitle_InformationRequired, isPresented: $showingInformationRequiredAlert) {
+        .alert(popupTitle_InformationRequired, isPresented: $showInformationRequiredAlert) {
             Button("Dismiss", role: .cancel) {
                 showingInformationRequiredAlert = false
             }
@@ -389,6 +395,7 @@ struct EditRecipeView: View {
     }
     
     private func handleUpdate() {
+        recipeData.category = selectedCategory.title
         do {
             try Validator.validateRecipe(
                 title: recipeData.title,

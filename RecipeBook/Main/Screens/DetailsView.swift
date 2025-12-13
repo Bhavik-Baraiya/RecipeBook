@@ -44,8 +44,7 @@ struct DetailsView: View {
                 Spacer()
             }
             .bodyTitleStyle()
-            
-            Text(content.isEmpty ? "No data available" : content)
+            Text(LocalizedStringKey(content.isEmpty ? "No data available" : content))
                 .bodyTextStyle()
         }
         .padding()
