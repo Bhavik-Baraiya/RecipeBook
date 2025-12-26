@@ -37,6 +37,9 @@ enum RecipeValidationError: Error, LocalizedError {
     case invalidTitle
     case invalidIngredients
     case invalidInstructions
+    
+    // Unknown Error
+    case unknownError
 
     var errorDescription: String? {
         switch self {
@@ -59,6 +62,9 @@ enum RecipeValidationError: Error, LocalizedError {
             return "The recipe ingredients should contain alphabetical characters only."
         case .invalidInstructions:
             return "The recipe instructions should contain alphabetical characters only."
+            
+        case .unknownError:
+            return "Something went wrong"
         }
     }
 }
