@@ -1,51 +1,40 @@
 //
-//  AddRecipeViewModel.swift
+//  EditRecipeViewModel.swift
 //  RecipeBook
 //
-//  Created by Bhavik Baraiya on 26/12/25.
+//  Created by Bhavik Baraiya on 27/12/25.
 //
 
-
-import PhotosUI
 import SwiftData
 import SwiftUI
+import PhotosUI
 
 // MARK: - ViewModel
 @Observable
-class AddRecipeViewModel {
+class EditRecipeViewModel {
     
     // MARK: - Recipe Data
-    var recipeData = RecipeData(
-        title: "",
-        ingredients: "",
-        instructions: "",
-        category: "",
-        level: 1,
-        preparationTimeInHours: 1,
-        preparationTimeInMinutes: 2
-    )
+    var recipeData: RecipeData
     
     // MARK: - Selection States
     var selectedCategory: Category = .none
-    var selectedPhotosItems: [PhotosPickerItem] = []
+    var selectedItems: [PhotosPickerItem] = []
     var selectedPhotos: [UIImage] = []
     var selectedVideos: [URL] = []
-    var levelSelection = 0
     var cameraPicture: UIImage?
-    var sourceType: UIImagePickerController.SourceType = .camera
+    var sourceType: UIImagePickerController.SourceType = .photoLibrary
     
     // MARK: - Presentation Flags
-    var showingWarningMessage: Bool = false
+    var showWarningMessage: Bool = false
+    var showInformationRequiredAlert: Bool = false
     var showingAddMediaDialog: Bool = false
     var showingPhotoPicker: Bool = false
     var showingVideoPicker: Bool = false
-    var showingInformationRequiredAlert: Bool = false
     var showingPhotoCapture: Bool = false
     
     // MARK: - Operation Flags
     var photosSelected: Bool = false
     var videoSelected: Bool = false
-    var isRecipeSaved: Bool = false
     
     // MARK: - Error Handling
     var validationError: RecipeValidationError?
@@ -53,9 +42,18 @@ class AddRecipeViewModel {
     // MARK: - Managers
     let videoManager = VideoStorageManager()
     
+    // MARK: - Initialization
+    init(recipeData: RecipeData) {
+        self.recipeData = recipeData
+    }
+    
     // MARK: - Computed Properties
     var shouldShowWarningMessage: Bool {
         selectedPhotos.count > 4
+    }
+    
+    var shouldShowVideoWarningMessage: Bool {
+        selectedVideos.count > 4
     }
     
     var hasMediaSelected: Bool {
@@ -84,16 +82,17 @@ class AddRecipeViewModel {
         if let picture = cameraPicture {
             selectedPhotos.append(picture)
             photosSelected = true
-            cameraPicture = nil
+            cameraPicture = nil // Reset after adding
         }
     }
     
     @MainActor
     func handlePhotosItemsChange() async {
-        let itemsToProcess = selectedPhotosItems
-        selectedPhotosItems.removeAll()
+        let itemsToProcess = selectedItems
+        selectedItems.removeAll()
         
         var newImages: [UIImage] = []
+        
         for item in itemsToProcess {
             if let data = try? await item.loadTransferable(type: Data.self),
                let image = UIImage(data: data) {
@@ -108,23 +107,30 @@ class AddRecipeViewModel {
         }
     }
     
-    func handleVideoSelection(url: URL) {
-        videoManager.saveVideoLocally(from: url, for: recipeData.id)
+    func handleVideoPickerDismiss() {
         videoManager.loadSavedVideos(for: recipeData.id)
         selectedVideos = videoManager.savedVideoURLs
+    }
+    
+    func handleVideoSelection(url: URL) {
+        let recipeVideoLocalPath = videoManager.getVideoLocalDirectory(recipeID: recipeData.id)
+        videoManager.saveVideoLocally(from: url, for: recipeData.id)
+        selectedVideos.append(recipeVideoLocalPath)
         videoSelected = true
     }
     
     func removePhoto(at index: Int) {
         guard index >= 0 && index < selectedPhotos.count else {
-            print("Invalid photo index: \(index)")
+            print("⚠️ Invalid photo index: \(index)")
             return
         }
         selectedPhotos.remove(at: index)
         
+        // Update photosSelected flag
         if selectedPhotos.isEmpty {
             photosSelected = false
         }
+        
         checkWarningMessageStatus()
     }
     
@@ -132,11 +138,16 @@ class AddRecipeViewModel {
         if let realIndex = selectedVideos.firstIndex(of: video) {
             selectedVideos.remove(at: realIndex)
             videoManager.removeVideoAt(path: video)
+            
+            // Update videoSelected flag
+            if selectedVideos.isEmpty {
+                videoSelected = false
+            }
         }
     }
     
     func checkWarningMessageStatus() {
-        showingWarningMessage = selectedPhotos.count > 4
+        showWarningMessage = selectedPhotos.count > 4
     }
     
     // MARK: - Validation
@@ -156,22 +167,17 @@ class AddRecipeViewModel {
         if let validationError = error as? RecipeValidationError {
             self.validationError = validationError
         }
-        showingInformationRequiredAlert = true
+        showInformationRequiredAlert = true
     }
     
-    // MARK: - Save Operations
-    func performSaveOperation(modelContext: ModelContext, dataReloadRequest: Binding<Bool>) {
-        let dataManager = DataManager(modelContext: modelContext)
+    // MARK: - Update Operations
+    func performUpdateOperation() {
         recipeData.category = selectedCategory.title
-        recipeData.level = levelSelection
-        saveImagesLocally()
-        saveVideosLocally()
-        dataManager.insert(data: recipeData)
-        dataReloadRequest.wrappedValue.toggle()
-        isRecipeSaved = true
+        updateImagesLocally()
+        updateVideosLocally()
     }
     
-    private func saveImagesLocally() {
+    private func updateImagesLocally() {
         recipeData.imageNames.removeAll()
         let imageStorage = ImageStorageManager(recipeId: recipeData.id)
         
@@ -185,7 +191,7 @@ class AddRecipeViewModel {
         }
     }
     
-    private func saveVideosLocally() {
+    private func updateVideosLocally() {
         recipeData.videos.removeAll()
         for video in selectedVideos {
             recipeData.videos.append(video.lastPathComponent)
@@ -193,26 +199,34 @@ class AddRecipeViewModel {
     }
     
     // MARK: - Load Operations
-    func loadExistingImages() {
+    func loadExistingData() {
+        selectedCategory = Category.allCases.first {
+            $0.title == recipeData.category
+        } ?? .none
+        loadRecipeImages()
+        loadRecipeVideos()
+        checkWarningMessageStatus()
+    }
+    
+    private func loadRecipeImages() {
+        if !recipeData.imageNames.isEmpty {
+            photosSelected = true
+        }
+        
         let imageStorage = ImageStorageManager(recipeId: recipeData.id)
         for imageName in recipeData.imageNames {
             if let uiImage = imageStorage.loadImageFromDocuments(name: imageName) {
                 selectedPhotos.append(uiImage)
             }
         }
-        checkWarningMessageStatus()
     }
     
-    // MARK: - Cleanup
-    func resetVideoSelection() {
-        for video in selectedVideos {
-            videoManager.removeVideoAt(path: video)
-        }
-    }
-    
-    func cleanup() {
-        if isRecipeSaved {
-            resetVideoSelection()
+    private func loadRecipeVideos() {
+        videoManager.loadSavedVideos(for: recipeData.id)
+        selectedVideos = videoManager.savedVideoURLs
+        
+        if !selectedVideos.isEmpty {
+            videoSelected = true
         }
     }
 }
