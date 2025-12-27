@@ -48,4 +48,14 @@ class RecipeData {
         self.videos = videos
         self.isFavourite = isFavourite
     }
+    
+static var mockData = RecipeData(
+        title: "",
+        ingredients: "",
+        instructions: "",
+        category: "",
+        level: 1,
+        preparationTimeInHours: 1,
+        preparationTimeInMinutes: 2
+    )
 }

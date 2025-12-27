@@ -15,15 +15,7 @@ import SwiftUI
 class AddRecipeViewModel {
     
     // MARK: - Recipe Data
-    var recipeData = RecipeData(
-        title: "",
-        ingredients: "",
-        instructions: "",
-        category: "",
-        level: 1,
-        preparationTimeInHours: 1,
-        preparationTimeInMinutes: 2
-    )
+    var recipeData = RecipeData.mockData
     
     // MARK: - Selection States
     var selectedCategory: Category = .none
@@ -46,6 +38,7 @@ class AddRecipeViewModel {
     var photosSelected: Bool = false
     var videoSelected: Bool = false
     var isRecipeSaved: Bool = false
+    var isProcessingVideo: Bool = false
     
     // MARK: - Error Handling
     var validationError: RecipeValidationError?
@@ -64,18 +57,24 @@ class AddRecipeViewModel {
     
     // MARK: - Actions
     func toggleAddMediaDialog() {
-        showingAddMediaDialog.toggle()
+        showingAddMediaDialog = true
     }
     
     func togglePhotoPicker() {
+        showingVideoPicker = false
+        showingPhotoCapture = false
         showingPhotoPicker.toggle()
     }
     
     func toggleVideoPicker() {
+        showingPhotoPicker = false
+        showingPhotoCapture = false
         showingVideoPicker = true
     }
     
     func openCamera() {
+        showingVideoPicker = false
+        showingPhotoPicker = false
         showingPhotoCapture = true
         sourceType = .camera
     }
@@ -109,10 +108,14 @@ class AddRecipeViewModel {
     }
     
     func handleVideoSelection(url: URL) {
+        guard !isProcessingVideo else { return }
+        isProcessingVideo = true
+        
         videoManager.saveVideoLocally(from: url, for: recipeData.id)
         videoManager.loadSavedVideos(for: recipeData.id)
         selectedVideos = videoManager.savedVideoURLs
         videoSelected = true
+        isProcessingVideo = false
     }
     
     func removePhoto(at index: Int) {

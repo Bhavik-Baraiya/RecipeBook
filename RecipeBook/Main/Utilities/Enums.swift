@@ -120,3 +120,20 @@ enum Category: Identifiable, CaseIterable {
         }
     }
 }
+
+// MARK: - Recipe Form Mode
+enum RecipeFormMode {
+    case add
+    case edit
+    
+    var primaryButtonTitle: LocalizedStringKey {
+        switch self {
+        case .add: return "Add"
+        case .edit: return "Update"
+        }
+    }
+    
+    var secondaryButtonTitle: LocalizedStringKey {
+        return "Cancel"
+    }
+}

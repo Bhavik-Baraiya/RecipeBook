@@ -35,6 +35,7 @@ class EditRecipeViewModel {
     // MARK: - Operation Flags
     var photosSelected: Bool = false
     var videoSelected: Bool = false
+    var isProcessingVideo: Bool = false
     
     // MARK: - Error Handling
     var validationError: RecipeValidationError?
@@ -62,18 +63,24 @@ class EditRecipeViewModel {
     
     // MARK: - Actions
     func toggleAddMediaDialog() {
-        showingAddMediaDialog.toggle()
+        showingAddMediaDialog = true
     }
     
     func togglePhotoPicker() {
+        showingVideoPicker = false
+        showingPhotoCapture = false
         showingPhotoPicker.toggle()
     }
     
     func toggleVideoPicker() {
+        showingPhotoPicker = false
+        showingPhotoCapture = false
         showingVideoPicker = true
     }
     
     func openCamera() {
+        showingVideoPicker = false
+        showingPhotoPicker = false
         showingPhotoCapture = true
         sourceType = .camera
     }
@@ -113,10 +120,15 @@ class EditRecipeViewModel {
     }
     
     func handleVideoSelection(url: URL) {
+        
+        guard !isProcessingVideo else { return }
+        isProcessingVideo = true
         let recipeVideoLocalPath = videoManager.getVideoLocalDirectory(recipeID: recipeData.id)
         videoManager.saveVideoLocally(from: url, for: recipeData.id)
         selectedVideos.append(recipeVideoLocalPath)
         videoSelected = true
+        loadRecipeVideos()
+        isProcessingVideo = false
     }
     
     func removePhoto(at index: Int) {
