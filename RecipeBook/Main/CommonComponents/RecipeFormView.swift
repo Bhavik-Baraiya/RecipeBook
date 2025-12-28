@@ -214,25 +214,9 @@ struct RecipeFormView: View {
             LazyHStack(spacing: 10) {
                 ForEach(selectedPhotos.indices, id: \.self) { index in
                     if index < selectedPhotos.count {
-                        ZStack(alignment: .topTrailing) {
-                            Image(uiImage: selectedPhotos[index])
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 90, height: 90)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            
-                            Button {
-                                onRemovePhoto(index)
-                            } label: {
-                                Image(systemName: "xmark.circle.fill")
-                                    .resizable()
-                                    .frame(width: 24, height: 24)
-                                    .foregroundColor(.white)
-                                    .background(Circle().fill(Color.black.opacity(0.6)))
-                                    .padding(6)
-                            }
-                        }
-                        .id(UUID())
+                        PhotoItemView(photo: selectedPhotos[index], index: index, onRemove: {
+                            onRemovePhoto(index)
+                        })
                     }
                 }
             }
@@ -275,27 +259,9 @@ struct RecipeFormView: View {
                 ForEach(selectedVideos.indices, id: \.self) { index in
                     if index < selectedVideos.count {
                         let video = selectedVideos[index]
-                        ZStack(alignment: .topTrailing) {
-                            Button {
-                                // Video playback action
-                            } label: {
-                                VideoThumbnailView(videoURL: video, size: 90)
-                                    .frame(width: 90, height: 90)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                            }
-                            
-                            Button {
-                                onRemoveVideo(video)
-                            } label: {
-                                Image(systemName: "xmark.circle.fill")
-                                    .resizable()
-                                    .frame(width: 18, height: 18)
-                                    .foregroundColor(.white)
-                                    .background(Circle().fill(Color.black.opacity(0.6)))
-                                    .padding(4)
-                            }
-                        }
-                        .id(UUID())
+                        VideoItemView(video: video, onRemove: {
+                            onRemoveVideo(video)
+                        })
                     }
                 }
             }
