@@ -243,6 +243,9 @@
         }
       }
     },
+    "AI Recipe" : {
+
+    },
     "Are you sure?" : {
       "localizations" : {
         "de" : {
@@ -258,6 +261,12 @@
           }
         }
       }
+    },
+    "Ask" : {
+
+    },
+    "Ask recipe to AI" : {
+
     },
     "Bevarage" : {
       "extractionState" : "stale",
@@ -1158,6 +1167,9 @@
           }
         }
       }
+    },
+    "Welcome to AI Recipe world" : {
+
     },
     "www.recipebook.app" : {
       "localizations" : {
