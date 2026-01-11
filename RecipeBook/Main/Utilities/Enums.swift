@@ -13,12 +13,14 @@ enum DifficultyLevel: Int {
     case low = 0
     case medium = 1
     case high = 2
+    case blank = -1
 
     var description: String {
         switch self {
         case .low: return "Low"
         case .medium: return "Medium"
         case .high: return "High"
+        case .blank: return ""
         }
     }
 }
@@ -135,5 +137,26 @@ enum RecipeFormMode {
     
     var secondaryButtonTitle: LocalizedStringKey {
         return "Cancel"
+    }
+}
+
+enum GenerativeUserError: LocalizedError {
+    
+    case modelNotReady
+    case modelDisabled
+    case unsupported
+    case unknown
+    
+    var description: String {
+        switch self {
+        case .modelDisabled:
+            "Apple Intelligence is not enabled in Settings. Please enable it in settings to get access of this"
+        case .modelNotReady:
+            "The model is not ready yet. Please try again later."
+        case .unsupported:
+            "The model is not available on this device."
+        case .unknown:
+            "The model is unavailable for an unknown reason."
+        }
     }
 }

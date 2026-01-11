@@ -30,13 +30,16 @@ struct MainView: View {
             }.tag(0)
         
         if(isAppleInteligenceAvailable) {
-            AIRecipeView()
-                .tabItem {
-                    Image(selectedTab == 1 ? "recipe-ai-highlighted" : "recipe-ai-plain")
-                    Text("AI Recipe")
-                        .foregroundStyle(.primaryApp)
-                    
-                }.tag(1)
+            if #available(iOS 26.0, *) {
+                
+                AIChatScreen()
+                    .tabItem {
+                        Image(selectedTab == 1 ? "recipe-ai-highlighted" : "recipe-ai-plain")
+                        Text("AI Recipe")
+                            .foregroundStyle(.primaryApp)
+                        
+                    }.tag(1)
+            }
         }
         
         FavouriteRecipeListView()

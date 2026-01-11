@@ -262,10 +262,10 @@
         }
       }
     },
-    "Ask" : {
+    "Ask RecipeAI" : {
 
     },
-    "Ask recipe to AI" : {
+    "Ask recipes here" : {
 
     },
     "Bevarage" : {
@@ -391,6 +391,9 @@
           }
         }
       }
+    },
+    "Dish:" : {
+
     },
     "Dismiss" : {
       "localizations" : {
@@ -992,6 +995,9 @@
         }
       }
     },
+    "Suggestions:" : {
+
+    },
     "support@recipebook.app" : {
       "localizations" : {
         "de" : {
@@ -1167,9 +1173,6 @@
           }
         }
       }
-    },
-    "Welcome to AI Recipe world" : {
-
     },
     "www.recipebook.app" : {
       "localizations" : {
