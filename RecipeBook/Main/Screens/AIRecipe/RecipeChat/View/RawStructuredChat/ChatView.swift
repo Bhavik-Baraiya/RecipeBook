@@ -2,16 +2,20 @@
 //  ChatView.swift
 //  RecipeBook
 //
-//  Created by Bhavik Baraiya on 16/01/26.
+//  Created by Bhavik Baraiya on 20/01/26.
 //
 
 
 import SwiftUI
+import FoundationModels
 
 struct ChatView: View {
     
     let messages: [ChatMessage]
     let isLoading: Bool
+    
+    let partial: String.PartiallyGenerated?
+    let partialId: UUID?
     
     var body: some View {
         ScrollView {
@@ -21,16 +25,32 @@ struct ChatView: View {
                         .modifier(StreamingViewModifier(sender: message.sender))
                 }
                 
-                if isLoading {
+                if let partial, let id = partialId {
+                    StreamingResponseView(partial: partial)
+                        .id(id)
+                } else if isLoading {
                     ProgressView()
                 }
-                
+                    
             }
             .padding()
             .padding(.bottom, 100)
         }
     }
 }
+
+struct StreamingResponseView: View {
+    
+    let partial: String.PartiallyGenerated
+    
+    var body: some View {
+        MarkdownText(markdown: partial)
+            .modifier(StreamingViewModifier(sender: .assistant))
+            .contentTransition(.opacity)
+            .animation(.easeInOut(duration: 0.7), value: partial)
+    }
+}
+
 
 struct StreamingViewModifier: ViewModifier {
     
@@ -49,5 +69,7 @@ struct StreamingViewModifier: ViewModifier {
 
 #Preview {
     ChatView(messages: ChatMessage.examples,
-             isLoading: false)
+             isLoading: false,
+             partial: nil,
+             partialId: nil)
 }
