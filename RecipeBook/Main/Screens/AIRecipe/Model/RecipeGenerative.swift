@@ -76,3 +76,43 @@ struct RecipeGenerative: Identifiable,Equatable {
         calories: 500.0
     )
 }
+
+extension RecipeGenerative.PartiallyGenerated {
+    var asMarkdown: String {
+        var markdown = ""
+                
+        markdown += "**Recipe title:** "
+        
+        if let title = title {
+            markdown += "\(title)\n\n"
+        }
+        
+        if let ingredients = ingredients {
+            markdown += "**Ingredients:**\n\(ingredients)\n\n"
+        }
+        
+        if let instructions = instructions {
+            markdown += "**Instructions:**\n\(instructions)\n\n"
+        }
+        
+        if let category = category {
+            markdown += "**Category:** \(category)\n\n"
+        }
+        if let level = level {
+            markdown += "**Level:** \(level)\n\n"
+        }
+        if let hours = preparationTimeInHours, let minutes = preparationTimeInMinutes {
+            markdown += "**Preparation Time:** \(hours):\(minutes)\n\n"
+        }
+        if let suggestions = suggestions {
+            markdown += "**Suggestions:**\n\(suggestions)\n\n"
+        }
+        if let calories = calories {
+            markdown += "**Calories:** \(calories)\n\n"
+        }
+        if let shortMessage = shortMessage {
+            markdown += "**\(shortMessage)**\n\n"
+        }
+        return markdown.isEmpty ? "Generating recipe..." : markdown
+    }
+}

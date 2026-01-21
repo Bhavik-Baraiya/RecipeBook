@@ -32,7 +32,8 @@ struct MainView: View {
         if(isAppleInteligenceAvailable) {
             if #available(iOS 26.0, *) {
                 
-                AIChatView()
+//                AIChatView()
+                RecipeAIChatView()
                     .tabItem {
                         Image(selectedTab == 1 ? "recipe-ai-highlighted" : "recipe-ai-plain")
                         Text("AI Recipe")
