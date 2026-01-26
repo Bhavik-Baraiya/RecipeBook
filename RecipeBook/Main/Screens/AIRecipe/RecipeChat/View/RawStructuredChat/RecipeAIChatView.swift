@@ -15,12 +15,14 @@ struct RecipeAIChatView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if viewModel.messages.isEmpty {
+//                if viewModel.chatmessages.isEmpty {
+                if viewModel.chatmessages.isEmpty {
                     RecipeSuggestionsView(viewModel: viewModel)
                         .frame(maxHeight: .infinity)
                 } else {
                     RecipeChatView(
                         messages: viewModel.messages,
+                        chatMessages: viewModel.chatmessages,
                         isLoading: viewModel.isLoading,
                         partial: viewModel.partial,
                         partialId: viewModel.partialId,
@@ -35,11 +37,13 @@ struct RecipeAIChatView: View {
                     
                     TextField("Ask recipes here", text: $viewModel.userInput)
                         .onSubmit {
-                            viewModel.sendMessage()
+//                            viewModel.sendMessage()
+                            viewModel.sendQuery()
                         }
                     
                     Button {
-                        viewModel.sendMessage()
+//                        viewModel.sendMessage()
+                        viewModel.sendQuery()
                     } label: {
                         Image(systemName: "paperplane.fill")
                             .foregroundStyle(viewModel.isLoading ? .gray :.orange)
@@ -50,6 +54,13 @@ struct RecipeAIChatView: View {
                     Spacer()
                 }
                 .padding()
+            }
+            .toolbar {
+                Button("Convert into RecipeForm") {
+                    Task {
+                        await viewModel.generateRecipe()
+                    }
+                }
             }
             .task {
                 viewModel.loadModel()

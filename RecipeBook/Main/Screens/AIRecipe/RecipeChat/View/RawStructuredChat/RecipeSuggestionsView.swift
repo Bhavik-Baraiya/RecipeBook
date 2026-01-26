@@ -39,7 +39,7 @@ struct RecipeSuggestionsView: View {
                     Button {
                         viewModel.userInput = suggestion
                         showMessage.toggle()
-                        //viewModel.sendMessage()
+                        viewModel.sendQuery()
                     } label: {
                         Text(suggestion)
                             .padding(.horizontal, 16)

@@ -47,7 +47,10 @@ struct RecipeGenerative: Identifiable,Equatable {
     
     @Guide(description:"Calories calculations for the recipe dish in gram")
     var calories: Double
-    
+}
+
+extension RecipeGenerative {
+
     static var mockData = RecipeGenerative(
         id: 1,
         title: "Spaghetti Carbonara",

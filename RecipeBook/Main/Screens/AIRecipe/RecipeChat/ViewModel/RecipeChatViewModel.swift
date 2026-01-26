@@ -13,7 +13,9 @@ import FoundationModels
 class RecipeChatViewModel {
     
     var messages: [RecipeChatMessage] = []
+    var chatmessages: [ChatMessage] = []
     var userInput: String = ""
+    var lastUserInput: String = ""
     var isLoading = false
     
     var partial: String.PartiallyGenerated?
@@ -25,10 +27,21 @@ class RecipeChatViewModel {
     private var session: LanguageModelSession?
     
     private let instructions = """
-        You are an AI recipe maker.
-        Generate delicious, well-structured recipes tailored to the user's needs.
-        Use the given generating and provide the output in same manner.
-        Optimize recipes for taste, simplicity, and nutrition.
+       You are an AI Chef Assistant for a recipe book application.
+
+       Your role is to help users with:
+       - Generating complete food recipes
+       - Answering questions about food dishes
+       - Providing cooking tips, substitutions, and variations
+       - Suggesting healthier or alternative options when asked
+
+       Always follow these principles:
+       - Be clear, concise, and practical
+       - Use simple cooking language suitable for home cooks
+       - Prefer commonly available ingredients unless specified otherwise
+       - Respect dietary preferences if mentioned (vegetarian, vegan, gluten-free, etc.)
+       - Do not include unnecessary storytelling or emojis
+       - Focus only on food, cooking, and recipe-related topics
     """
     
     private var streamingTask: Task<Void, Never>?
@@ -102,6 +115,86 @@ class RecipeChatViewModel {
                 self.cleanup()
             }
        }
+    }
+    
+    func sendQuery() {
+        guard !isLoading else { return }
+        guard !userInput.isEmpty else { return }
+        
+        isLoading = true
+        
+        chatmessages.append(ChatMessage(sender: .user, content: userInput))
+        let userInput = self.userInput
+        lastUserInput = userInput
+        self.userInput = ""
+        
+        guard let session = session else { return }
+        
+        let supportedLanguages = SystemLanguageModel.default.supportedLanguages
+        
+        guard supportedLanguages.contains(Locale.current.language) else {
+            print("This feature is not compatible with your current system language")
+            isLoading = false
+            return
+        }
+        
+        streamingTask = Task {
+            do {
+                let stream = session.streamResponse(to: userInput)
+                self.partialId = UUID()
+                
+                for try await partial in stream {
+                    self.partial = partial.content
+                }
+                
+                guard !Task.isCancelled else { return }
+                
+                chatmessages.append(ChatMessage(sender: .assistant,
+                                            content: partial ?? "",
+                                            id: partialId ?? UUID()))
+                
+                self.isLoading = false
+                self.partial = nil
+                self.partialId = nil
+                self.streamingTask = nil
+                
+            }
+            catch LanguageModelSession.GenerationError.unsupportedLanguageOrLocale {
+                print("Model is not compatible with this device")
+                self.cleanup()
+                
+            }
+            catch {
+                print("error: \(error)")
+                if let error = error as? FoundationModels.LanguageModelSession.GenerationError {
+                    print("error: \(error.localizedDescription)")
+                }
+                
+                isLoading = false
+                streamingTask = nil
+            }
+       }
+    }
+    
+    func generateRecipe() async {
+
+        guard let session = session else { return }
+        
+        let structuredPrompt = """
+                Convert this recipe string content into structured output.
+                
+                Recipe data:
+                \(String(describing: self.chatmessages.last))
+                """
+        do {
+            let recipe = try await session.respond(to: structuredPrompt,generating: RecipeGenerative.self)
+            print(recipe.content.instructions)
+            
+            lastUserInput = ""
+            
+        } catch {
+            print(error)
+        }
     }
     
     private func cleanup() {

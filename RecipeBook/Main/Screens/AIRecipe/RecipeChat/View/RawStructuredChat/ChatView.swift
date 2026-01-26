@@ -59,7 +59,7 @@ struct StreamingViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .padding()
-            .background(sender == .user ? Color.primaryApp.opacity(0.6) : Color.primaryApp.opacity(0.3))
+            .background(sender == .user ? Color.primaryApp.opacity(0.1) : Color.primaryApp.opacity(0.3))
             .cornerRadius(12)
             .padding(sender == .user ? .leading : .trailing, 20)
             .frame(maxWidth: .infinity,

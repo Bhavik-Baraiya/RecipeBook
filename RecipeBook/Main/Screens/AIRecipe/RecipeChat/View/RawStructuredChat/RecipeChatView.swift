@@ -10,6 +10,7 @@ import SwiftUI
 struct RecipeChatView: View {
     
     let messages: [RecipeChatMessage]
+    let chatMessages: [ChatMessage]
     let isLoading: Bool
     
     let partial: String.PartiallyGenerated?
@@ -21,33 +22,53 @@ struct RecipeChatView: View {
     
     var body: some View {
         ScrollView {
-            LazyVStack(alignment: .leading, spacing: 12) {
-                ForEach(messages) { message in
-                    MarkdownText(markdown: message.content)
-                        .modifier(RecipeStreamingViewModifier(sender: message.sender))
-                }
-                
-                // Display streaming recipe
-                if let partialRecipe = partialRecipe, let id = partialRecipeId {
-                    MarkdownText(markdown: partialRecipe.asMarkdown)
-                        .modifier(StreamingViewModifier(sender: .assistant))
-                        .contentTransition(.opacity)
-                        .animation(.easeInOut(duration: 0.3), value: partialRecipe)
-                        .id(id)
-                }
-                
-                // Display string partial if any
-                if let partial, let id = partialId {
-                    StreamingResponseView(partial: partial)
-                        .id(id)
-                } else if isLoading {
-                    ProgressView()
-                }
-                    
-            }
-            .padding()
-            .padding(.bottom, 100)
+//            recipeStructuredView
+            recipeConversationView
         }
+    }
+    
+    var recipeStructuredView: some View {
+        LazyVStack(alignment: .leading, spacing: 12) {
+            ForEach(messages) { message in
+                MarkdownText(markdown: message.content)
+                    .modifier(RecipeStreamingViewModifier(sender: message.sender))
+            }
+            
+            if let partialRecipe = partialRecipe, let id = partialRecipeId {
+                MarkdownText(markdown: partialRecipe.asMarkdown)
+                    .modifier(StreamingViewModifier(sender: .assistant))
+                    .contentTransition(.opacity)
+                    .animation(.easeInOut(duration: 0.3), value: partialRecipe)
+                    .id(id)
+            }
+            
+            if let partial, let id = partialId {
+                StreamingResponseView(partial: partial)
+                    .id(id)
+            } else if isLoading {
+                ProgressView()
+            }
+        }
+        .padding()
+        .padding(.bottom, 100)
+    }
+    
+    var recipeConversationView: some View {
+        LazyVStack(alignment: .leading, spacing: 12) {
+            ForEach(chatMessages) { message in
+                MarkdownText(markdown: message.content)
+                    .modifier(StreamingViewModifier(sender: message.sender))
+            }
+            
+            if let partial, let id = partialId {
+                StreamingResponseView(partial: partial)
+                    .id(id)
+            } else if isLoading {
+                ProgressView()
+            }
+        }
+        .padding()
+        .padding(.bottom, 100)
     }
 }
 
@@ -58,7 +79,7 @@ struct RecipeStreamingViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .padding()
-            .background(sender == .user ? Color.primaryApp.opacity(0.6) : Color.primaryApp.opacity(0.3))
+            .background(sender == .user ? Color.primaryApp : Color.primaryApp.opacity(0.3))
             .cornerRadius(12)
             .padding(sender == .user ? .leading : .trailing, 20)
             .frame(maxWidth: .infinity,
@@ -66,3 +87,6 @@ struct RecipeStreamingViewModifier: ViewModifier {
     }
 }
 
+#Preview {
+    RecipeChatView(messages: RecipeChatMessage.examples, chatMessages: ChatMessage.examples, isLoading: true,partial: nil,partialId: UUID(),partialRecipe: nil, partialRecipeId: UUID())
+}
