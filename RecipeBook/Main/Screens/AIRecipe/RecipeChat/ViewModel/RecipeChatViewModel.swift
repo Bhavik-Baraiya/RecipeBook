@@ -8,6 +8,7 @@
 
 import SwiftUI
 import FoundationModels
+import SwiftData
 
 @Observable
 class RecipeChatViewModel {
@@ -21,8 +22,13 @@ class RecipeChatViewModel {
     var partial: String.PartiallyGenerated?
     var partialId: UUID?
     
+    var recipe: RecipeGenerative?
     var partialRecipe: RecipeGenerative.PartiallyGenerated?
     var partialRecipeId: UUID?
+    var responseFileURL: URL?
+    var showShareSheet = false
+    var context: ModelContext?
+    var generatingRecipe: Bool = false
     
     private var session: LanguageModelSession?
     
@@ -177,24 +183,71 @@ class RecipeChatViewModel {
     }
     
     func generateRecipe() async {
-
-        guard let session = session else { return }
+        
+        generatingRecipe = true
+        
+        guard let session = session else {
+            print("Error: Session is not available")
+            return
+        }
+        
+        guard let lastMessage = chatmessages.last else {
+            print("Error: No chat messages available")
+            return
+        }
         
         let structuredPrompt = """
-                Convert this recipe string content into structured output.
-                
-                Recipe data:
-                \(String(describing: self.chatmessages.last))
-                """
+        
+        Convert the following recipe text into a structured format.
+
+        Remove any fields that do not match the target generation model.
+        Ensure all required fields are included and correctly populated.
+        Do not add extra or inferred fields.
+
+        Recipe text:
+        \(lastMessage)
+        
+        """
+        
         do {
-            let recipe = try await session.respond(to: structuredPrompt,generating: RecipeGenerative.self)
-            print(recipe.content.instructions)
+            let recipe = try await session.respond(
+                to: structuredPrompt,
+                generating: RecipeGenerative.self
+            )
+            self.recipe = recipe.content
+            self.lastUserInput = ""
             
-            lastUserInput = ""
+            print("------Recipe form generated------")
+            print(self.recipe ?? "No recipe content")
+            
+            await saveRecipe()
             
         } catch {
-            print(error)
+            print("Error generating recipe: \(error.localizedDescription)")
         }
+    }
+    
+    private func saveRecipe() async {
+        print("Save recipe called...")
+        
+        guard let context = context else { return }
+        
+        let dataManager = DataManager(modelContext: context)
+        
+        guard let recipe = recipe else { return }
+        
+        let recipeData = RecipeData(
+            title: recipe.title,
+            ingredients: recipe.ingredients,
+            instructions: recipe.instructions,
+            category: recipe.category,
+            level: recipe.level,
+            preparationTimeInHours: recipe.preparationTimeInHours,
+            preparationTimeInMinutes: recipe.preparationTimeInMinutes)
+        
+        dataManager.insert(data: recipeData)
+        
+        generatingRecipe = false
     }
     
     private func cleanup() {

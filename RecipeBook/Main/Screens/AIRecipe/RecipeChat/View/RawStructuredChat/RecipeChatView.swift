@@ -12,17 +12,16 @@ struct RecipeChatView: View {
     let messages: [RecipeChatMessage]
     let chatMessages: [ChatMessage]
     let isLoading: Bool
-    
     let partial: String.PartiallyGenerated?
     let partialId: UUID?
-    
-    // Add partial recipe for streaming
     let partialRecipe: RecipeGenerative.PartiallyGenerated?
     let partialRecipeId: UUID?
+    let saveAction: () -> Void
+    let shareAction: () -> Void
+    var viewModel: RecipeChatViewModel
     
     var body: some View {
         ScrollView {
-//            recipeStructuredView
             recipeConversationView
         }
     }
@@ -58,6 +57,21 @@ struct RecipeChatView: View {
             ForEach(chatMessages) { message in
                 MarkdownText(markdown: message.content)
                     .modifier(StreamingViewModifier(sender: message.sender))
+                
+                if(message.sender == .assistant) {
+                    HStack(alignment:.center,content: {
+                        ActionButton(title: "Save",imageName: "square.and.arrow.down.fill", action: {
+                                saveAction()
+                        }, isLoading: viewModel.generatingRecipe
+                        )
+                        ActionButton(title: "Share",imageName: "square.and.arrow.up.circle.fill", action:
+                            {
+                                shareAction()
+                            }, isLoading: false
+                        )
+                    })
+                    .padding(.trailing,50)
+                }
             }
             
             if let partial, let id = partialId {
@@ -69,6 +83,39 @@ struct RecipeChatView: View {
         }
         .padding()
         .padding(.bottom, 100)
+    }
+}
+
+struct ActionButton: View {
+    
+    var title: String
+    var imageName: String?
+    var action: () -> Void
+    var isLoading: Bool
+    
+    var body: some View {
+        
+        Button(action: {
+            action()
+        }, label: {
+            
+            HStack {
+                Text(title)
+                    .font(.headline)
+                    .fontWeight(.medium)
+                    .fontWidth(.standard)
+                    .foregroundStyle(.white)
+                
+                if isLoading {
+                    ProgressView()
+                }
+            }
+        })
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.primaryApp.opacity(0.6))
+        )
     }
 }
 
@@ -88,5 +135,5 @@ struct RecipeStreamingViewModifier: ViewModifier {
 }
 
 #Preview {
-    RecipeChatView(messages: RecipeChatMessage.examples, chatMessages: ChatMessage.examples, isLoading: true,partial: nil,partialId: UUID(),partialRecipe: nil, partialRecipeId: UUID())
+    RecipeChatView(messages: RecipeChatMessage.examples, chatMessages: ChatMessage.examples, isLoading: true,partial: nil,partialId: UUID(),partialRecipe: nil, partialRecipeId: UUID(), saveAction: {}, shareAction: {}, viewModel: RecipeChatViewModel())
 }
